@@ -1,0 +1,3242 @@
+{
+  "version": "v10",
+  "knownBadDomains": [
+    {
+      "value": "absa-secure-login.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "absa-verify.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "capitec-clearance.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "capitec-secure.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "capitec-verification.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "capitec-verify.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "courierv.top",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "dhl-tracking-za.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "fincen-gov-payment.com",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "fincen-payment-release.com",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "fnb-login.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "fnb-secure.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "fnb-verification.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "nedbank-secure.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "sars-gov.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "sars-payout.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "sars-refund.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "standardbank-login.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "standardbank-secure.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "takealot-delivery.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "temu-claim-reward.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "temu-offer-za.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    }
+  ],
+  "scamDomainKeywords": [
+    {
+      "value": "secure",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "verify",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "verification",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "login",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "clearance",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "refund",
+      "category": "domain_keyword",
+      "weight": 18
+    },
+    {
+      "value": "payout",
+      "category": "domain_keyword",
+      "weight": 18
+    },
+    {
+      "value": "claim",
+      "category": "domain_keyword",
+      "weight": 18
+    },
+    {
+      "value": "reward",
+      "category": "domain_keyword",
+      "weight": 18
+    },
+    {
+      "value": "offer",
+      "category": "domain_keyword",
+      "weight": 16
+    },
+    {
+      "value": "parcel",
+      "category": "domain_keyword",
+      "weight": 18
+    },
+    {
+      "value": "tracking",
+      "category": "domain_keyword",
+      "weight": 18
+    },
+    {
+      "value": "delivery",
+      "category": "domain_keyword",
+      "weight": 18
+    },
+    {
+      "value": "otp",
+      "category": "domain_keyword",
+      "weight": 22
+    },
+    {
+      "value": "pin",
+      "category": "domain_keyword",
+      "weight": 22
+    },
+    {
+      "value": "cvv",
+      "category": "domain_keyword",
+      "weight": 22
+    },
+    {
+      "value": "temu",
+      "category": "domain_keyword",
+      "weight": 12
+    },
+    {
+      "value": "takealot",
+      "category": "domain_keyword",
+      "weight": 14
+    },
+    {
+      "value": "dhl",
+      "category": "domain_keyword",
+      "weight": 14
+    },
+    {
+      "value": "fincen",
+      "category": "domain_keyword",
+      "weight": 22
+    },
+    {
+      "value": "meta",
+      "category": "domain_keyword",
+      "weight": 16
+    },
+    {
+      "value": "facebook",
+      "category": "domain_keyword",
+      "weight": 16
+    },
+    {
+      "value": "instagram",
+      "category": "domain_keyword",
+      "weight": 14
+    },
+    {
+      "value": "business",
+      "category": "domain_keyword",
+      "weight": 12
+    },
+    {
+      "value": "ads",
+      "category": "domain_keyword",
+      "weight": 12
+    },
+    {
+      "value": "urgent",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "immediately",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "action",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "verify-now",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "confirm-now",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "update-now",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "unlock",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "blocked",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "suspend",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "suspended",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "locked",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "security-alert",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "fee",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "payment",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "paynow",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "pay-now",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "invoice",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "billing",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "voucher",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "coupon",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "track",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "customs",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "clear",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "duties",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "sars",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "efiling",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "tax",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "audit",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "assessment",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "bank",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "account",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "support",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "helpdesk",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "service",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "customer",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "takeal0t",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "discov3ry",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "vodac0m",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": ",absa",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",africanbank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",aramex",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",bidvestbank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",capitec",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",capitecbank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",cellc",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",checkers",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",claim",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",clearance",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",courierv",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",dawnwing",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",delivery",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",dha",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",dhl",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",discovery",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",facebook",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",fincen",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",fnb",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",gov",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",instagram",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",investec",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",login",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",makro",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",meta",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",mrp",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",mtn",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",natis",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",nedbank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",offer",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",onedayonly",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",payment",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",payout",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",picknpay",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",refund",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",release",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",reward",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",sapost",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",saps",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",sars",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",sassa",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",secure",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",services",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",shoprite",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",standardbank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",takealot",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",telkom",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",temu",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",thecourierguy",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",tracking",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",tymebank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",tymedigital",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",verification",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",verify",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",vodacom",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ",woolworths",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-absa",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-africanbank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-aramex",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-bidvestbank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-capitec",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-capitecbank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-cellc",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-checkers",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-claim",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-clearance",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-courierv",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-dawnwing",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-delivery",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-dha",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-dhl",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-discovery",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-facebook",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-fincen",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-fnb",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-gov",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-instagram",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-investec",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-login",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-makro",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-meta",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-mrp",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-mtn",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-natis",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-nedbank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-offer",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-onedayonly",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-payment",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-payout",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-picknpay",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-refund",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-release",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-reward",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-sapost",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-saps",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-sars",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-sassa",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-secure",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-services",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-shoprite",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-standardbank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-takealot",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-telkom",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-temu",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-thecourierguy",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-tracking",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-tymebank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-tymedigital",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-verification",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-verify",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-vodacom",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "-woolworths",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".absa",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".africanbank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".aramex",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".bidvestbank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".capitec",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".capitecbank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".cellc",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".checkers",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".claim",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".clearance",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".courierv",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".dawnwing",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".delivery",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".dha",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".dhl",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".discovery",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".facebook",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".fincen",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".fnb",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".gov",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".instagram",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".investec",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".login",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".makro",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".meta",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".mrp",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".mtn",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".natis",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".nedbank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".offer",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".onedayonly",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".payment",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".payout",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".picknpay",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".refund",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".release",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".reward",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".sapost",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".saps",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".sars",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".sassa",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".secure",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".services",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".shoprite",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".standardbank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".takealot",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".telkom",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".temu",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".thecourierguy",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".tracking",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".tymebank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".tymedigital",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".verification",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".verify",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".vodacom",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": ".woolworths",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_absa",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_africanbank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_aramex",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_bidvestbank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_capitec",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_capitecbank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_cellc",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_checkers",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_claim",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_clearance",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_courierv",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_dawnwing",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_delivery",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_dha",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_dhl",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_discovery",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_facebook",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_fincen",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_fnb",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_gov",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_instagram",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_investec",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_login",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_makro",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_meta",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_mrp",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_mtn",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_natis",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_nedbank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_offer",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_onedayonly",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_payment",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_payout",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_picknpay",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_refund",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_release",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_reward",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_sapost",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_saps",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_sars",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_sassa",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_secure",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_services",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_shoprite",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_standardbank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_takealot",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_telkom",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_temu",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_thecourierguy",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_tracking",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_tymebank",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_tymedigital",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_verification",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_verify",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_vodacom",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "_woolworths",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "absa,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "absa-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "absa.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "absa_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "africanbank,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "africanbank-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "africanbank.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "africanbank_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "aramex,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "aramex-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "aramex.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "aramex_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "bidvestbank,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "bidvestbank-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "bidvestbank.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "bidvestbank_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "capitec,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "capitec-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "capitec.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "capitec_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "capitecbank,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "capitecbank-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "capitecbank.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "capitecbank_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "cellc,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "cellc-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "cellc.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "cellc_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "checkers,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "checkers-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "checkers.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "checkers_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "claim,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "claim-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "claim.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "claim_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "clearance,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "clearance-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "clearance.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "clearance_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "courierv,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "courierv-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "courierv.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "courierv_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "dawnwing,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "dawnwing-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "dawnwing.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "dawnwing_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "delivery,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "delivery-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "delivery.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "delivery_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "dha,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "dha-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "dha.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "dha_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "dhl,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "dhl-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "dhl.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "dhl_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "discovery,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "discovery-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "discovery.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "discovery_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "facebook,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "facebook-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "facebook.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "facebook_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "fincen,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "fincen-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "fincen.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "fincen_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "fnb,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "fnb-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "fnb.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "fnb_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "gov,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "gov-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "gov.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "gov_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "instagram,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "instagram-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "instagram.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "instagram_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "investec,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "investec-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "investec.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "investec_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "login,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "login-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "login.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "login_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "makro,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "makro-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "makro.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "makro_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "meta,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "meta-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "meta.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "meta_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "mrp,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "mrp-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "mrp.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "mrp_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "mtn,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "mtn-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "mtn.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "mtn_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "natis,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "natis-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "natis.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "natis_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "nedbank,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "nedbank-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "nedbank.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "nedbank_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "offer,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "offer-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "offer.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "offer_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "onedayonly,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "onedayonly-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "onedayonly.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "onedayonly_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "payment,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "payment-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "payment.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "payment_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "payout,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "payout-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "payout.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "payout_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "picknpay,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "picknpay-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "picknpay.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "picknpay_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "refund,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "refund-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "refund.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "refund_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "release,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "release-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "release.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "release_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "reward,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "reward-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "reward.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "reward_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "sapost,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "sapost-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "sapost.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "sapost_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "saps,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "saps-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "saps.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "saps_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "sars,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "sars-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "sars.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "sars_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "sassa,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "sassa-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "sassa.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "sassa_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "secure,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "secure-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "secure.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "secure_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "services,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "services-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "services.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "services_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "shoprite,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "shoprite-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "shoprite.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "shoprite_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "standardbank,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "standardbank-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "standardbank.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "standardbank_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "takealot,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "takealot-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "takealot.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "takealot_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "telkom,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "telkom-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "telkom.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "telkom_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "temu,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "temu-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "temu.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "temu_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "thecourierguy,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "thecourierguy-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "thecourierguy.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "thecourierguy_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "tracking,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "tracking-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "tracking.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "tracking_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "tymebank,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "tymebank-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "tymebank.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "tymebank_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "tymedigital,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "tymedigital-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "tymedigital.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "tymedigital_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "verification,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "verification-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "verification.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "verification_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "verify,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "verify-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "verify.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "verify_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "vodacom,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "vodacom-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "vodacom.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "vodacom_",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "woolworths,",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "woolworths-",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "woolworths.",
+      "category": "brand_amendment",
+      "weight": 80
+    },
+    {
+      "value": "woolworths_",
+      "category": "brand_amendment",
+      "weight": 80
+    }
+  ],
+  "saOfficialDomains": [
+    {
+      "value": "absa.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "africanbank.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "app.temu.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "aramex.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "bank.tymedigital.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "bidvestbank.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "business.facebook.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "capitecbank.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "cellc.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "checkers.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "dawnwing.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "dha.gov.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "dhl.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "discovery.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "efiling.sars.gov.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "facebook.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "fincen.gov",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "fnb.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "gov.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "instagram.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "investec.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "makro.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "meta.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "mrp.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "mtn.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "natis.gov.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "nedbank.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "onedayonly.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "online.discovery.bank",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "online.natis.gov.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "picknpay.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "sapost.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "saps.gov.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "sars.gov.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "sassa.gov.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "services.gov.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "shoprite.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "standardbank.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "takealot.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "telkom.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "temu.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "thecourierguy.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "tymebank.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "vodacom.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "woolworths.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "www.gov.za",
+      "category": "official",
+      "weight": 0
+    }
+  ],
+  "scamPatterns": [
+    {
+      "value": "\\botp\\b",
+      "category": "credentials",
+      "weight": 100
+    },
+    {
+      "value": "\\bpin\\b",
+      "category": "credentials",
+      "weight": 100
+    },
+    {
+      "value": "\\bcvv\\b",
+      "category": "credentials",
+      "weight": 100
+    },
+    {
+      "value": "one[-\\s]?time\\s+(pin|password|code)",
+      "category": "credentials",
+      "weight": 100
+    },
+    {
+      "value": "do\\s+not\\s+share\\s+(your\\s+)?(otp|pin|cvv|code)",
+      "category": "credentials",
+      "weight": 80
+    },
+    {
+      "value": "your\\s+account\\s+is\\s+(restricted|limited|suspended|blocked)",
+      "category": "urgency",
+      "weight": 35
+    },
+    {
+      "value": "permanent\\s+(closing|deactivation|disable|disabled|closure)",
+      "category": "urgency",
+      "weight": 40
+    },
+    {
+      "value": "verify\\s+your\\s+account",
+      "category": "cta",
+      "weight": 30
+    },
+    {
+      "value": "policy\\s+review\\s+notification",
+      "category": "impersonation",
+      "weight": 35
+    },
+    {
+      "value": "meta\\s+policy\\s+categories",
+      "category": "impersonation",
+      "weight": 30
+    },
+    {
+      "value": "case\\s+reference\\s*[:#]?\\s*[a-z0-9\\-]{4,}",
+      "category": "impersonation",
+      "weight": 25
+    },
+    {
+      "value": "hello\\s+infinite\\s+ideas",
+      "category": "impersonation",
+      "weight": 20
+    },
+    {
+      "value": "financial\\s+crimes\\s+enforcement\\s+network",
+      "category": "impersonation",
+      "weight": 45
+    },
+    {
+      "value": "\\bfincen\\b",
+      "category": "impersonation",
+      "weight": 40
+    },
+    {
+      "value": "\\b(\\$|usd)\\s*\\d{1,3}(,\\d{3})*(\\.\\d{2})?\\b",
+      "category": "money",
+      "weight": 15
+    },
+    {
+      "value": "\\b75\\s*million\\b",
+      "category": "money",
+      "weight": 40
+    },
+    {
+      "value": "30\\s+days\\s+left\\s+to\\s+claim",
+      "category": "urgency",
+      "weight": 45
+    },
+    {
+      "value": "claim\\s+your\\s+funds",
+      "category": "cta",
+      "weight": 40
+    },
+    {
+      "value": "release\\s+of\\s+your\\s+verified\\s+funds",
+      "category": "impersonation",
+      "weight": 45
+    },
+    {
+      "value": "assistant\\s+director",
+      "category": "impersonation",
+      "weight": 25
+    },
+    {
+      "value": "attached\\s+is\\s+your\\s+.*statement",
+      "category": "impersonation",
+      "weight": 25
+    },
+    {
+      "value": "to\\s+open\\s+your\\s+statement",
+      "category": "cta",
+      "weight": 20
+    },
+    {
+      "value": "download\\s+adobe\\s+reader\\s+for\\s+free",
+      "category": "cta",
+      "weight": 25
+    },
+    {
+      "value": "get\\.adobe\\.com\\/reader",
+      "category": "cta",
+      "weight": 15
+    },
+    {
+      "value": "your\\s+password\\s+is",
+      "category": "credentials",
+      "weight": 35
+    },
+    {
+      "value": "south\\s+african\\s+id\\s+number|passport\\s+number",
+      "category": "credentials",
+      "weight": 45
+    },
+    {
+      "value": "account\\s+number|company\\s+registration\\s+number|trust\\s+registration\\s+number",
+      "category": "credentials",
+      "weight": 40
+    },
+    {
+      "value": "\\btemu\\b",
+      "category": "impersonation",
+      "weight": 18
+    },
+    {
+      "value": "accept\\s+your\\s+r\\s*\\d{2,6}\\s+offer",
+      "category": "money",
+      "weight": 40
+    },
+    {
+      "value": "check\\s+it\\s+asap",
+      "category": "urgency",
+      "weight": 35
+    },
+    {
+      "value": "your\\s+temu\\s+parcel\\s+is\\s+ready\\s+for\\s+delivery",
+      "category": "impersonation",
+      "weight": 40
+    },
+    {
+      "value": "view\\s+details",
+      "category": "cta",
+      "weight": 10
+    },
+    {
+      "value": "pay\\s+into\\s+a\\s+private\\s+individual",
+      "category": "money",
+      "weight": 45
+    },
+    {
+      "value": "unpaid\\s+(toll|fine)|summons\\s+issued",
+      "category": "impersonation",
+      "weight": 35
+    },
+    {
+      "value": "act\\s+now|urgent\\b|immediately\\b|final\\s+notice",
+      "category": "urgency",
+      "weight": 25
+    },
+    {
+      "value": "(?:pay|settle).{0,20}(?:delivery|customs|clearance|handling)\\s*(?:fee|charge)",
+      "category": "delivery_fee",
+      "weight": 25
+    },
+    {
+      "value": "(?:parcel|package).{0,40}(?:waiting|pending|held|on hold)",
+      "category": "delivery_fee",
+      "weight": 20
+    },
+    {
+      "value": "(?:track(?:ing)?\\s*(?:code|number)|waybill)\\s*[:#]?\\s*[a-z0-9\\-]{6,}",
+      "category": "delivery_fee",
+      "weight": 15
+    },
+    {
+      "value": "(?:dhl|the courier guy|aramex|dawn wing|post office).{0,40}(?:fee|payment|held|customs)",
+      "category": "delivery_fee",
+      "weight": 25
+    },
+    {
+      "value": "(?:shorturl|bit\\.ly|tinyurl|t\\.co|is\\.gd|rebrand\\.ly)/[a-z0-9]+",
+      "category": "link_shortener",
+      "weight": 20
+    },
+    {
+      "value": "\\bsars\\b.{0,40}(?:refund|payout|rebate|audit|assessment|outstanding)",
+      "category": "authority_tax",
+      "weight": 30
+    },
+    {
+      "value": "(?:delayed\\s*)?refund.{0,40}(?:fica|documents|verify|verification)",
+      "category": "authority_tax",
+      "weight": 25
+    },
+    {
+      "value": "(?:outstanding\\s+amount|amount\\s+outstanding).{0,40}\\bsars\\b",
+      "category": "authority_tax",
+      "weight": 25
+    },
+    {
+      "value": "(?:tax\\s*refund).{0,40}(?:audit|review|investigation)",
+      "category": "authority_tax",
+      "weight": 25
+    },
+    {
+      "value": "(?:your\\s+)?(?:account|profile).{0,30}(?:locked|blocked|suspended)",
+      "category": "bank_impersonation",
+      "weight": 25
+    },
+    {
+      "value": "(?:confirm|verify|update).{0,30}(?:bank|account).{0,30}(?:details|info|information)",
+      "category": "bank_impersonation",
+      "weight": 20
+    },
+    {
+      "value": "(?:we\\s+detected|unusual|suspicious).{0,30}(?:transaction|activity)",
+      "category": "bank_impersonation",
+      "weight": 20
+    },
+    {
+      "value": "(?:fnb|absa|nedbank|standard\\s*bank|capitec|tymebank|discovery\\s*bank).{0,40}(?:login|verify|secure|otp|pin)",
+      "category": "bank_impersonation",
+      "weight": 30
+    },
+    {
+      "value": "(?:black\\s*friday|mega\\s*sale|flash\\s*sale).{0,40}(?:limited|today only|ends tonight)",
+      "category": "fake_store",
+      "weight": 20
+    },
+    {
+      "value": "(?:unbelievable|crazy|insane)\\s+(?:discount|deal|price)",
+      "category": "fake_store",
+      "weight": 15
+    },
+    {
+      "value": "(?:only\\s*R)\\s*\\d{1,4}(?:\\.\\d{2})?\\s*(?:today|limited)",
+      "category": "fake_store",
+      "weight": 15
+    },
+    {
+      "value": "(?:won|winner|selected).{0,30}(?:prize|lottery|draw|giveaway)",
+      "category": "prize",
+      "weight": 25
+    },
+    {
+      "value": "(?:claim).{0,30}(?:prize|reward).{0,30}(?:fee|payment)",
+      "category": "prize",
+      "weight": 25
+    },
+    {
+      "value": "(?:task|rating|like\\s+and\\s+earn|work\\s+from\\s+home).{0,40}(?:earn|profit|commission)",
+      "category": "task_scam",
+      "weight": 25
+    },
+    {
+      "value": "(?:guaranteed|risk[-\\s]*free).{0,30}(?:returns?|profit)",
+      "category": "investment",
+      "weight": 25
+    },
+    {
+      "value": "(?:double|triple).{0,20}(?:your\\s+money|investment)",
+      "category": "investment",
+      "weight": 30
+    },
+    {
+      "value": "(?:crypto|bitcoin|usdt|ethereum).{0,40}(?:deposit|wallet|address)",
+      "category": "investment",
+      "weight": 20
+    },
+    {
+      "value": "(?:keep\\s+this\\s+between\\s+us|don't\\s+tell\\s+anyone|secret)",
+      "category": "romance_isolation",
+      "weight": 25
+    },
+    {
+      "value": "(?:emergency|crisis).{0,40}(?:need\\s+money|send\\s+money|help\\s+me)",
+      "category": "romance_isolation",
+      "weight": 20
+    },
+    {
+      "value": "(?:recover|recovery).{0,40}(?:funds|money|crypto|bitcoin)",
+      "category": "recovery",
+      "weight": 30
+    },
+    {
+      "value": "(?:pay|fee).{0,30}(?:release|unlock).{0,30}(?:funds|wallet)",
+      "category": "recovery",
+      "weight": 25
+    },
+    {
+      "value": "(?:chargeback|asset\\s+recovery|hacker).{0,40}(?:fee|deposit|upfront)",
+      "category": "recovery",
+      "weight": 30
+    },
+    {
+      "value": "(?:summons|warrant|court|arrest).{0,40}(?:pay|fine|settle)",
+      "category": "threat",
+      "weight": 30
+    },
+    {
+      "value": "(?:final\\s+notice|last\\s+chance|24\\s*hours|within\\s+\\d+\\s*hours)",
+      "category": "urgency",
+      "weight": 20
+    },
+      {
+    "id": "temu-weight-adjustment",
+    "label": "Delivery fee adjustment lure",
+    "value": "weight adjustment required|weight difference detected|additional amount|please settle by|total due",
+    "category": "delivery_fee",
+    "weight": 60
+  },
+  {
+    "id": "temu-brand-mismatch",
+    "label": "Brand mismatch",
+    "value": "From:\\s*Temu\\s*<[^>]+@ckt\\.net>",
+    "category": "impersonation",
+    "weight": 90,
+    "absolute": true
+  }
+]
+
+}

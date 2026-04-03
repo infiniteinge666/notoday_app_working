@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NoToday Scanner</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles/render-style.css?v=5">
+</head>
+
+<body>
+
+<div class="screen">
+
+  <!-- HERO -->
+  <div class="hero">
+    <img src="./assets/notoday-shield.png" class="shield" alt="Shield">
+    <div class="title">Check Before You Click</div>
+    <div class="subtitle">No accounts · Private by design</div>
+  </div>
+
+  <!-- SLAB -->
+  <div class="slab" id="slab" data-band="SAFE">
+
+    <!-- RESULT -->
+    <div class="result">
+      <div class="band" id="resultBand">AWAITING</div>
+      <div class="score" id="resultScore">Score: --</div>
+      <div class="hint" id="resultText">
+        Paste or upload something to scan
+      </div>
+    </div>
+
+    <!-- INPUT -->
+    <div class="panel">
+      <textarea id="scanInput" placeholder="Paste suspicious message or link..."></textarea>
+    </div>
+
+  </div>
+
+  <!-- ACTION BUTTONS -->
+  <div class="actions">
+
+    <!-- UPLOAD -->
+    <button class="action-btn" id="uploadBtn" type="button">
+      <!-- SVG icon -->
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 16V4m0 0l-4 4m4-4l4 4M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/>
+      </svg>
+      <span>Upload</span>
+      <input type="file" id="fileInput" accept="image/*" hidden>
+    </button>
+
+    <!-- PASTE -->
+    <button class="action-btn" id="pasteBtn" type="button">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M8 4h8v2H8zM6 6h12v14H6z"/>
+      </svg>
+      <span>Paste</span>
+    </button>
+
+  </div>
+
+  <!-- SCAN -->
+  <div class="action">
+    <button class="scan-btn" id="scanBtn" data-state="idle" type="button">
+      <span>SCAN</span>
+    </button>
+  </div>
+
+</div>
+
+<!-- 🔥 LIGHT SYSTEM (REQUIRED FOR REAL FEEL) -->
+<script>
+document.addEventListener("mousemove", (e) => {
+  const x = (e.clientX / window.innerWidth) * 100;
+  const y = (e.clientY / window.innerHeight) * 100;
+
+  document.documentElement.style.setProperty("--light-x", x + "%");
+  document.documentElement.style.setProperty("--light-y", y + "%");
+});
+</script>
+
+<script src="./app.js?v=5"></script>
+</body>
+</html>
