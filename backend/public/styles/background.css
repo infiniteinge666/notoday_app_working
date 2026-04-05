@@ -1,21 +1,130 @@
 /* =========================
    🌊 PULSE BACKGROUND SYSTEM
-   ========================= */
+========================= */
 
 #pulseBg {
   position: fixed;
   inset: 0;
   z-index: 0;
-
-  /* 🔥 CRITICAL FIX — allows clicks through */
   pointer-events: none;
-
   overflow: hidden;
 }
 
 /* =========================
-   🌊 PULSE RINGS
-   ========================= */
+   BODY THEME TRANSITIONS
+========================= */
+
+body {
+  transition:
+    background 0.45s ease,
+    color 0.35s ease;
+}
+
+/* =========================
+   DEFAULT / LANDING / SCAN
+========================= */
+
+body.theme-landing,
+body.theme-scan,
+body.theme-suspicious {
+  background:
+    radial-gradient(
+      circle at 50% 18%,
+      rgba(196, 194, 194, 0.82) 0%,
+      transparent 54%
+    ),
+    radial-gradient(
+      circle at 58% 52%,
+      rgba(176, 185, 192, 0.58) 0%,
+      transparent 72%
+    ),
+    linear-gradient(
+      180deg,
+      #c8cdd1 0%,
+      #dae0e6 42%,
+      #d8dcde 76%,
+      #efefef 100%
+    );
+}
+
+/* =========================
+   SAFE THEME
+========================= */
+
+body.theme-safe {
+  background:
+    radial-gradient(
+      circle at 50% 18%,
+      rgba(176, 229, 214, 0.42) 0%,
+      transparent 54%
+    ),
+    radial-gradient(
+      circle at 58% 52%,
+      rgba(126, 214, 181, 0.24) 0%,
+      transparent 72%
+    ),
+    linear-gradient(
+      180deg,
+      #d9e8e2 0%,
+      #e4f1ec 42%,
+      #e8f4f0 76%,
+      #f4fbf8 100%
+    );
+}
+
+/* =========================
+   SUSPICIOUS THEME
+========================= */
+
+body.theme-suspicious {
+  background:
+    radial-gradient(
+      circle at 50% 18%,
+      rgba(255, 208, 120, 0.30) 0%,
+      transparent 54%
+    ),
+    radial-gradient(
+      circle at 58% 52%,
+      rgba(255, 176, 32, 0.18) 0%,
+      transparent 72%
+    ),
+    linear-gradient(
+      180deg,
+      #ddd6ca 0%,
+      #e9dfd0 42%,
+      #efe6da 76%,
+      #f7f1e8 100%
+    );
+}
+
+/* =========================
+   CRITICAL THEME
+========================= */
+
+body.theme-critical {
+  background:
+    radial-gradient(
+      circle at 50% 18%,
+      rgba(255, 118, 118, 0.24) 0%,
+      transparent 54%
+    ),
+    radial-gradient(
+      circle at 58% 52%,
+      rgba(255, 59, 48, 0.16) 0%,
+      transparent 72%
+    ),
+    linear-gradient(
+      180deg,
+      #ddd1d1 0%,
+      #e8d8d8 42%,
+      #eedede 76%,
+      #f7eeee 100%
+    );
+}
+
+/* =========================
+   PULSE RINGS
+========================= */
 
 .pulse-ring {
   position: absolute;
@@ -27,17 +136,54 @@
   transform: translate(-50%, -50%) scale(0.6);
 
   border-radius: 50%;
+  filter: blur(18px);
 
+  animation: pulseWave 6s infinite ease-out;
+  transition:
+    background 0.45s ease,
+    opacity 0.45s ease,
+    filter 0.45s ease;
+}
+
+/* DEFAULT / LANDING / SCAN */
+body.theme-landing .pulse-ring,
+body.theme-scan .pulse-ring {
   background: radial-gradient(
     circle,
     rgba(0, 200, 255, 0.18) 0%,
     rgba(0, 200, 255, 0.08) 40%,
     transparent 70%
   );
+}
 
-  filter: blur(18px);
+/* SAFE */
+body.theme-safe .pulse-ring {
+  background: radial-gradient(
+    circle,
+    rgba(0, 200, 150, 0.22) 0%,
+    rgba(0, 200, 150, 0.10) 42%,
+    transparent 72%
+  );
+}
 
-  animation: pulseWave 6s infinite ease-out;
+/* SUSPICIOUS */
+body.theme-suspicious .pulse-ring {
+  background: radial-gradient(
+    circle,
+    rgba(255, 176, 32, 0.22) 0%,
+    rgba(255, 176, 32, 0.10) 42%,
+    transparent 72%
+  );
+}
+
+/* CRITICAL */
+body.theme-critical .pulse-ring {
+  background: radial-gradient(
+    circle,
+    rgba(255, 59, 48, 0.24) 0%,
+    rgba(255, 59, 48, 0.11) 42%,
+    transparent 72%
+  );
 }
 
 /* stagger effect */
@@ -54,8 +200,8 @@
 }
 
 /* =========================
-   🌊 ANIMATION
-   ========================= */
+   PULSE ANIMATION
+========================= */
 
 @keyframes pulseWave {
   0% {

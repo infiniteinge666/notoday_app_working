@@ -3,7 +3,6 @@
 ========================= */
 
 #result {
-  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -15,12 +14,15 @@
 .result-shell {
   width: 100%;
   max-width: 420px;
+  min-height: 100vh;
 
+  margin: 0 auto;
   padding: 40px 20px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 20px;
 }
 
@@ -29,9 +31,18 @@
 ========================= */
 
 #resultHeading {
+  margin: 0;
+
   font-size: 32px;
   font-weight: 800;
   text-align: center;
+  letter-spacing: 0.02em;
+
+  color: rgba(255, 255, 255, 0.96);
+
+  text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.55),
+    0 0 18px rgba(255, 255, 255, 0.24);
 }
 
 /* =========================
@@ -39,9 +50,13 @@
 ========================= */
 
 #resultReason {
+  margin: 0;
+
   font-size: 15px;
+  line-height: 1.5;
   text-align: center;
-  opacity: 0.8;
+
+  color: rgba(255, 255, 255, 0.68);
 }
 
 /* =========================
@@ -52,20 +67,6 @@
   width: 100%;
   height: 64px;
   border-radius: 22px;
-}
 
-/* =========================
-   STATE COLORS
-========================= */
-
-.state-safe #resultHeading {
-  color: #00c896;
-}
-
-.state-suspicious #resultHeading {
-  color: #ffb020;
-}
-
-.state-critical #resultHeading {
-  color: #ff3b30;
+  color: rgba(255, 255, 255, 0.92);
 }

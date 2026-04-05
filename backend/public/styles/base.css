@@ -10,12 +10,12 @@ body {
   background:
     radial-gradient(
       circle at 50% 18%,
-      rgba(196, 194, 194, 0.815) 0%,
+      rgba(196, 194, 194, 0.521) 0%,
       transparent 54%
     ),
     radial-gradient(
       circle at 58% 52%,
-      rgba(176, 185, 192, 0.589) 0%,
+      rgba(176, 185, 192, 0.199) 0%,
       transparent 72%
     ),
     linear-gradient(
@@ -27,7 +27,7 @@ body {
     );
 
   background-blend-mode: normal, multiply, soft-light;
-  color: #5f7f8f;
+  color: #5f7f8f9f;
 }
 
 *,
