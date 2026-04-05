@@ -49,10 +49,8 @@ window.addEventListener("load", () => {
       return;
     }
 
-    if (screenId === "result") {
-      document.body.classList.add("theme-suspicious");
-      document.body.classList.add("state-suspicious");
-    }
+    // RESULT SCREEN MUST BE STATELESS UNTIL THE ENGINE RETURNS A BAND
+    // No default warning, no guessed color, no assumed state.
   }
 
   function applyResultState(band) {
@@ -106,13 +104,14 @@ window.addEventListener("load", () => {
 
     const band = data.band || "SUSPICIOUS";
     resultHeading.innerText = band;
-    applyResultState(band);
 
     if (Array.isArray(data.reasons) && data.reasons.length > 0) {
       resultReason.innerText = data.reasons.join(" ");
     } else {
       resultReason.innerText = "No clear indicators found.";
     }
+
+    applyResultState(band);
   }
 
   if (startBtn) {
@@ -169,15 +168,17 @@ window.addEventListener("load", () => {
         }
 
         const payload = await res.json();
-        renderResult(payload.data);
+
         showScreen("result");
+        renderResult(payload.data);
       } catch (err) {
         console.error(err);
+
+        showScreen("result");
         renderResult({
           band: "SUSPICIOUS",
           reasons: ["Something went wrong. Please try again."]
         });
-        showScreen("result");
       } finally {
         scanBtn.innerText = "RUN SCAN";
         scanBtn.disabled = false;
