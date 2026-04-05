@@ -1,87 +1,106 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NoToday Scanner</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NoToday</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles/render-style.css?v=5">
+  <!-- FONTS -->
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <!-- STYLES -->
+  <link rel="stylesheet" href="./styles/base.css">
+  <link rel="stylesheet" href="./styles/background.css">
+  <link rel="stylesheet" href="./styles/landing.css">
+  <link rel="stylesheet" href="./styles/scan.css">
+  <link rel="stylesheet" href="./styles/result.css">
+  <link rel="stylesheet" href="./styles/motion.css">
 </head>
 
-<body>
+<body class="theme-landing">
 
-<div class="screen">
-
-  <!-- HERO -->
-  <div class="hero">
-    <img src="./assets/notoday-shield.png" class="shield" alt="Shield">
-    <div class="title">Check Before You Click</div>
-    <div class="subtitle">No accounts · Private by design</div>
+  <!-- =========================
+       PULSE BACKGROUND
+  ========================= -->
+  <div id="pulseBg">
+    <div class="pulse-ring"></div>
+    <div class="pulse-ring"></div>
+    <div class="pulse-ring"></div>
+    <div class="pulse-ring"></div>
   </div>
 
-  <!-- SLAB -->
-  <div class="slab" id="slab" data-band="SAFE">
+  <!-- =========================
+       LANDING SCREEN
+  ========================= -->
+  <main id="landing" class="screen active">
+    <div class="landing-shell">
 
-    <!-- RESULT -->
-    <div class="result">
-      <div class="band" id="resultBand">AWAITING</div>
-      <div class="score" id="resultScore">Score: --</div>
-      <div class="hint" id="resultText">
-        Paste or upload something to scan
+      <div class="logo-wrap">
+        <img src="./assets/notoday-shield.svg" class="logo" alt="NoToday">
       </div>
+
+      <button id="startBtn" class="primary-btn">
+        SCAN NOW
+      </button>
+
     </div>
+  </main>
 
-    <!-- INPUT -->
-    <div class="panel">
-      <textarea id="scanInput" placeholder="Paste suspicious message or link..."></textarea>
+  <!-- =========================
+       SCAN SCREEN
+  ========================= -->
+  <main id="scan" class="screen">
+    <div class="scan-screen-shell">
+
+      <div class="scan-card-wrap">
+        <div class="card">
+
+          <h1>What are they asking you to do?</h1>
+
+          <textarea id="scanInput" placeholder="Paste message, email, or link..."></textarea>
+
+          <p id="validationMessage"></p>
+
+          <div class="input-grid">
+            <button id="pasteBtn" class="input-btn">📋 Paste</button>
+            <button class="input-btn disabled" disabled>📸 Screenshot</button>
+            <button class="input-btn disabled" disabled>🎙 Voice</button>
+            <button class="input-btn disabled" disabled>🔗 Link</button>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="scan-action-zone">
+        <button id="scanBtn" class="primary-btn">
+          RUN SCAN
+        </button>
+      </div>
+
     </div>
+  </main>
 
-  </div>
+  <!-- =========================
+       RESULT SCREEN
+  ========================= -->
+  <main id="result" class="screen">
+    <div class="result-shell">
 
-  <!-- ACTION BUTTONS -->
-  <div class="actions">
+      <h1 id="resultHeading">Checking...</h1>
 
-    <!-- UPLOAD -->
-    <button class="action-btn" id="uploadBtn" type="button">
-      <!-- SVG icon -->
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 16V4m0 0l-4 4m4-4l4 4M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/>
-      </svg>
-      <span>Upload</span>
-      <input type="file" id="fileInput" accept="image/*" hidden>
-    </button>
+      <p id="resultReason">Do not act yet.</p>
 
-    <!-- PASTE -->
-    <button class="action-btn" id="pasteBtn" type="button">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M8 4h8v2H8zM6 6h12v14H6z"/>
-      </svg>
-      <span>Paste</span>
-    </button>
+      <button id="scanAgainBtn" class="primary-btn">
+        SCAN AGAIN
+      </button>
 
-  </div>
+    </div>
+  </main>
 
-  <!-- SCAN -->
-  <div class="action">
-    <button class="scan-btn" id="scanBtn" data-state="idle" type="button">
-      <span>SCAN</span>
-    </button>
-  </div>
+  <!-- =========================
+       SCRIPT
+  ========================= -->
+  <script src="./app.js"></script>
 
-</div>
-
-<!-- 🔥 LIGHT SYSTEM (REQUIRED FOR REAL FEEL) -->
-<script>
-document.addEventListener("mousemove", (e) => {
-  const x = (e.clientX / window.innerWidth) * 100;
-  const y = (e.clientY / window.innerHeight) * 100;
-
-  document.documentElement.style.setProperty("--light-x", x + "%");
-  document.documentElement.style.setProperty("--light-y", y + "%");
-});
-</script>
-
-<script src="./app.js?v=5"></script>
 </body>
 </html>

@@ -1,107 +1,99 @@
-const scanBtn = document.getElementById("scanBtn");
-const input = document.getElementById("scanInput");
+// =========================
+// WAIT FOR DOM
+// =========================
 
-const resultBand = document.getElementById("resultBand");
-const resultText = document.getElementById("resultText");
-const resultScore = document.getElementById("resultScore");
-const slab = document.getElementById("slab");
+window.addEventListener("load", () => {
 
-const uploadBtn = document.getElementById("uploadBtn");
-const fileInput = document.getElementById("fileInput");
-const pasteBtn = document.getElementById("pasteBtn");
+  const startBtn = document.getElementById("startBtn");
+  const scanBtn = document.getElementById("scanBtn");
+  const scanAgainBtn = document.getElementById("scanAgainBtn");
 
-/* ================================
-   SCAN TEXT
-================================ */
-scanBtn.onclick = async () => {
-    const text = input.value.trim();
+  const input = document.getElementById("scanInput");
 
-    if (!text) {
-        setResult("SUSPICIOUS", "0", "Nothing to scan");
-        return;
+  const resultHeading = document.getElementById("resultHeading");
+  const resultReason = document.getElementById("resultReason");
+
+  function showScreen(targetId) {
+    document.querySelectorAll(".screen").forEach(screen => {
+      screen.classList.remove("active");
+    });
+
+    const target = document.getElementById(targetId);
+
+    if (target) {
+      target.classList.add("active");
+    } else {
+      console.error("Screen not found:", targetId);
     }
+  }
 
-    setResult("AWAITING", "--", "Scanning...");
+  // START BUTTON
+  if (startBtn) {
+    startBtn.onclick = (e) => {
+      e.preventDefault();
+      console.log("START CLICKED");
+      showScreen("scan"); // ✅ FIXED
+    };
+  }
 
-    try {
-        const res = await fetch("/check", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text })
+  // RUN SCAN
+  if (scanBtn) {
+    scanBtn.onclick = async (e) => {
+      e.preventDefault();
+
+      const text = input.value.trim();
+
+      if (!text) {
+        input.focus();
+        return;
+      }
+
+      scanBtn.innerText = "SCANNING...";
+      scanBtn.disabled = true;
+
+      try {
+        const res = await fetch("http://localhost:3000/check", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ text })
         });
 
         const data = await res.json();
 
-        setResult(
-            data.band || "SAFE",
-            data.score || "0",
-            data.reason || "No explanation available"
-        );
+        renderResult(data.data);
+        showScreen("result"); // ✅ FIXED
 
-    } catch {
-        setResult("CRITICAL", "100", "Scan failed. Connection issue.");
-    }
-};
+      } catch (err) {
+        console.error(err);
+        alert("Something went wrong");
+      }
 
-/* ================================
-   PASTE
-================================ */
-pasteBtn.onclick = async () => {
-    try {
-        const text = await navigator.clipboard.readText();
-        input.value = text;
-        setResult("AWAITING", "--", "Text pasted. Ready to scan.");
-    } catch {
-        setResult("SUSPICIOUS", "0", "Clipboard access denied.");
-    }
-};
-
-/* ================================
-   UPLOAD IMAGE
-================================ */
-uploadBtn.onclick = () => fileInput.click();
-
-fileInput.onchange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = async () => {
-        const base64 = reader.result.split(",")[1];
-
-        setResult("AWAITING", "--", "Image uploaded. Scanning...");
-
-        try {
-            const res = await fetch("/check", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ imageBase64: base64 })
-            });
-
-            const data = await res.json();
-
-            setResult(
-                data.band || "SAFE",
-                data.score || "0",
-                data.reason || "No explanation available"
-            );
-
-        } catch {
-            setResult("CRITICAL", "100", "Image scan failed.");
-        }
+      scanBtn.innerText = "RUN SCAN";
+      scanBtn.disabled = false;
     };
+  }
 
-    reader.readAsDataURL(file);
-};
+  // SCAN AGAIN
+  if (scanAgainBtn) {
+    scanAgainBtn.onclick = (e) => {
+      e.preventDefault();
+      input.value = "";
+      showScreen("scan"); // ✅ FIXED
+    };
+  }
 
-/* ================================
-   RESULT HANDLER
-================================ */
-function setResult(band, score, message) {
-    resultBand.innerText = band;
-    resultScore.innerText = "Score: " + score;
-    resultText.innerText = message;
+  function renderResult(data) {
+    if (!data) return;
 
-    slab.setAttribute("data-band", band);
-}
+    resultHeading.innerText = data.band;
+
+    if (data.reasons && data.reasons.length) {
+      resultReason.innerText = data.reasons.join(" ");
+    } else {
+      resultReason.innerText = "No clear indicators found.";
+    }
+  }
+
+});

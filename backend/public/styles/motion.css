@@ -1,0 +1,27 @@
+.primary-btn:hover,
+.input-btn:hover,
+.glass-btn:hover,
+.cta-btn:hover {
+  transform: translateY(-1px);
+}
+
+.orb.loading {
+  animation: orbPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes orbPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.92;
+  }
+
+  50% {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0.92;
+  }
+}

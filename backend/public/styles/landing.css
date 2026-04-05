@@ -1,0 +1,80 @@
+/* =========================
+   LANDING SCREEN
+========================= */
+
+#landing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================
+   SHELL
+========================= */
+
+.landing-shell {
+  width: 100%;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 80px 20px 60px;
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.logo-wrap {
+  margin-top: 40px;
+}
+
+.logo {
+  width: 120px;
+  height: auto;
+}
+
+/* =========================
+   BUTTON (INIT ACTION)
+========================= */
+
+#startBtn {
+  width: 220px;
+  height: 64px;
+
+  border-radius: 999px; /* 🔥 fully round */
+
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: white;
+
+  background: linear-gradient(
+    135deg,
+    #0ffffc,
+    #019cbc,
+    #12e1f8
+  );
+
+  border: 1px solid rgba(3, 253, 253, 0.25);
+
+  box-shadow:
+    0 20px 40px rgba(0, 120, 140, 0.35),
+    0 10px 20px rgba(0,0,0,0.2),
+    inset 0 2px 4px rgba(255,255,255,0.4),
+    inset 0 -4px 8px rgba(0,0,0,0.25);
+
+  transition: all 0.15s ease;
+}
+
+/* PRESS — NO SIDE SHIFT */
+#startBtn:active {
+  transform: scale(0.96);
+
+  box-shadow:
+    inset 0 6px 14px rgba(0,0,0,0.35),
+    0 10px 18px rgba(0,0,0,0.25);
+}
