@@ -1,7 +1,23 @@
 'use strict';
 
-const sharp = require('sharp');
 const Tesseract = require('tesseract.js');
+
+let sharpModule;
+let sharpLoadAttempted = false;
+
+function getSharp() {
+  if (sharpLoadAttempted) return sharpModule;
+  sharpLoadAttempted = true;
+
+  try {
+    sharpModule = require('sharp');
+  } catch (err) {
+    sharpModule = null;
+    console.warn('[notoday] sharp unavailable, OCR preprocessing disabled:', err?.message || err);
+  }
+
+  return sharpModule;
+}
 
 function normalizeInput(input) {
   if (Buffer.isBuffer(input)) return input;
@@ -21,6 +37,11 @@ function normalizeInput(input) {
 }
 
 async function preprocess(buffer) {
+  const sharp = getSharp();
+  if (!sharp) {
+    return buffer;
+  }
+
   return sharp(buffer)
     .rotate()
     .grayscale()
