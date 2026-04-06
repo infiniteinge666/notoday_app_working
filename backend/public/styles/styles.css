@@ -130,7 +130,7 @@ body {
   height: 42px;
 
   filter:
-    drop-shadow(0 0 6px rgba(0,255,255,0.5))
+    drop-shadow(0 0 6px rgba(68, 68, 68, 0.26))
     brightness(1.2);
 }
 
