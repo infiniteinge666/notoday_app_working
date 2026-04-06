@@ -8,12 +8,7 @@ btn.addEventListener('click', () => {
     return;
   }
 
-  document.body.classList.add("scanning");
-
-  setTimeout(() => {
-    document.body.classList.remove("scanning");
-    alert("Scan complete!");
-  }, 1500);
+  alert("Scan started...");
 });
 
 clearBtn.addEventListener('click', () => {
