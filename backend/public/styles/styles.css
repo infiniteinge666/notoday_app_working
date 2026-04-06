@@ -202,7 +202,7 @@ textarea::placeholder {
   height: 64px;
 
   border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.35);
+  border: 1px solid #b5fafc9f;
 
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -214,14 +214,14 @@ textarea::placeholder {
 
   background:
     linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0.08)),
-    radial-gradient(circle at 50% 120%, rgba(0,200,255,0.25), transparent 60%),
+    radial-gradient(circle at 50% 120%, #18243560, transparent 60%),
     rgba(180, 240, 255, 0.15);
 
   backdrop-filter: blur(20px);
 
   box-shadow:
     inset 0 2px 6px rgba(255,255,255,0.6),
-    inset 0 -8px 20px rgba(0,0,0,0.35),
+    inset 0 -8px 20px rgba(7, 240, 248, 0.35),
     0 10px 30px rgba(0,0,0,0.6);
 }
 
