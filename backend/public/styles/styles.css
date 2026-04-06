@@ -50,7 +50,7 @@ body {
   content: "";
   position: absolute;
   inset: -50%;
-  background:    linear-gradient(      115deg,      transparent 30%,      #3ED1DA,      rgba(181, 250, 252, 0.384),      rgba(52, 224, 233, 0.226),      transparent 70%    );
+  background:    linear-gradient(      115deg,      transparent 30%,      #3ed2da98,      rgba(181, 250, 252, 0.384),      rgba(52, 224, 233, 0.226),      transparent 70%    );
   filter: blur(80px);
   animation: beamMove1 40s ease-in-out infinite;
   -webkit-animation: beamMove1 40s ease-in-out infinite;
@@ -87,14 +87,14 @@ body {
 
   animation: drift1 60s linear infinite;
   mix-blend-mode: soft-light;
-  opacity: 0.45;
+  opacity: 0.9;
 }
 
 .dust::after {
   content: "";
   position: absolute;
   inset: -50%;
-  background:    radial-gradient(circle, rgba(119, 228, 255, 0.801) 2px, transparent 2px);
+  background:    radial-gradient(circle, rgba(251, 254, 255, 0.801) 2px, transparent 2px);
   background-size: 260px 260px;
   animation: drift2 90s linear infinite;
   mix-blend-mode: soft-light;
@@ -115,7 +115,7 @@ body {
   flex-direction: column;
   align-items: center;
 
-  padding: 20px;
+  padding: 10px;
 }
 
 /* ================= LOGO ================= */
