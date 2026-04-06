@@ -239,7 +239,7 @@ body.state-critical .state-layer {
    MIDDLE 1/3 — INPUT + BUTTONS
 ========================= */
 .middle-stack {
-  width: min(90%, 430px);
+  width: min(80%, 430px);
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -292,7 +292,7 @@ body.state-critical .state-layer {
 }
 
 textarea {
-  width: 80%;
+  width: 70%;
   min-height: 130px;
   max-height: 180px;
   resize: none;
@@ -387,7 +387,7 @@ textarea::placeholder {
 .scan-btn {
   pointer-events: auto;
   appearance: none;
-  width: min(90%, 430px);
+  width: min(80%, 430px);
   display: block;
   margin: 0 auto;
   min-height: 64px;
