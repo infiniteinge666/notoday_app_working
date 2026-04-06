@@ -1,150 +1,258 @@
-/* RESET */
+/* ================= TOKENS ================= */
+
+:root {
+  --bg-dark: #10131D;
+  --accent-primary: #3ED1DA;
+  --accent-soft: #B5FAFC;
+  --text-primary: rgba(255, 255, 255, 0.973);
+  --text-secondary: rgba(255,255,255,0.6);
+}
+
+/* ================= RESET ================= */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* BASE */
-body {
-  font-family: system-ui, sans-serif;
-  height: 100vh;
-  overflow: hidden;
-  color: white;
+html, body {
+  height: 100%;
 }
 
-/* =========================
-   🌊 PULSE BACKGROUND
-========================= */
+/* ================= BASE ================= */
 
-#pulseBg {
+body {
+  font-family: manrope, sans-serif;
+  color: var(--text-primary);
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(circle at 50% 80%, rgba(70,89,119,0.25), transparent 60%),
+    var(--bg-dark);
+}
+
+/* ================= LIGHT BEAMS ================= */
+
+.light-rays {
   position: fixed;
   inset: 0;
-  z-index: -1;
-  background: radial-gradient(circle at 50% 40%, #1c2a30, #05080c);
+  z-index: 1;
+  pointer-events: none;
   overflow: hidden;
 }
 
-#pulseBg::after {
+.light-rays::before {
   content: "";
   position: absolute;
-  width: 200%;
-  height: 200%;
-  top: -50%;
-  left: -50%;
-  background: radial-gradient(circle, rgba(255,255,255,0.05), transparent 60%);
-  animation: pulse 6s infinite ease-in-out;
+  inset: -50%;
+  background:    linear-gradient(      115deg,      transparent 30%,      #3ed2da98,      rgba(181, 250, 252, 0.384),      rgba(52, 224, 233, 0.226),      transparent 70%    );
+  filter: blur(80px);
+  animation: beamMove1 40s ease-in-out infinite;
+  -webkit-animation: beamMove1 40s ease-in-out infinite;
 }
 
-@keyframes pulse {
-  0% { transform: scale(0.9); opacity: 0.6; }
-  50% { transform: scale(1.1); opacity: 0.3; }
-  100% { transform: scale(0.9); opacity: 0.6; }
+.light-rays::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background:    linear-gradient(      125deg,      transparent 35%,      rgba(181, 250, 252, 0.226),      transparent 65%    );
+  filter: blur(100px);
+  animation: beamMove2 55s ease-in-out infinite;
+  -webkit-animation: beamMove2 55s ease-in-out infinite;
 }
 
-/* =========================
-   🧠 STATE COLORS
-========================= */
+/* ================= DUST ================= */
 
-body.state-safe #pulseBg {
-  background: radial-gradient(circle, #1f3f2b, #05080c);
+.dust {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
 }
 
-body.state-suspicious #pulseBg {
-  background: radial-gradient(circle, #4a2f14, #05080c);
+.dust::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+
+  background:
+    radial-gradient(circle, rgba(171, 252, 255, 0.582) 1px, transparent 1px);
+
+  background-size: 140px 140px;
+
+  animation: drift1 60s linear infinite;
+  mix-blend-mode: soft-light;
+  opacity: 0.9;
 }
 
-body.state-critical #pulseBg {
-  background: radial-gradient(circle, #4a1c1c, #05080c);
+.dust::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background:    radial-gradient(circle, rgba(251, 254, 255, 0.801) 2px, transparent 2px);
+  background-size: 260px 260px;
+  animation: drift2 90s linear infinite;
+  mix-blend-mode: soft-light;
+  opacity: 0.3;
+  -webkit-animation: drift2 90s linear infinite;
 }
 
-/* =========================
-   📱 LAYOUT
-========================= */
+/* ================= APP ================= */
 
 .app {
-  height: 100%;
+  position: relative;
+  z-index: 2;
+
+  max-width: 420px;
+  width: 100%;
+
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 20px;
+  align-items: center;
+
+  padding: 10px;
 }
 
-/* LOGO */
+/* ================= LOGO ================= */
+
 .logo-wrap {
-  display: flex;
-  justify-content: center;
-  margin-top: 40px;
+  width: 90px;
+  margin-bottom: 16px;
+  position: relative;
 }
 
 .logo {
-  width: 120px;
-  opacity: 0.8;
-}
-
-/* =========================
-   🧊 GLASS PANEL
-========================= */
-
-.glass-panel {
-  backdrop-filter: blur(20px);
-  background: rgba(255,255,255,0.05);
-  border-radius: 20px;
-  padding: 20px;
-  margin: 20px 0;
-}
-
-/* INPUT */
-textarea {
   width: 100%;
-  height: 100px;
-  border: none;
-  outline: none;
-  resize: none;
-  background: transparent;
-  color: white;
-  font-size: 16px;
 }
 
-/* ACTIONS */
-.actions {
+.logo-glow {
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle, var(--accent-soft), transparent 30%);
+  filter: blur(40px);
+}
+
+/* ================= TEXT ================= */
+
+.title {
+  text-align: center;
+  max-width: 280px;
+  margin-bottom: 24px;
+}
+
+/* ================= BUTTONS ================= */
+
+.top-actions {
   display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
-.actions button {
-  flex: 1;
-  margin: 5px;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  background: rgba(255,255,255,0.1);
+.soft-btn {
+  padding: 10px 16px;
+  border-radius: 16px;
+
+  background: rgba(3, 130, 168, 0.322);
+  border: 1px solid rgba(17, 215, 250, 0.4);
   color: white;
 }
 
-/* RESULT */
-#resultBox {
-  margin-top: 20px;
+.soft-btn.icon {
+  width: 50px;
+  height: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#resultHeading {
-  font-size: 22px;
+/* ================= CARD ================= */
+
+.card {
+  width: 100%;
+
+  background: rgba(24,36,53,0.6);
+  border-radius: 24px;
+  padding: 16px;
+
+  border: -1px solid rgba(0, 64, 66, 0.507);
 }
 
-#resultReason {
-  opacity: 0.8;
+.label {
+  margin-bottom: 10px;
+  color: var(--text-secondary);
 }
 
-/* =========================
-   🔘 SCAN BUTTON
-========================= */
+/* ================= INPUT ================= */
 
-.scan-btn {
-  height: 60px;
-  border-radius: 20px;
-  border: none;
-  font-size: 18px;
-  background: linear-gradient(145deg, #0f3c44, #0a2c32);
+.input {
+  width: 100%;
+  min-height: 120px;
+
+  border-radius: 16px;
+  padding: 14px;
+
+  background: rgba(16, 19, 29, 0.295);
+  border: -1px solid rgba(180, 188, 202, 0.548);
+
   color: white;
+}
+
+/* ================= CTA ================= */
+
+.bottom-bar {
+  position: fixed;
+  bottom: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.cta {
+  width: calc(100% - 60px);
+  max-width: 340px;
+  height: 64px;
+
+  border-radius: 999px;
+  border: 1px solid rgba(181, 250, 252, 0.678);
+
+  background:
+    linear-gradient(180deg, rgba(181, 250, 252, 0.199), rgba(255,255,255,0.08)),
+    radial-gradient(circle at 50% 120%, rgba(62, 210, 218, 0.096), transparent 60%),
+    rgba(180,240,255,0.15);
+
+  backdrop-filter: blur(20px);
+
+  box-shadow:
+    inset 0 var(--accent-primary) 6px rgba(255, 255, 255, 0.329),
+    inset 0 -8px 20px rgba(192, 192, 192, 0.384),
+    0 10px 30px rgba(0, 81, 87, 0.562);
+
+  color: white;
+  font-weight: 700;
+}
+
+/* ================= ANIMATIONS ================= */
+
+@keyframes beamMove1 {
+  0% { transform: translateX(-40%) rotate(8deg); }
+  100% { transform: translateX(40%) rotate(8deg); }
+}
+
+@keyframes beamMove2 {
+  0% { transform: translateX(30%) rotate(-10deg); }
+  100% { transform: translateX(-30%) rotate(-10deg); }
+}
+
+@keyframes drift1 {
+  50% { transform: translate(-5%, -8%); }
+}
+
+@keyframes drift2 {
+  50% { transform: translate(6%, 10%); }
 }
