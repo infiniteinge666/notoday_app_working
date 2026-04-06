@@ -11,7 +11,7 @@
   --text-primary: rgba(255,255,255,0.9);
   --text-secondary: rgba(255,255,255,0.6);
 
-  --glass-border: rgba(255,255,255,0.12);
+  --glass-border: rgba(255, 255, 255, 0.329);
 }
 
 /* ================= RESET ================= */
@@ -59,7 +59,7 @@ body {
 
   background: conic-gradient(
     from 0deg,
-    rgba(62,209,218,0.10),
+    rgba(105, 207, 212, 0.274),
     transparent 20%,
     rgba(181,250,252,0.06),
     transparent 40%
@@ -75,7 +75,7 @@ body {
   inset: 0;
 
   background:
-    radial-gradient(circle at 50% 30%, rgba(181,250,252,0.12), transparent 60%);
+    radial-gradient(circle at 50% 30%, rgba(181, 250, 252, 0.233), transparent 60%);
 
   animation: pulse 10s ease-in-out infinite;
 }
@@ -187,8 +187,8 @@ body {
 }
 
 .soft-btn.icon {
-  width: 10px;
-  height: 10px;
+  width: 50px;
+  height: 50px;
 
   display: flex;
   align-items: center;
