@@ -154,8 +154,8 @@ body {
   position: absolute;
   inset: -40%;
   background: radial-gradient(circle, var(--accent-primary), transparent);
-  filter: blur(40px);
-  -webkit-filter: blur(40px);
+  filter: blur(10px);
+  -webkit-filter: blur(10px);
 }
 
 /* ================= TEXT ================= */
