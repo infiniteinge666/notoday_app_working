@@ -11,7 +11,6 @@
   --text-primary: rgba(255,255,255,0.9);
   --text-secondary: rgba(255,255,255,0.6);
 
-  --glass-light: rgba(255,255,255,0.08);
   --glass-border: rgba(255,255,255,0.12);
 }
 
@@ -27,30 +26,30 @@ html, body {
   height: 100%;
 }
 
+/* ================= BODY ================= */
+
 body {
   font-family: system-ui, sans-serif;
   color: var(--text-primary);
   overflow: hidden;
 
   display: flex;
+  align-items: center;
   justify-content: center;
 
   background:
-    radial-gradient(circle at 50% 18%, rgba(62,209,218,0.18), transparent 35%),
+    radial-gradient(circle at 50% 25%, rgba(62,209,218,0.25), transparent 40%),
     radial-gradient(circle at 50% 80%, rgba(70,89,119,0.25), transparent 60%),
     var(--bg-dark);
 }
 
-/* ================= LIGHT RAYS ================= */
+/* ================= LIGHT ================= */
 
 .light-rays {
   position: fixed;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-
-  background:
-    radial-gradient(circle at 50% 20%, rgba(62,209,218,0.25), transparent 45%);
 }
 
 .light-rays::before {
@@ -60,15 +59,14 @@ body {
 
   background: conic-gradient(
     from 0deg,
-    rgba(62,209,218,0.12),
+    rgba(62,209,218,0.10),
     transparent 20%,
-    rgba(181,250,252,0.08),
-    transparent 40%,
-    rgba(62,209,218,0.12)
+    rgba(181,250,252,0.06),
+    transparent 40%
   );
 
   filter: blur(80px);
-  animation: rotateRays 30s linear infinite;
+  animation: rotate 40s linear infinite;
 }
 
 .light-rays::after {
@@ -77,10 +75,9 @@ body {
   inset: 0;
 
   background:
-    radial-gradient(circle at 50% 30%, rgba(181,250,252,0.18), transparent 60%),
-    radial-gradient(circle at 50% 80%, rgba(62,209,218,0.10), transparent 70%);
+    radial-gradient(circle at 50% 30%, rgba(181,250,252,0.12), transparent 60%);
 
-  animation: pulseFog 10s ease-in-out infinite;
+  animation: pulse 10s ease-in-out infinite;
 }
 
 /* ================= DUST ================= */
@@ -98,14 +95,12 @@ body {
   inset: -50%;
 
   background:
-    radial-gradient(circle, rgba(181,250,252,0.12) 1px, transparent 1px),
-    radial-gradient(circle, rgba(62,209,218,0.10) 1px, transparent 1px);
+    radial-gradient(circle, rgba(181,250,252,0.08) 1px, transparent 1px);
 
-  background-size: 120px 120px, 180px 180px;
+  background-size: 140px 140px;
+
   animation: drift1 60s linear infinite;
-
   mix-blend-mode: screen;
-  opacity: 0.4;
 }
 
 .dust::after {
@@ -114,13 +109,12 @@ body {
   inset: -50%;
 
   background:
-    radial-gradient(circle, rgba(255,255,255,0.15) 2px, transparent 2px);
+    radial-gradient(circle, rgba(255,255,255,0.08) 2px, transparent 2px);
 
   background-size: 260px 260px;
-  animation: drift2 90s linear infinite;
 
+  animation: drift2 90s linear infinite;
   mix-blend-mode: screen;
-  opacity: 0.3;
 }
 
 /* ================= APP ================= */
@@ -129,17 +123,31 @@ body {
   position: relative;
   z-index: 2;
 
-  max-width: 420px;
   width: 100%;
-  padding: 80px 20px 0;
+  max-width: 420px;
+
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* ================= LOGO ================= */
 
 .logo-wrap {
-  position: relative;
   width: 90px;
-  margin: 0 auto 16px;
+  margin-bottom: 16px;
+
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.logo {
+  width: 100%;
+  position: relative;
+  z-index: 2;
 }
 
 .logo-glow {
@@ -153,16 +161,19 @@ body {
 
 .title {
   text-align: center;
+  max-width: 280px;
   margin-bottom: 24px;
 }
 
-/* ================= BUTTONS ================= */
+/* ================= ACTIONS ================= */
 
 .top-actions {
   display: flex;
   gap: 12px;
   margin-bottom: 20px;
 }
+
+/* ================= SOFT BUTTON ================= */
 
 .soft-btn {
   padding: 10px 16px;
@@ -172,22 +183,34 @@ body {
   border: 1px solid rgba(70,89,119,0.4);
 
   backdrop-filter: blur(18px);
+  color: var(--text-primary);
 }
 
 .soft-btn.icon {
   width: 52px;
   height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ================= CARD ================= */
 
 .card {
+  width: 100%;
+
   background: rgba(24,36,53,0.6);
   border-radius: 24px;
   padding: 16px;
 
   border: 1px solid var(--glass-border);
   backdrop-filter: blur(18px);
+}
+
+.label {
+  margin-bottom: 10px;
+  color: var(--text-secondary);
 }
 
 /* ================= INPUT ================= */
@@ -217,6 +240,7 @@ body {
 
 .cta {
   width: calc(100% - 60px);
+  max-width: 340px;
   height: 64px;
 
   border-radius: 999px;
@@ -230,18 +254,22 @@ body {
   backdrop-filter: blur(20px);
 
   box-shadow:
-    inset 0 2px 6px rgba(255,255,255,0.6),
-    inset 0 -8px 20px rgba(0,0,0,0.35),
+    inset 0 2px 6px rgba(255,255,255,0.5),
+    inset 0 -8px 20px rgba(0,0,0,0.3),
     0 10px 30px rgba(0,0,0,0.6);
+
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.1em;
 }
 
 /* ================= ANIMATIONS ================= */
 
-@keyframes rotateRays {
+@keyframes rotate {
   100% { transform: rotate(360deg); }
 }
 
-@keyframes pulseFog {
+@keyframes pulse {
   50% { opacity: 1; }
 }
 
