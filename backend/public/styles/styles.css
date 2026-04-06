@@ -1,4 +1,22 @@
+/* ================= DESIGN TOKENS ================= */
+
+:root {
+  --bg-dark: #10131D;
+  --bg-surface: #182435;
+  --bg-elevated: #465977;
+
+  --accent-primary: #3ED1DA;
+  --accent-soft: #B5FAFC;
+
+  --text-primary: rgba(255,255,255,0.9);
+  --text-secondary: rgba(255,255,255,0.6);
+
+  --glass-light: rgba(255,255,255,0.08);
+  --glass-border: rgba(255,255,255,0.12);
+}
+
 /* ================= RESET ================= */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -10,26 +28,109 @@ html, body {
 }
 
 body {
-  font-family: system-ui, -apple-system, sans-serif;
-  color: white;
+  font-family: system-ui, sans-serif;
+  color: var(--text-primary);
   overflow: hidden;
 
   display: flex;
-  flex-direction: column;
   justify-content: center;
 
   background:
-    radial-gradient(circle at 50% 18%, #46597741, transparent 35%),
-    radial-gradient(circle at 50% 80%, #18243552, transparent 60%),
-    #10131D;
+    radial-gradient(circle at 50% 18%, rgba(62,209,218,0.18), transparent 35%),
+    radial-gradient(circle at 50% 80%, rgba(70,89,119,0.25), transparent 60%),
+    var(--bg-dark);
+}
+
+/* ================= LIGHT RAYS ================= */
+
+.light-rays {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+
+  background:
+    radial-gradient(circle at 50% 20%, rgba(62,209,218,0.25), transparent 45%);
+}
+
+.light-rays::before {
+  content: "";
+  position: absolute;
+  inset: -60%;
+
+  background: conic-gradient(
+    from 0deg,
+    rgba(62,209,218,0.12),
+    transparent 20%,
+    rgba(181,250,252,0.08),
+    transparent 40%,
+    rgba(62,209,218,0.12)
+  );
+
+  filter: blur(80px);
+  animation: rotateRays 30s linear infinite;
+}
+
+.light-rays::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(circle at 50% 30%, rgba(181,250,252,0.18), transparent 60%),
+    radial-gradient(circle at 50% 80%, rgba(62,209,218,0.10), transparent 70%);
+
+  animation: pulseFog 10s ease-in-out infinite;
+}
+
+/* ================= DUST ================= */
+
+.dust {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.dust::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+
+  background:
+    radial-gradient(circle, rgba(181,250,252,0.12) 1px, transparent 1px),
+    radial-gradient(circle, rgba(62,209,218,0.10) 1px, transparent 1px);
+
+  background-size: 120px 120px, 180px 180px;
+  animation: drift1 60s linear infinite;
+
+  mix-blend-mode: screen;
+  opacity: 0.4;
+}
+
+.dust::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+
+  background:
+    radial-gradient(circle, rgba(255,255,255,0.15) 2px, transparent 2px);
+
+  background-size: 260px 260px;
+  animation: drift2 90s linear infinite;
+
+  mix-blend-mode: screen;
+  opacity: 0.3;
 }
 
 /* ================= APP ================= */
 
 .app {
-  width: 100%;
+  position: relative;
+  z-index: 2;
+
   max-width: 420px;
-  margin: 0 auto;
+  width: 100%;
   padding: 80px 20px 0;
 }
 
@@ -38,36 +139,24 @@ body {
 .logo-wrap {
   position: relative;
   width: 90px;
-  height: 90px;
   margin: 0 auto 16px;
-}
-
-.logo {
-  width: 100%;
-  position: relative;
-  z-index: 2;
 }
 
 .logo-glow {
   position: absolute;
   inset: -40%;
-  border-radius: 50%;
-  background: radial-gradient(circle,
-    rgba(0,255,255,0.8),
-    rgba(0,255,255,0.2),
-    transparent 70%);
+  background: radial-gradient(circle, var(--accent-primary), transparent);
   filter: blur(50px);
 }
 
-/* ================= TITLE ================= */
+/* ================= TEXT ================= */
 
 .title {
   text-align: center;
-  font-size: 24px;
-  margin-bottom: 26px;
+  margin-bottom: 24px;
 }
 
-/* ================= ACTIONS ================= */
+/* ================= BUTTONS ================= */
 
 .top-actions {
   display: flex;
@@ -75,87 +164,30 @@ body {
   margin-bottom: 20px;
 }
 
-/* ================= SOFT BUTTON ================= */
-
 .soft-btn {
-  position: relative;
-  padding: 10px 18px;
-  border-radius: 18px;
+  padding: 10px 16px;
+  border-radius: 16px;
 
-  border: 1px solid rgba(13, 253, 233, 0.18);
+  background: rgba(24,36,53,0.6);
+  border: 1px solid rgba(70,89,119,0.4);
 
-  background: rgba(255, 255, 255, 0.534);
   backdrop-filter: blur(18px);
-
-  color: rgba(255, 255, 255, 0.904);
-
-  box-shadow:
-    inset 0 1px 2px rgba(255,255,255,0.25),
-    inset 0 -4px 10px rgba(6, 217, 245, 0.25),
-    0 6px 20px rgba(0,0,0,0.4);
-
-  transition: all 0.2s ease;
-  overflow: hidden;
 }
-
-.soft-btn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-
-  background:
-    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.35), transparent 60%),
-    radial-gradient(circle at 70% 70%, rgba(0,255,255,0.15), transparent 60%);
-}
-
-.soft-btn:active {
-  transform: scale(0.96);
-}
-
-/* ICON BUTTON */
 
 .soft-btn.icon {
   width: 52px;
   height: 52px;
-  padding: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.soft-btn.icon img {
-  width: 42px;
-  height: 42px;
-
-  filter:
-    drop-shadow(0 0 6px rgba(68, 68, 68, 0.26))
-    brightness(1.2);
 }
 
 /* ================= CARD ================= */
 
 .card {
-  background: rgba(255,255,255,0.04);
-  border-radius: 26px;
-  padding: 18px;
+  background: rgba(24,36,53,0.6);
+  border-radius: 24px;
+  padding: 16px;
 
-  border: 1px solid rgba(255,255,255,0.08);
-
+  border: 1px solid var(--glass-border);
   backdrop-filter: blur(18px);
-
-  box-shadow:
-    0 40px 100px rgba(0,0,0,0.9),
-    inset 0 1px 0 rgba(255,255,255,0.06);
-
-  margin-bottom: 30px;
-}
-
-.label {
-  font-size: 15px;
-  margin-bottom: 12px;
-  color: rgba(255,255,255,0.75);
 }
 
 /* ================= INPUT ================= */
@@ -164,101 +196,59 @@ body {
   width: 100%;
   min-height: 120px;
 
-  border-radius: 18px;
-  padding: 16px;
+  border-radius: 16px;
+  padding: 14px;
 
-  background: rgba(255,255,255,0.03);
+  background: rgba(16,19,29,0.7);
+  border: 1px solid rgba(70,89,119,0.4);
 
-  border: 1px solid rgba(255,255,255,0.08);
-
-  color: rgba(255,255,255,0.85);
-
-  resize: none;
-
-  box-shadow:
-    inset 0 2px 10px rgba(0,0,0,0.7),
-    inset 0 1px 2px rgba(255,255,255,0.04);
+  color: var(--text-primary);
 }
 
-textarea::placeholder {
-  color: rgba(255,255,255,0.4);
-}
-
-/* ================= CTA (TRUE GLASS) ================= */
+/* ================= CTA ================= */
 
 .bottom-bar {
   position: fixed;
   bottom: 30px;
-  left: 0;
-  right: 0;
-
+  width: 100%;
   display: flex;
   justify-content: center;
 }
 
 .cta {
   width: calc(100% - 60px);
-  max-width: 340px;
   height: 64px;
 
   border-radius: 999px;
-  border: 1px solid #b5fafc9f;
-
-  font-weight: 700;
-  letter-spacing: 0.12em;
-
-  color: rgba(255,255,255,0.9);
-
-  position: relative;
-  overflow: hidden;
+  border: 1px solid rgba(181,250,252,0.4);
 
   background:
-    linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0.08)),
-    radial-gradient(circle at 50% 120%, #18243560, transparent 60%),
-    rgba(180, 240, 255, 0.15);
+    linear-gradient(180deg, rgba(181,250,252,0.35), rgba(255,255,255,0.08)),
+    radial-gradient(circle at 50% 120%, rgba(62,209,218,0.25), transparent 60%),
+    rgba(180,240,255,0.15);
 
   backdrop-filter: blur(20px);
 
   box-shadow:
     inset 0 2px 6px rgba(255,255,255,0.6),
-    inset 0 -8px 20px rgba(7, 240, 248, 0.35),
+    inset 0 -8px 20px rgba(0,0,0,0.35),
     0 10px 30px rgba(0,0,0,0.6);
 }
 
-/* highlight */
-.cta::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
+/* ================= ANIMATIONS ================= */
 
-  background: linear-gradient(
-    180deg,
-    rgba(255,255,255,0.7),
-    rgba(255,255,255,0.1) 40%,
-    transparent 60%
-  );
-
-  opacity: 0.5;
+@keyframes rotateRays {
+  100% { transform: rotate(360deg); }
 }
 
-/* liquid motion */
-.cta::after {
-  content: "";
-  position: absolute;
-  inset: -50%;
-  border-radius: inherit;
-
-  background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 60%);
-  animation: liquidShift 8s infinite ease-in-out;
+@keyframes pulseFog {
+  50% { opacity: 1; }
 }
 
-@keyframes liquidShift {
-  0% { transform: translate(-10%, -10%); }
-  50% { transform: translate(10%, 10%); }
-  100% { transform: translate(-10%, -10%); }
+@keyframes drift1 {
+  50% { transform: translate(-5%, -8%); }
 }
 
-.cta:active {
-  transform: scale(0.96);
+@keyframes drift2 {
+  50% { transform: translate(6%, 10%); }
 }

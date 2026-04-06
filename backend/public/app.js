@@ -4,7 +4,7 @@ const clearBtn = document.querySelector('.soft-btn');
 
 btn.addEventListener('click', () => {
   if (!textarea.value.trim()) {
-    alert("Paste something to scan first.");
+    alert("Paste something first.");
     return;
   }
 
