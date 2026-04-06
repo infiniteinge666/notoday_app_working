@@ -1,66 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Notoday</title>
+        <title>Notoday</title>
 
-  <link rel="stylesheet" href="styles/styles.css" />
-</head>
+        <link rel="stylesheet" href="styles/styles.css" />
+    </head>
 
-<body>
+    <body>
+        <div class="light-rays"></div>
+        <div class="dust"></div>
 
-  <div class="light-rays"></div>
-  <div class="dust"></div>
+        <div class="app">
+            <div class="logo-wrap">
+                <div class="logo-glow"></div>
+                <img src="assets/notoday-shield.svg" class="logo" />
+            </div>
 
-  <div class="app">
+            <h1 class="title">Check before you trust.</h1>
 
+            <!-- ✅ FIXED: properly closed -->
+            <div class="top-actions">
+                <button id="clearBtn" class="soft-btn">Clear</button>
 
-<div class="logo-wrap">
-  <div class="logo-glow"></div>
-  <img src="assets/notoday-shield.svg" class="logo" />
-</div>
+                <button
+                    id="uploadBtn"
+                    class="soft-btn icon"
+                    aria-label="Upload screenshot"
+                >
+                    <img src="assets/upload-icon.png" alt="" />
+                </button>
 
-<h1 class="title">Check before you trust.</h1>
+                <input type="file" id="fileInput" accept="image/*" hidden />
+            </div>
 
-<!-- ✅ FIXED: properly closed -->
-<div class="top-actions">
-  <button class="soft-btn" id="clearBtn">Clear</button>
+            <div class="card">
+                <label class="label" for="input"
+                    >What do you want to check?</label
+                >
 
- <button class="soft-btn icon" id="uploadBtn" aria-label="Upload screenshot">
-  <img src="assets/upload-icon.png" alt="" />
-</button>
+                <textarea
+                    class="input"
+                    id="input"
+                    placeholder="Paste a message, link, email body, or scam wording here..."
+                ></textarea>
+            </div>
 
-<input
-  type="file"
-  id="fileInput"
-  accept="image/*"
-  hidden
-/>
+            <!-- RESULT PANEL -->
+            <div class="result hidden" id="result"></div>
+        </div>
 
-<div class="card">
-  <label class="label" for="input">What do you want to check?</label>
+        <div class="bottom-bar">
+            <button class="cta" id="scanBtn">RUN SCAN</button>
+        </div>
 
-  <textarea
-    class="input"
-    id="input"
-    placeholder="Paste a message, link, email body, or scam wording here..."
-  ></textarea>
-</div>
-
-<!-- RESULT PANEL -->
-<div class="result hidden" id="result"></div>
-
-
-  </div>
-
-  <div class="bottom-bar">
-    <button class="cta" id="scanBtn">RUN SCAN</button>
-  </div>
-
-  <script src="app.js"></script>
-
-</body>
+        <script src="app.js"></script>
+    </body>
 </html>
