@@ -1,59 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NoToday</title>
-
-  <link rel="stylesheet" href="styles/styles.css" />
-</head>
-
 <body class="state-idle">
 
-  <!-- BACKGROUND PULSE -->
-  <div id="pulseBg"></div>
+  <!-- LAYER 3: FX -->
+  <div class="fx-layer"></div>
 
-  <!-- MAIN CONTAINER -->
-  <main class="app">
+  <!-- LAYER 2: STATE IMAGE -->
+  <div class="state-layer"></div>
 
-    <!-- LOGO -->
-    <div class="logo-wrap">
+  <!-- LAYER 0: UI CORE -->
+  <main class="ui-layer">
+
+    <!-- TOP -->
+    <div class="top">
       <img src="./assets/notoday-shield.svg" class="logo" />
     </div>
 
-    <!-- GLASS PANEL -->
-    <div class="glass-panel">
+    <!-- MIDDLE -->
+    <div class="middle">
 
-      <!-- INPUT -->
-      <textarea 
-        id="scanInput" 
-        placeholder="Paste message, link, email..."
-      ></textarea>
+      <div class="glass input-box">
+        <textarea id="scanInput" placeholder="Paste message, link, email..."></textarea>
+      </div>
 
-      <!-- ACTION BUTTONS -->
       <div class="actions">
         <button id="pasteBtn">Paste</button>
         <button id="uploadBtn">Upload</button>
         <button id="clearBtn">Clear</button>
       </div>
 
-      <!-- RESULT -->
-      <div id="resultBox">
-        <h2 id="resultHeading"></h2>
-        <p id="resultReason"></p>
-      </div>
+      <div id="resultBox"></div>
 
     </div>
 
-    <!-- PRIMARY CTA -->
-    <button id="scanBtn" class="scan-btn">
-      RUN SCAN
-    </button>
-
   </main>
+
+  <!-- LAYER 1: INTERACTION (ALWAYS ON TOP) -->
+  <div class="interaction-layer">
+    <button id="scanBtn" class="scan-btn">RUN SCAN</button>
+  </div>
 
   <input type="file" id="fileInput" accept="image/*" hidden />
 
   <script src="./app.js"></script>
 </body>
-</html>
