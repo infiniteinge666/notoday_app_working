@@ -1,4 +1,4 @@
-/* ========================= RESET ========================= */
+/* ================= RESET ================= */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -11,10 +11,13 @@ body {
   overflow: hidden;
   color: white;
 
-  background: radial-gradient(circle at 50% 20%, #0f1720, #05080c);
+  background:
+    radial-gradient(circle at 50% 20%, rgba(0,255,255,0.12), transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(0,150,255,0.08), transparent 60%),
+    #05080c;
 }
 
-/* ========================= BACKGROUND ========================= */
+/* ================= ATMOSPHERE ================= */
 
 body::before,
 body::after {
@@ -45,86 +48,88 @@ body::after {
   50% { transform: translate(5%, 5%) scale(1.15); }
 }
 
-/* ========================= APP ========================= */
+/* ================= APP ================= */
 
 .app {
   position: relative;
   z-index: 5;
   max-width: 420px;
   margin: 0 auto;
-  padding: 40px 20px 140px;
+  padding: 60px 20px 140px;
 }
 
-/* ========================= LOGO ========================= */
+/* ================= LOGO ================= */
 
 .logo-wrap {
   position: relative;
-  width: 72px;
-  height: 72px;
-  margin: 0 auto 16px;
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 20px;
 }
 
 .logo {
   width: 100%;
-  z-index: 2;
   position: relative;
+  z-index: 2;
 }
 
 .logo-glow {
   position: absolute;
-  inset: 0;
+  inset: -25%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,255,255,0.4), transparent);
-  filter: blur(18px);
+  background: radial-gradient(circle,
+    rgba(0,255,255,0.7),
+    rgba(0,255,255,0.2),
+    transparent 70%);
+  filter: blur(35px);
   animation: pulse 2.5s infinite;
 }
 
 @keyframes pulse {
-  0%,100% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.15); opacity: 1; }
+  0%,100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 1; }
 }
 
-/* ========================= TEXT ========================= */
+/* ================= TEXT ================= */
 
 .title {
   text-align: center;
-  font-size: 22px;
-  margin-bottom: 20px;
+  font-size: 24px;
+  margin-bottom: 24px;
 }
 
-/* ========================= ACTIONS ========================= */
+/* ================= ACTIONS ================= */
 
 .top-actions {
   display: flex;
   gap: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .mini-btn {
   background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
   color: white;
   padding: 8px 14px;
   border-radius: 12px;
+  backdrop-filter: blur(6px);
 }
 
-/* ========================= CARD ========================= */
+/* ================= CARD ================= */
 
 .card {
-  position: relative;
-  z-index: 6;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 22px;
 
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 18px;
+  padding: 18px;
 
-  padding: 16px;
-
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(20px);
 
   box-shadow:
-    0 20px 60px rgba(0,0,0,0.6),
-    0 0 20px rgba(0,255,255,0.05);
+    0 30px 80px rgba(0,0,0,0.8),
+    0 0 30px rgba(0,255,255,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.1);
 }
 
 .label {
@@ -133,22 +138,24 @@ body::after {
   color: rgba(255,255,255,0.7);
 }
 
-/* ========================= INPUT ========================= */
+/* ================= INPUT ================= */
 
 .input {
   width: 100%;
-  min-height: 140px;
-  border-radius: 14px;
+  min-height: 150px;
+  border-radius: 16px;
   padding: 14px;
 
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
 
   color: white;
   resize: none;
+
+  backdrop-filter: blur(8px);
 }
 
-/* ========================= CTA ========================= */
+/* ================= CTA ================= */
 
 .bottom-bar {
   position: fixed;
@@ -165,19 +172,7 @@ body::after {
   backdrop-filter: blur(12px);
 }
 
-.bottom-bar::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  background: radial-gradient(circle at 50% 0%, rgba(0,255,255,0.15), transparent 60%);
-  pointer-events: none;
-}
-
 .cta {
-  position: relative;
-  z-index: 30;
-
   width: 100%;
   height: 64px;
 
@@ -185,28 +180,39 @@ body::after {
   border: none;
 
   font-weight: 800;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
 
-  background: linear-gradient(135deg, #00f0ff, #00c2ff);
+  background: linear-gradient(135deg, #00f0ff, #00cfff);
 
   color: white;
 
   box-shadow:
-    0 0 25px rgba(0,255,255,0.6),
-    0 20px 60px rgba(0,0,0,0.8),
-    inset 0 2px 4px rgba(255,255,255,0.4);
+    0 0 40px rgba(0,255,255,0.8),
+    0 10px 40px rgba(0,0,0,0.9),
+    inset 0 2px 6px rgba(255,255,255,0.5),
+    inset 0 -2px 6px rgba(0,0,0,0.3);
+
+  transition: all 0.25s ease;
 }
 
-/* ========================= STATES ========================= */
+.cta:active {
+  transform: scale(0.97);
+}
+
+/* ================= STATES ================= */
 
 body.state-safe .cta {
-  box-shadow: 0 0 20px rgba(0,255,140,0.5);
+  box-shadow: 0 0 25px rgba(0,255,140,0.7);
 }
 
 body.state-suspicious .cta {
-  box-shadow: 0 0 20px rgba(255,170,0,0.5);
+  box-shadow: 0 0 25px rgba(255,170,0,0.7);
 }
 
 body.state-critical .cta {
-  box-shadow: 0 0 20px rgba(255,60,60,0.6);
+  box-shadow: 0 0 25px rgba(255,60,60,0.8);
+}
+
+body.state-scanning .logo-glow {
+  animation: pulse 0.8s infinite;
 }
