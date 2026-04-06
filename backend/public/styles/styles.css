@@ -62,8 +62,8 @@ body {
   inset: -50%;
   background:    linear-gradient(      125deg,      transparent 35%,      rgba(181, 250, 252, 0.151),      transparent 65%    );
   filter: blur(100px);
-  animation: beamMove2 55s easeInShine infinite;
-  -webkit-animation: beamMove2 55s easeInShine infinite;
+  animation: beamMove2 55s ease-in-out infinite;
+  -webkit-animation: beamMove2 55s ease-in-out infinite;
 }
 
 /* ================= DUST ================= */
@@ -157,8 +157,8 @@ body {
   padding: 10px 16px;
   border-radius: 16px;
 
-  background: rgba(24,36,53,0.6);
-  border: 1px solid rgba(70,89,119,0.4);
+  background: rgba(3, 130, 168, 0.6);
+  border: 1px solid rgba(17, 215, 250, 0.4);
   color: white;
 }
 
@@ -231,7 +231,7 @@ body {
   box-shadow:
     inset 0 var(--accent-primary) 6px rgba(255, 255, 255, 0.329),
     inset 0 -8px 20px rgba(192, 192, 192, 0.384),
-    0 10px 30px rgba(0, 127, 136, 0.562);
+    0 10px 30px rgba(3, 191, 204, 0.562);
 
   color: white;
   font-weight: 700;
