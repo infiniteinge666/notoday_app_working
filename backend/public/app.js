@@ -14,6 +14,9 @@ clearBtn.onclick = () => {
   clickSound.play().catch(() => {});
   input.value = "";
   result.classList.add("hidden");
+
+  // also clear state
+  body.classList.remove("state-safe", "state-warning", "state-critical");
 };
 
 // SCAN
@@ -62,33 +65,50 @@ function startScan() {
 function renderResult(data) {
   body.classList.remove("scanning");
 
-  result.className = "result"; // reset
+  result.className = "result";
   result.classList.remove("hidden");
 
-  // remove old state
+  // reset state
   body.classList.remove("state-safe", "state-warning", "state-critical");
 
   const band = data.band;
+  const reason = data.reasons?.[0] || "";
+
+  let title = "";
+  let message = "";
 
   if (band === "SAFE") {
     body.classList.add("state-safe");
     result.classList.add("safe");
-    result.innerText = "✅ Safe — No threats detected.";
+
+    title = "✅ SAFE";
+    message = reason || "No threats detected.";
   }
 
   if (band === "SUSPICIOUS") {
     body.classList.add("state-warning");
     result.classList.add("warning");
-    result.innerText = data.reasons?.[0] || "⚠️ Suspicious — Be careful.";
+
+    title = "⚠️ SUSPICIOUS";
+    message = reason || "Something looks off.";
   }
 
   if (band === "CRITICAL") {
     body.classList.add("state-critical");
     result.classList.add("danger");
-    result.innerText = data.reasons?.[0] || "🚨 Dangerous — Likely scam.";
+
+    title = "🚨 CRITICAL";
+    message = reason || "Likely scam.";
   }
 
   if (band === "ERROR") {
-    result.innerText = "⚠️ Something went wrong. Try again.";
+    title = "⚠️ ERROR";
+    message = "Something went wrong. Try again.";
   }
+
+  // 🔥 IMPORTANT: structured output (state + reason)
+  result.innerHTML = `
+    <div class="result-title">${title}</div>
+    <div class="result-reason">${message}</div>
+  `;
 }
