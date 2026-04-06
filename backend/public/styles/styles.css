@@ -75,7 +75,7 @@ body {
   inset: 0;
 
   background:
-    radial-gradient(circle at 50% 30%, rgba(181, 250, 252, 0.233), transparent 60%);
+    radial-gradient(circle at 50% 30%, rgba(0, 151, 197, 0.356), transparent 60%);
 
   animation: pulse 10s ease-in-out infinite;
 }
@@ -95,7 +95,7 @@ body {
   inset: -50%;
 
   background:
-    radial-gradient(circle, rgba(181,250,252,0.08) 1px, transparent 1px);
+    radial-gradient(circle, rgba(181, 250, 252, 0.226) 1px, transparent 1px);
 
   background-size: 140px 140px;
 
@@ -254,8 +254,8 @@ body {
   backdrop-filter: blur(20px);
 
   box-shadow:
-    inset 0 2px 6px rgba(255,255,255,0.5),
-    inset 0 -8px 20px rgba(0,0,0,0.3),
+    inset 0 2px 6px rgba(2, 229, 245, 0.384),
+    inset 0 -8px 20px rgba(255, 255, 255, 0.3),
     0 10px 30px rgba(0,0,0,0.6);
 
   color: white;
