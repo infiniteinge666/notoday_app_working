@@ -4,7 +4,7 @@
   --bg-dark: #10131D;
   --accent-primary: #3ED1DA;
   --accent-soft: #B5FAFC;
-  --text-primary: rgba(255,255,255,0.9);
+  --text-primary: rgba(255, 255, 255, 0.973);
   --text-secondary: rgba(255,255,255,0.6);
 }
 
@@ -23,7 +23,7 @@ html, body {
 /* ================= BASE ================= */
 
 body {
-  font-family: system-ui, sans-serif;
+  font-family: manrope, sans-serif;
   color: var(--text-primary);
   overflow: hidden;
 
