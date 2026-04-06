@@ -153,9 +153,9 @@ body {
 .logo-glow {
   position: absolute;
   inset: -40%;
-  background: radial-gradient(circle, var(--accent-primary), transparent);
-  -webkit-filter: blur(30px);
-  filter: blur(10px);
+  background: radial-gradient(circle, var(--accent-soft), transparent);
+  -webkit-filter: blur(50px);
+  filter: blur(50px);
 }
 
 /* ================= TEXT ================= */
