@@ -38,8 +38,8 @@ body {
   justify-content: center;
 
   background:
-    radial-gradient(circle at 50% 25%, rgba(62,209,218,0.25), transparent 40%),
-    radial-gradient(circle at 50% 80%, rgba(70,89,119,0.25), transparent 60%),
+    radial-gradient(circle at 50% 25%, rgba(62, 210, 218, 0.329), transparent 40%),
+    radial-gradient(circle at 50% 80%, rgba(70, 89, 119, 0.486), transparent 60%),
     var(--bg-dark);
 }
 
@@ -61,7 +61,7 @@ body {
     from 0deg,
     rgba(105, 207, 212, 0.274),
     transparent 20%,
-    rgba(181,250,252,0.06),
+    rgba(251, 253, 253, 0.199),
     transparent 40%
   );
 
@@ -75,7 +75,7 @@ body {
   inset: 0;
 
   background:
-    radial-gradient(circle at 50% 30%, rgba(0, 151, 197, 0.356), transparent 60%);
+    radial-gradient(circle at 50% 30%, rgba(0, 111, 145, 0.356), transparent 60%);
 
   animation: pulse 10s ease-in-out infinite;
 }
