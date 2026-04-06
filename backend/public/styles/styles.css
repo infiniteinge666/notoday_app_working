@@ -94,7 +94,7 @@ body {
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  background: url("../assets/state-idle.png") center/contain no-repeat;
+  background: url("../assets/state-Idle.png") center/contain no-repeat;
 }
 
 body.state-safe .state-layer {
