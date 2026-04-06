@@ -1,163 +1,175 @@
-/* =========================
-   RESET
-========================= */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  height: 100%;
-  overflow: hidden;
-}
+/* RESET */
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; overflow:hidden; }
 
 body {
-  height: 100dvh;
-  font-family: system-ui, sans-serif;
-  color: white;
-  position: relative;
-  background: linear-gradient(to right, rgba(14, 17, 27, 1) 0%, 11.340206116437912%, rgba(16, 22, 36, 1) 22.680412232875824%, 61.34020611643791%, rgba(65, 87, 113, 1) 100%);
-
+  height:100dvh;
+  font-family: system-ui;
+  color:white;
+  background:#182435;
 }
 
-/* =========================
-   LAYERS
-========================= */
+/* FX */
 .fx-layer {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
+  position:fixed;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
 }
 
+.beam {
+  position:absolute;
+  width:120%;
+  height:200%;
+  filter:blur(40px);
+}
+
+.beam-1 {
+  top:-40%; left:-60%;
+  background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,0.12),transparent 70%);
+  animation:beamMove1 14s linear infinite;
+}
+
+.beam-2 {
+  top:-30%; right:-60%;
+  background:linear-gradient(100deg,transparent 30%,rgba(180,240,255,0.08),transparent 70%);
+  animation:beamMove2 18s linear infinite;
+}
+
+.dust {
+  position:absolute;
+  inset:0;
+  background:radial-gradient(rgba(255,255,255,0.15) 1px, transparent 1px);
+  background-size:5px 5px;
+  opacity:0.15;
+  animation:drift1 40s linear infinite;
+}
+
+/* STATE */
 .state-layer {
-  position: fixed;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  background: url("../assets/state-Idlel.png") center/contain no-repeat;
+  position:fixed;
+  inset:0;
+  z-index:2;
+  background:url("../assets/state-idle.png") center/contain no-repeat;
 }
 
+/* UI */
 .ui-layer {
-  position: relative;
-  z-index: 4;
-
-  height: 100%;
-  display: grid;
-  grid-template-rows: 33.33% 33.33% 33.33%;
-  padding: 20px;
+  position:relative;
+  z-index:4;
+  height:100%;
+  display:grid;
+  grid-template-rows:1fr 1fr;
+  padding:40px;
 }
 
-/* =========================
-   ZONES (FIXED BEHAVIOR)
-========================= */
-.zone-top {
-  display: flex;
-  align-items: flex-start;   /* 🔥 was center */
-  justify-content: center;
-  padding-top: 15px;
+.zone-top { display:flex; justify-content:center; }
+.zone-middle { display:flex; justify-content:center; }
+
+.logo { width:120px; opacity:0.8; }
+
+/* GLASS SHEET */
+.glass-sheet {
+  width:100%;
+  max-width:380px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+
+  backdrop-filter:blur(20px);
+  background:rgba(1,64,100,0.25);
+  border-radius:20px;
+  padding:20px;
 }
 
-.zone-middle {
-  display: flex;
-  align-items: flex-start;   /* 🔥 CRITICAL FIX */
-  justify-content: center;
-}
-
-.zone-bottom {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-/* =========================
-   LOGO
-========================= */
-.logo {
-  width: 120px;
-  opacity: 0.8;
-}
-
-/* =========================
-   MIDDLE STACK (NO CENTERING)
-========================= */
-.middle-stack {
-  width: 100%;
-  max-width: 380px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-
-  margin-top: 10px; /* 🔥 anchor down */
-}
-
-/* =========================
-   INPUT
-========================= */
-.glass {
-  backdrop-filter: blur(20px);
-  background: rgba(255,255,255,0.08);
-  border-radius: 20px;
-  padding: 14px;
-}
-
+/* INPUT */
 textarea {
-  width: 100%;
-  height: 100px;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: white;
-  font-size: 16px;
+  width:100%;
+  height:100px;
+  border:none;
+  outline:none;
+  background:transparent;
+  color:white;
 }
 
-/* =========================
-   BUTTON ROW
-========================= */
+/* ACTIONS */
 .actions {
-  display: flex;
-  gap: 10px;
+  display:flex;
+  gap:10px;
 }
 
-.actions button {
-  flex: 1;
-  padding: 10px;
-  border-radius: 12px;
-  border: none;
-  background: rgba(255,255,255,0.1);
-  color: white;
+/* BUTTON SYSTEM (FROM YOUR FILE) */
+/* INCLUDED EXACTLY — trimmed only where needed */
+
+.button-wrap {
+  position: relative;
+  z-index: 2;
+  border-radius: 999vw;
+  background: transparent;
+  pointer-events: none;
 }
 
-/* =========================
-   RESULT
-========================= */
-#resultBox {
-  width: 100%;
+.button-shadow {
+  position: absolute;
+  inset:-8px;
+  filter: blur(8px);
+  pointer-events: none;
 }
 
-/* =========================
-   SCAN BUTTON (LOCKED)
-========================= */
-.interaction-layer {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  right: 20px;
-  z-index: 5;
+button {
+  all: unset;
+  cursor: pointer;
+  pointer-events: auto;
+  border-radius: 999vw;
+  backdrop-filter: blur(6px);
+
+  background: linear-gradient(
+    -75deg,
+    rgba(255,255,255,0.05),
+    rgba(255,255,255,0.2),
+    rgba(255,255,255,0.05)
+  );
+
+  box-shadow:
+    inset 0 2px 2px rgba(0,0,0,0.05),
+    inset 0 -2px 2px rgba(255,255,255,0.5),
+    0 4px 6px rgba(0,0,0,0.2);
 }
 
-.scan-btn {
-  width: 100%;
-  max-width: 380px;
-  margin: 0 auto;
+button span {
+  display:block;
+  padding:12px 18px;
+  font-size:14px;
+  color:white;
+}
 
-  height: 60px;
-  border-radius: 20px;
-  border: none;
-  font-size: 18px;
+/* CTA */
+.bottom-bar {
+  position:fixed;
+  bottom:20px;
+  left:0;
+  right:0;
+  display:flex;
+  justify-content:center;
+  z-index:5;
+}
 
-  background: linear-gradient(145deg, #026873, #0396A6);
-  color: white;
+.cta span {
+  font-size:16px;
+  font-weight:700;
+}
+
+/* ANIMATIONS */
+@keyframes beamMove1 {
+  0% { transform: translateX(-60%) rotate(10deg); }
+  100% { transform: translateX(160%) rotate(10deg); }
+}
+
+@keyframes beamMove2 {
+  0% { transform: translateX(60%) rotate(-10deg); }
+  100% { transform: translateX(-160%) rotate(-10deg); }
+}
+
+@keyframes drift1 {
+  50% { transform: translate(-5%, -8%); }
 }

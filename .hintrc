@@ -25,6 +25,7 @@
         ]
       }
     ],
-    "axe/text-alternatives": "off"
+    "axe/text-alternatives": "off",
+    "css-prefix-order": "off"
   }
 }
