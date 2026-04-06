@@ -21,7 +21,8 @@
 				"andrewmcodes.tailwindcss-extension-pack",
 				"bradlc.vscode-tailwindcss",
 				"sakryukov.tesseract-act",
-				"austenc.tailwind-docs"
+				"austenc.tailwind-docs",
+				"geekanant.code-ocr"
 			]
 		}
 	}
