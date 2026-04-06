@@ -4,22 +4,20 @@ const result = document.getElementById("result");
 const clearBtn = document.getElementById("clearBtn");
 const body = document.body;
 
-// 🔊 CLICK SOUND (preload to remove lag)
+const uploadBtn = document.getElementById("uploadBtn");
+const fileInput = document.getElementById("fileInput");
+
 const clickSound = new Audio("./assets/click.mp3");
 clickSound.preload = "auto";
 clickSound.volume = 0.25;
 
-// CLEAR
+// ================= CLEAR =================
 clearBtn.onclick = () => {
   clickSound.play().catch(() => {});
-  input.value = "";
-  result.classList.add("hidden");
-
-  // also clear state
-  body.classList.remove("state-safe", "state-warning", "state-critical");
+  resetUI();
 };
 
-// SCAN
+// ================= TEXT SCAN =================
 btn.onclick = async () => {
   clickSound.play().catch(() => {});
 
@@ -33,42 +31,67 @@ btn.onclick = async () => {
   try {
     const res = await fetch("/check", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        text: input.value
-      })
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: input.value })
     });
 
     const data = await res.json();
-
     renderResult(data.data);
 
-  } catch (err) {
-    console.error(err);
-
-    renderResult({
-      band: "ERROR",
-      reasons: ["System could not complete the scan."]
-    });
+  } catch {
+    renderResult({ band: "ERROR", reasons: ["Scan failed"] });
   }
 };
 
-// SCANNING STATE (NO RISK STATE HERE)
+// ================= IMAGE SCAN =================
+uploadBtn.onclick = () => {
+  clickSound.play().catch(() => {});
+  fileInput.click();
+};
+
+fileInput.onchange = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  startScan();
+
+  const reader = new FileReader();
+
+  reader.onload = async () => {
+    try {
+      const base64 = reader.result.split(",")[1];
+
+      const res = await fetch("/check", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imageBase64: base64 })
+      });
+
+      const data = await res.json();
+      renderResult(data.data);
+
+    } catch {
+      renderResult({ band: "ERROR", reasons: ["Image scan failed"] });
+    }
+  };
+
+  reader.readAsDataURL(file);
+};
+
+// ================= SCAN STATE =================
 function startScan() {
   body.classList.add("scanning");
   result.classList.add("hidden");
+  document.activeElement.blur(); // 🔥 kills mobile zoom
 }
 
-// 🔒 ONLY PLACE WHERE STATE IS APPLIED
+// ================= RESULT =================
 function renderResult(data) {
   body.classList.remove("scanning");
 
   result.className = "result";
   result.classList.remove("hidden");
 
-  // reset state
   body.classList.remove("state-safe", "state-warning", "state-critical");
 
   const band = data.band;
@@ -79,36 +102,44 @@ function renderResult(data) {
 
   if (band === "SAFE") {
     body.classList.add("state-safe");
-    result.classList.add("safe");
-
     title = "✅ SAFE";
     message = reason || "No threats detected.";
   }
 
   if (band === "SUSPICIOUS") {
     body.classList.add("state-warning");
-    result.classList.add("warning");
-
     title = "⚠️ SUSPICIOUS";
     message = reason || "Something looks off.";
   }
 
   if (band === "CRITICAL") {
     body.classList.add("state-critical");
-    result.classList.add("danger");
-
     title = "🚨 CRITICAL";
     message = reason || "Likely scam.";
   }
 
   if (band === "ERROR") {
     title = "⚠️ ERROR";
-    message = "Something went wrong. Try again.";
+    message = "Something went wrong.";
   }
 
-  // 🔥 IMPORTANT: structured output (state + reason)
   result.innerHTML = `
     <div class="result-title">${title}</div>
     <div class="result-reason">${message}</div>
   `;
+
+  // 🔥 AUTO RESET (CLEAN RETURN)
+  setTimeout(resetUI, 3000);
+}
+
+// ================= RESET =================
+function resetUI() {
+  input.value = "";
+  result.classList.add("hidden");
+
+  body.classList.remove(
+    "state-safe",
+    "state-warning",
+    "state-critical"
+  );
 }

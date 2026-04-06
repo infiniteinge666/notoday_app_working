@@ -1,11 +1,8 @@
-/* ================= TOKENS ================= */
+/* ================= ROOT ================= */
 
 :root {
-  --bg-dark: #10131D;
-  --accent-primary: #3ED1DA;
-  --accent-soft: #B5FAFC;
-  --text-primary: rgba(255, 255, 255, 0.97);
-  --text-secondary: rgba(255,255,255,0.6);
+  --pulse-color: rgba(62,210,218,0.25);
+  --pulse-speed: 4s;
 }
 
 /* ================= RESET ================= */
@@ -18,62 +15,38 @@
 
 html, body {
   height: 100%;
+  overflow: hidden;
 }
 
-/* ================= BASE ================= */
+/* ================= BODY ================= */
 
 body {
-  font-family: manrope, sans-serif;
-  color: var(--text-primary);
+  font-family: system-ui, sans-serif;
+  color: white;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  overflow: hidden;
-
-  transition: background 0.4s ease;
-
-  background:
-    radial-gradient(circle at 50% 80%, rgba(70,89,119,0.25), transparent 60%),
-    var(--bg-dark);
+  background: #0c0f17;
 }
 
-/* ================= UTIL ================= */
+/* ================= GLOBAL PULSE ================= */
 
-.hidden {
-  display: none;
-}
-
-/* ================= BACKGROUND ================= */
-
-.light-rays,
-.dust {
+body::before {
+  content: "";
   position: fixed;
-  inset: 0;
-  z-index: 1;
+  inset: -30%;
+
+  background: radial-gradient(circle at center, var(--pulse-color), transparent 70%);
+
+  animation: pulse var(--pulse-speed) infinite ease-in-out;
+
+  z-index: 0;
   pointer-events: none;
 }
 
-.light-rays::before {
-  content: "";
-  position: absolute;
-  inset: -50%;
-  background: linear-gradient(115deg, transparent 30%, rgba(62,210,218,0.4), transparent 70%);
-  filter: blur(80px);
-  animation: beamMove 40s linear infinite;
-}
-
-.dust::before {
-  content: "";
-  position: absolute;
-  inset: -50%;
-  background: radial-gradient(circle, rgba(171,252,255,0.4) 1px, transparent 1px);
-  background-size: 140px 140px;
-  animation: drift 60s linear infinite;
-}
-
-/* ================= APP LAYOUT ================= */
+/* ================= APP ================= */
 
 .app {
   position: relative;
@@ -85,236 +58,164 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 
-  gap: 18px;
+  gap: 20px;
   padding: 20px;
 }
 
 /* ================= LOGO ================= */
 
-.logo-wrap {
-  width: 80px;
-  position: relative;
-}
-
 .logo {
-  width: 100%;
-}
-
-.logo-glow {
-  position: absolute;
-  inset: -40%;
-  filter: blur(40px);
-  background: radial-gradient(circle, var(--accent-soft), transparent 40%);
-}
-
-/* ================= TEXT ================= */
-
-.title {
-  text-align: center;
-  line-height: 1.4;
-}
-
-/* ================= ACTIONS ================= */
-
-.top-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-}
-
-/* ================= BUTTONS ================= */
-
-.soft-btn {
-  padding: 10px 16px;
-  border-radius: 16px;
-
-  background: rgba(3,130,168,0.3);
-  border: 1px solid rgba(17,215,250,0.4);
-
-  color: white;
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.soft-btn.icon {
-  width: 50px;
-  height: 50px;
-}
-
-/* ================= CARD ================= */
-
-.card {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-
-  background: rgba(24,36,53,0.6);
-  border-radius: 24px;
-  padding: 16px;
-}
-
-.label {
-  color: var(--text-secondary);
-  font-size: 14px;
+  width: 80px;
+  opacity: 0.8;
 }
 
 /* ================= INPUT ================= */
+
+.card {
+  width: 100%;
+}
 
 .input {
   width: 100%;
   min-height: 120px;
 
-  padding: 14px;
+  padding: 16px;
   border-radius: 16px;
 
-  background: rgba(16,19,29,0.5);
-  border: none;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
 
   color: white;
+  font-size: 16px;
+
   resize: none;
 }
 
-/* ================= RESULT ================= */
+/* ================= BUTTON SYSTEM ================= */
 
-.result {
-  width: 100%;
+.soft-btn,
+.cta {
+  position: relative;
+
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.12);
+
+  background: rgba(255,255,255,0.05);
+
+  backdrop-filter: blur(18px);
+
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
 
-  text-align: center;
-  gap: 6px;
-
-  transition: all 0.3s ease;
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
 }
 
-.result-title {
-  font-size: 20px;
-  font-weight: 700;
-}
+/* PRESS */
 
-.result-reason {
-  font-size: 14px;
-  opacity: 0.8;
+.soft-btn:active,
+.cta:active {
+  transform: scale(0.92);
+
+  box-shadow:
+    inset 0 6px 12px rgba(0,0,0,0.5);
 }
 
 /* ================= CTA ================= */
-
-.bottom-bar {
-  position: fixed;
-  bottom: 24px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
 
 .cta {
   width: calc(100% - 60px);
   max-width: 340px;
   height: 64px;
-
   border-radius: 999px;
-  border: 1px solid rgba(181,250,252,0.6);
-
-  background: rgba(180,240,255,0.15);
-  backdrop-filter: blur(20px);
-
-  color: white;
   font-weight: 700;
-  cursor: pointer;
+}
 
-  transition: all 0.3s ease;
+/* ================= RESULT ================= */
+
+.result {
+  text-align: center;
+}
+
+/* ================= LOADER ================= */
+
+.loader {
+  width: 160px;
+  aspect-ratio: 1;
+
+  position: relative;
+}
+
+.loader.hidden {
+  display: none;
+}
+
+.loader .ring {
+  position: absolute;
+  inset: 0;
+
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.15);
+
+  animation: ripple var(--pulse-speed) infinite ease-in-out;
+}
+
+.loader .ring:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.loader .ring:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+/* ================= STATES ================= */
+
+body.state-safe {
+  --pulse-color: rgba(0,200,120,0.25);
+}
+
+body.state-warning {
+  --pulse-color: rgba(255,165,0,0.25);
+}
+
+body.state-critical {
+  --pulse-color: rgba(255,50,50,0.35);
 }
 
 /* ================= SCANNING ================= */
 
-body.scanning .cta {
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-/* ================= STATE SYSTEM ================= */
-
-/* SAFE */
-body.state-safe {
-  background:
-    radial-gradient(circle at 50% 70%, rgba(0,200,120,0.25), transparent 60%),
-    #0f1a1c;
-}
-
-/* WARNING */
-body.state-warning {
-  background:
-    radial-gradient(circle at 50% 70%, rgba(255,165,0,0.25), transparent 60%),
-    #1a1a12;
-}
-
-/* CRITICAL */
-body.state-critical {
-  background:
-    radial-gradient(circle at 50% 70%, rgba(255,50,50,0.35), transparent 60%),
-    #180a0a;
-}
-
-/* GLOBAL RESPONSE */
-
-body.state-warning .app,
-body.state-critical .app {
-  transform: scale(0.98);
-  opacity: 0.9;
-}
-
-/* RESULT DOMINANCE */
-
-body.state-critical .result {
-  border: 1px solid rgba(255,80,80,0.6);
-  background: rgba(80,10,10,0.4);
-  padding: 14px;
-  border-radius: 16px;
-  transform: scale(1.05);
-}
-
-body.state-warning .result {
-  border: 1px solid rgba(255,165,0,0.5);
-  background: rgba(80,50,0,0.3);
-  padding: 12px;
-  border-radius: 16px;
-}
-
-body.state-safe .result {
-  border: 1px solid rgba(0,200,120,0.4);
-  background: rgba(0,60,40,0.25);
-}
-
-/* CTA RESPONSE */
-
-body.state-critical .cta {
-  opacity: 0.7;
-  transform: scale(0.95);
-}
-
-/* LOGO RESPONSE */
-
-body.state-critical .logo-glow {
-  background: radial-gradient(circle, rgba(255,80,80,0.6), transparent 50%);
-}
-
-body.state-warning .logo-glow {
-  background: radial-gradient(circle, rgba(255,165,0,0.5), transparent 50%);
+body.scanning {
+  --pulse-speed: 1.8s;
 }
 
 /* ================= ANIMATIONS ================= */
 
-@keyframes beamMove {
-  0% { transform: translateX(-40%); }
-  100% { transform: translateX(40%); }
+@keyframes pulse {
+  0%,100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.3;
+  }
 }
 
-@keyframes drift {
-  50% { transform: translate(-5%, -8%); }
+@keyframes ripple {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 0.2;
+  }
+
+  100% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
 }
