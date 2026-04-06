@@ -56,7 +56,7 @@ body {
   content: "";
   position: absolute;
   inset: -60%;
-  background: conic-gradient(    from 0deg,    rgba(68, 134, 138, 0.103),    transparent 20%,    rgba(251, 253, 253, 0.418),    transparent 40%  );
+  background: conic-gradient(    from 0deg,    rgba(68, 134, 138, 0.103),    transparent 20%,    rgba(251, 253, 253, 0.418),    transparent 20%  );
   filter: blur(80px);
   animation: rotate 20s linear infinite;
   -webkit-animation: rotate 20s linear infinite;
@@ -66,11 +66,9 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-
-  background:
-    radial-gradient(circle at 50% 30%, rgba(0, 111, 145, 0.356), transparent 60%);
-
-  animation: pulse 10s ease-in-out infinite;
+  background:    radial-gradient(circle at 50% 30%, rgba(0, 111, 145, 0.356), transparent 60%);
+  animation: pulse 20s ease-in-out infinite;
+  -webkit-animation: pulse 20s ease-in-out infinite;
 }
 
 /* ================= DUST ================= */
