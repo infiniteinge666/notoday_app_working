@@ -1,308 +1,150 @@
-/* ================= TOKENS ================= */
-
-:root {
-  --bg-dark: #10131D;
-  --accent-primary: #3ED1DA;
-  --accent-soft: #B5FAFC;
-  --text-primary: rgba(255, 255, 255, 0.973);
-  --text-secondary: rgba(255,255,255,0.6);
-}
-
-/* ================= RESET ================= */
-
+/* RESET */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
-  height: 100%;
-}
-
-/* ================= BASE ================= */
-
+/* BASE */
 body {
-  font-family: manrope, sans-serif;
-  color: var(--text-primary);
+  font-family: system-ui, sans-serif;
+  height: 100vh;
   overflow: hidden;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background:
-    radial-gradient(circle at 50% 80%, rgba(70,89,119,0.25), transparent 60%),
-    var(--bg-dark);
+  color: white;
 }
 
-/* ================= LIGHT BEAMS ================= */
+/* =========================
+   🌊 PULSE BACKGROUND
+========================= */
 
-.light-rays {
+#pulseBg {
   position: fixed;
   inset: 0;
-  z-index: 1;
-  pointer-events: none;
+  z-index: -1;
+  background: radial-gradient(circle at 50% 40%, #1c2a30, #05080c);
   overflow: hidden;
 }
 
-.light-rays::before {
+#pulseBg::after {
   content: "";
   position: absolute;
-  inset: -50%;
-  background:    linear-gradient(      115deg,      transparent 30%,      #3ed2da98,      rgba(181, 250, 252, 0.384),      rgba(52, 224, 233, 0.226),      transparent 70%    );
-  filter: blur(80px);
-  animation: beamMove1 40s ease-in-out infinite;
-  -webkit-animation: beamMove1 40s ease-in-out infinite;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.05), transparent 60%);
+  animation: pulse 6s infinite ease-in-out;
 }
 
-.light-rays::after {
-  content: "";
-  position: absolute;
-  inset: -50%;
-  background:    linear-gradient(      125deg,      transparent 35%,      rgba(181, 250, 252, 0.226),      transparent 65%    );
-  filter: blur(100px);
-  animation: beamMove2 55s ease-in-out infinite;
-  -webkit-animation: beamMove2 55s ease-in-out infinite;
+@keyframes pulse {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  50% { transform: scale(1.1); opacity: 0.3; }
+  100% { transform: scale(0.9); opacity: 0.6; }
 }
 
-/* ================= DUST ================= */
+/* =========================
+   🧠 STATE COLORS
+========================= */
 
-.dust {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
+body.state-safe #pulseBg {
+  background: radial-gradient(circle, #1f3f2b, #05080c);
 }
 
-.dust::before {
-  content: "";
-  position: absolute;
-  inset: -50%;
-
-  background:
-    radial-gradient(circle, rgba(171, 252, 255, 0.582) 1px, transparent 1px);
-
-  background-size: 140px 140px;
-
-  animation: drift1 60s linear infinite;
-  mix-blend-mode: soft-light;
-  opacity: 0.9;
+body.state-suspicious #pulseBg {
+  background: radial-gradient(circle, #4a2f14, #05080c);
 }
 
-.dust::after {
-  content: "";
-  position: absolute;
-  inset: -50%;
-  background:    radial-gradient(circle, rgba(251, 254, 255, 0.801) 2px, transparent 2px);
-  background-size: 260px 260px;
-  animation: drift2 90s linear infinite;
-  mix-blend-mode: soft-light;
-  opacity: 0.3;
-  -webkit-animation: drift2 90s linear infinite;
+body.state-critical #pulseBg {
+  background: radial-gradient(circle, #4a1c1c, #05080c);
 }
 
-/* ================= APP ================= */
+/* =========================
+   📱 LAYOUT
+========================= */
 
 .app {
-  position: relative;
-  z-index: 2;
-
-  max-width: 420px;
-  width: 100%;
-
+  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-
-  padding: 10px;
+  justify-content: space-between;
+  padding: 20px;
 }
 
-/* ================= LOGO ================= */
-
+/* LOGO */
 .logo-wrap {
-  width: 90px;
-  margin-bottom: 16px;
-  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
 }
 
 .logo {
+  width: 120px;
+  opacity: 0.8;
+}
+
+/* =========================
+   🧊 GLASS PANEL
+========================= */
+
+.glass-panel {
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.05);
+  border-radius: 20px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+/* INPUT */
+textarea {
   width: 100%;
-}
-
-.logo-glow {
-  position: absolute;
-  inset: -40%;
-  background: radial-gradient(circle, var(--accent-soft), transparent 30%);
-  filter: blur(40px);
-}
-
-/* ================= TEXT ================= */
-
-.title {
-  text-align: center;
-  max-width: 280px;
-  margin-bottom: 24px;
-}
-
-/* ================= BUTTONS ================= */
-
-.top-actions {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 20px;
-  justify-content: center; /* 🔥 centers group */
-}
-
-/* BASE BUTTON */
-
-.soft-btn,
-.cta {
-  position: relative;
-
-  border-radius: 18px;
-  border: 1px solid rgba(62, 210, 218, 0.25);
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255,255,255,0.12),
-      rgba(255,255,255,0.03)
-    ),
-    rgba(62, 210, 218, 0.05);
-
-  backdrop-filter: blur(18px);
-
+  height: 100px;
+  border: none;
+  outline: none;
+  resize: none;
+  background: transparent;
   color: white;
+  font-size: 16px;
+}
 
+/* ACTIONS */
+.actions {
   display: flex;
-  align-items: center;
-  justify-content: center;
-
-  transition:
-    transform 0.08s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
-
-  box-shadow:
-    0 6px 18px rgba(0, 80, 90, 0.25),
-    inset 0 1px 2px rgba(255,255,255,0.15);
+  justify-content: space-between;
+  margin-top: 10px;
 }
 
-/* SMALL BUTTON */
-
-.soft-btn {
-  padding: 10px 16px;
+.actions button {
+  flex: 1;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: white;
 }
 
-/* ICON BUTTON */
-
-.soft-btn.icon {
-  width: 50px;
-  height: 50px;
+/* RESULT */
+#resultBox {
+  margin-top: 20px;
 }
 
-.soft-btn.icon img {
-  width: 20px;
-  height: 20px;
-  opacity: 0.9;
+#resultHeading {
+  font-size: 22px;
 }
 
-/* PRESS FEEL */
-
-.soft-btn:active,
-.cta:active {
-  transform: scale(0.94);
-
-  box-shadow:
-    inset 0 6px 12px rgba(0,0,0,0.5);
+#resultReason {
+  opacity: 0.8;
 }
 
-/* SUBTLE GLOW (NOT OVERPOWERING) */
+/* =========================
+   🔘 SCAN BUTTON
+========================= */
 
-.soft-btn::after,
-.cta::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  border-radius: inherit;
-
-  background: radial-gradient(
-    circle at center,
-    rgba(62,210,218,0.25),
-    transparent 65%
-  );
-
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.soft-btn:active::after,
-.cta:active::after {
-  opacity: 1;
-}
-
-/* ================= CTA (FIXED POSITIONING) ================= */
-
-.bottom-bar {
-  position: fixed;
-  bottom: 24px;
-  left: 0;
-  right: 0;
-
-  display: flex;
-  justify-content: center;
-  z-index: 3;
-}
-
-/* 🔥 THIS FIXES YOUR "RUN SCAN FLOATING RIGHT" ISSUE */
-
-.cta {
-  width: calc(100% - 48px); /* tighter, balanced */
-  max-width: 340px;
-  height: 64px;
-
-  border-radius: 999px;
-  font-weight: 700;
-
-  letter-spacing: 0.5px;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(181, 250, 252, 0.25),
-      rgba(255,255,255,0.08)
-    ),
-    radial-gradient(
-      circle at 50% 120%,
-      rgba(62, 210, 218, 0.2),
-      transparent 60%
-    ),
-    rgba(180,240,255,0.12);
-
-  box-shadow:
-    inset 0 2px 6px rgba(255,255,255,0.25),
-    inset 0 -8px 20px rgba(0,0,0,0.35),
-    0 12px 30px rgba(0, 100, 110, 0.4);
-}
-
-/* ================= ANIMATIONS ================= */
-
-@keyframes beamMove1 {
-  0% { transform: translateX(-40%) rotate(8deg); }
-  100% { transform: translateX(40%) rotate(8deg); }
-}
-
-@keyframes beamMove2 {
-  0% { transform: translateX(30%) rotate(-10deg); }
-  100% { transform: translateX(-30%) rotate(-10deg); }
-}
-
-@keyframes drift1 {
-  50% { transform: translate(-5%, -8%); }
-}
-
-@keyframes drift2 {
-  50% { transform: translate(6%, 10%); }
+.scan-btn {
+  height: 60px;
+  border-radius: 20px;
+  border: none;
+  font-size: 18px;
+  background: linear-gradient(145deg, #0f3c44, #0a2c32);
+  color: white;
 }
