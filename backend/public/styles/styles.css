@@ -1,0 +1,230 @@
+/* =========================
+   RESET
+========================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  height: 100vh;
+  overflow: hidden;
+  color: white;
+}
+
+/* =========================
+   🌌 BACKGROUND (ALIVE)
+========================= */
+
+body {
+  background: radial-gradient(circle at 50% 20%, #0f1720, #05080c);
+}
+
+/* WAVES */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Wave 1 */
+body::before {
+  background: radial-gradient(
+    circle at 30% 40%,
+    rgba(0, 255, 255, 0.08),
+    transparent 60%
+  );
+  animation: waveMove 18s ease-in-out infinite;
+}
+
+/* Wave 2 */
+body::after {
+  background: radial-gradient(
+    circle at 70% 60%,
+    rgba(0, 180, 255, 0.06),
+    transparent 60%
+  );
+  animation: waveMove2 24s ease-in-out infinite;
+}
+
+@keyframes waveMove {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-5%, -5%) scale(1.1); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes waveMove2 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(5%, 5%) scale(1.15); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+/* =========================
+   APP LAYOUT
+========================= */
+
+.app {
+  position: relative;
+  z-index: 2;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 40px 20px 120px;
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.logo-wrap {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 20px;
+}
+
+.logo {
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.logo-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,255,255,0.4), transparent);
+  filter: blur(20px);
+  animation: pulse 2.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%,100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+/* =========================
+   TEXT
+========================= */
+
+.title {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: rgba(255,255,255,0.9);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.top-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.mini-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 12px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 16px;
+  backdrop-filter: blur(12px);
+}
+
+.label {
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: rgba(255,255,255,0.7);
+}
+
+/* =========================
+   INPUT
+========================= */
+
+.input {
+  width: 100%;
+  min-height: 140px;
+  border-radius: 14px;
+  padding: 14px;
+
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+
+  color: white;
+  font-size: 14px;
+  resize: none;
+}
+
+/* =========================
+   CTA (THUMB ZONE)
+========================= */
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  padding: 14px 20px calc(env(safe-area-inset-bottom) + 16px);
+
+  background: linear-gradient(
+    180deg,
+    rgba(0,0,0,0),
+    rgba(0,0,0,0.8)
+  );
+
+  z-index: 3;
+}
+
+.cta {
+  width: 100%;
+  height: 64px;
+
+  border-radius: 999px;
+  border: none;
+
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+
+  color: white;
+
+  background: linear-gradient(135deg, #00f0ff, #00c2ff);
+
+  box-shadow:
+    0 0 20px rgba(0,255,255,0.4),
+    0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* =========================
+   STATES (READY FOR LOGIC)
+========================= */
+
+body.state-safe .cta {
+  box-shadow: 0 0 20px rgba(0,255,140,0.5);
+}
+
+body.state-suspicious .cta {
+  box-shadow: 0 0 20px rgba(255,170,0,0.5);
+}
+
+body.state-critical .cta {
+  box-shadow: 0 0 20px rgba(255,60,60,0.6);
+}

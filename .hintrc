@@ -24,6 +24,7 @@
           "backdrop-filter"
         ]
       }
-    ]
+    ],
+    "axe/text-alternatives": "off"
   }
 }

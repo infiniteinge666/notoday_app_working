@@ -8,7 +8,20 @@
 		"vscode": {
 			"extensions": [
 				"YuTengjing.adobe-extension-devtools",
-				"martian.tesseract"
+				"martian.tesseract",
+				"oleg-shilo.cs-script",
+				"pranaygp.vscode-css-peek",
+				"sandorengholm.csspreview",
+				"heybourn.headwind",
+				"ElyannSoto.mobile-live-preview",
+				"idered.npm",
+				"ms-vscode.powershell",
+				"PM-Production.setup-tailwind-for-vite",
+				"KalimahApps.tailwind-config-viewer",
+				"andrewmcodes.tailwindcss-extension-pack",
+				"bradlc.vscode-tailwindcss",
+				"sakryukov.tesseract-act",
+				"austenc.tailwind-docs"
 			]
 		}
 	}

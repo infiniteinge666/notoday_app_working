@@ -1,155 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover"
-  />
-  <title>NoToday</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap"
-    rel="stylesheet"
-  />
-  <link rel="stylesheet" href="/styles/render-style.css?v=2" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NoToToday Scanner</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="state-idle">
-  <div class="app-shell">
-    <div class="pulse-field" aria-hidden="true">
-      <div class="pulse-ring ring-1"></div>
-      <div class="pulse-ring ring-2"></div>
-      <div class="pulse-ring ring-3"></div>
-      <div class="pulse-core"></div>
-      <div class="ambient-glow"></div>
+
+  <div class="app">
+
+    <!-- LOGO -->
+    <div class="logo-wrap">
+      <div class="logo-glow"></div>
+      <img src="notoday-shield.svg" class="logo" />
     </div>
 
-    <main class="app-frame">
-      <header class="app-topbar">
-        <div class="brand-lockup">
-          <div class="brand-mark">
-            <img
-              src="/assets/notoday-shield.svg"
-              alt="NoToday shield"
-              class="shield"
-            />
-          </div>
+    <!-- TITLE -->
+    <h1 class="title">Check before you trust.</h1>
 
-          <div class="brand-copy">
-            <p class="eyebrow">NoToday</p>
-            <h1 class="title">Check before you trust.</h1>
-            <p class="subtitle">Plain language. Deterministic result. No storage.</p>
-          </div>
-        </div>
+    <!-- ACTIONS -->
+    <div class="top-actions">
+      <button class="mini-btn">Clear</button>
+      <button class="mini-btn">📷</button>
+    </div>
 
-        <button
-          id="intelBtn"
-          class="top-icon-btn"
-          type="button"
-          aria-label="Open intel status"
-        >
-          Intel
-        </button>
-      </header>
+    <!-- INPUT CARD -->
+    <div class="card">
+      <label class="label">What do you want to check?</label>
 
-      <section class="status-strip" id="statusStrip" aria-live="polite">
-        <div class="status-chip" id="statusChip">READY</div>
-        <p class="status-text" id="statusText">
-          Paste text or upload a screenshot to run a check.
-        </p>
-      </section>
+      <textarea
+        class="input"
+        placeholder="Paste a message, link, email body, or scam wording here..."
+      ></textarea>
+    </div>
 
-      <section class="scan-panel">
-        <div class="panel-header">
-          <div>
-            <p class="panel-kicker">Scanner</p>
-            <h2 class="panel-title">What do you want to check?</h2>
-          </div>
-          <button id="clearBtn" class="ghost-btn compact" type="button">Clear</button>
-        </div>
-
-        <div class="input-wrap">
-          <textarea
-            id="input"
-            class="scan-input"
-            placeholder="Paste a message, link, email body, or scam wording here..."
-            spellcheck="false"
-            aria-label="Text to scan"
-          ></textarea>
-
-          <div class="input-overlay" id="inputOverlay" hidden>
-            <div class="overlay-card">
-              <p class="overlay-label">Screenshot ready</p>
-              <p class="overlay-name" id="fileName">Image selected</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="privacy-row">
-          <div class="privacy-pill">
-            <span class="pill-label">Privacy</span>
-            <span class="pill-text">Nothing you paste is stored.</span>
-          </div>
-          <div class="privacy-pill danger">
-            <span class="pill-label">Never paste</span>
-            <span class="pill-text">OTP / PIN / CVV</span>
-          </div>
-        </div>
-      </section>
-
-      <section
-        class="result-panel"
-        id="resultPanel"
-        aria-live="polite"
-        hidden
-      >
-        <div class="result-head">
-          <div class="result-band-wrap">
-            <p class="result-label">Result</p>
-            <h3 class="result-band" id="band">SAFE</h3>
-          </div>
-          <div class="result-score-wrap">
-            <p class="result-label">Score</p>
-            <p class="result-score" id="score">0 / 100</p>
-          </div>
-        </div>
-
-        <div class="result-body">
-          <p class="result-primary" id="hint">
-            No high-confidence scam indicators detected.
-          </p>
-          <p class="result-secondary" id="reason">
-            You can still verify independently if money or identity is involved.
-          </p>
-        </div>
-      </section>
-
-      <footer class="app-actions">
-        <div class="action-row secondary-row">
-          <button id="pasteBtn" class="action-btn secondary" type="button">
-            Paste
-          </button>
-
-          <button id="uploadBtn" class="action-btn secondary" type="button">
-            Screenshot
-          </button>
-
-          <input
-            id="imageInput"
-            type="file"
-            accept="image/*"
-            hidden
-          />
-        </div>
-
-        <button id="scanBtn" class="action-btn primary" type="button">
-          <span class="btn-label">Scan Now</span>
-        </button>
-      </footer>
-    </main>
   </div>
 
-  <script src="/app.js?v=2"></script>
+  <!-- CTA -->
+  <div class="bottom-bar">
+    <button class="cta">RUN SCAN</button>
+  </div>
+
 </body>
 </html>

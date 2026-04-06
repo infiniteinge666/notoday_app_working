@@ -1,5 +1,6 @@
 {
     "recommendations": [
-        "yutengjing.adobe-extension-devtools"
+        "yutengjing.adobe-extension-devtools",
+        "andrewmcodes.tailwindcss-extension-pack"
     ]
 }
