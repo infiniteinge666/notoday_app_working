@@ -19,7 +19,7 @@ body {
 ========================= */
 
 body {
-  background: red !important;
+  background: radial-gradient(circle at 50% 20%, #0f1720, #05080c);
 }
 
 /* WAVES */
