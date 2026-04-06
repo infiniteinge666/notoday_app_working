@@ -11,7 +11,6 @@
 
 <body>
 
-  <!-- LIGHT SYSTEM -->
   <div class="light-rays"></div>
   <div class="dust"></div>
 
@@ -25,10 +24,10 @@
     <h1 class="title">Check before you trust.</h1>
 
     <div class="top-actions">
-      <button class="soft-btn">Clear</button>
+      <button class="soft-btn" id="clearBtn">Clear</button>
 
-      <button class="soft-btn icon">
-        <img src="assets/upload-icon.png" alt="upload" />
+      <button class="soft-btn icon"> id="uploadBtn"
+        <img src="assets/upload-icon.png" />
       </button>
     </div>
 
@@ -37,14 +36,18 @@
 
       <textarea
         class="input"
+        id="input"
         placeholder="Paste a message, link, email body, or scam wording here..."
       ></textarea>
     </div>
 
+    <!-- RESULT PANEL -->
+    <div class="result hidden" id="result"></div>
+
   </div>
 
   <div class="bottom-bar">
-    <button class="cta">RUN SCAN</button>
+    <button class="cta" id="scanBtn">RUN SCAN</button>
   </div>
 
   <script src="app.js"></script>
