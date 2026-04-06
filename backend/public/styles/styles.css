@@ -50,36 +50,20 @@ body {
   content: "";
   position: absolute;
   inset: -50%;
-
-  background:
-    linear-gradient(
-      115deg,
-      transparent 30%,
-      rgba(62,209,218,0.06),
-      rgba(181,250,252,0.10),
-      rgba(62,209,218,0.06),
-      transparent 70%
-    );
-
+  background:    linear-gradient(      115deg,      transparent 30%,      rgba(4, 191, 248, 0.089),      rgba(181, 250, 252, 0.199),      rgba(62, 210, 218, 0.226),      transparent 70%    );
   filter: blur(80px);
   animation: beamMove1 40s linear infinite;
+  -webkit-animation: beamMove1 40s linear infinite;
 }
 
 .light-rays::after {
   content: "";
   position: absolute;
   inset: -50%;
-
-  background:
-    linear-gradient(
-      125deg,
-      transparent 35%,
-      rgba(181, 250, 252, 0.151),
-      transparent 65%
-    );
-
+  background:    linear-gradient(      125deg,      transparent 35%,      rgba(181, 250, 252, 0.151),      transparent 65%    );
   filter: blur(100px);
-  animation: beamMove2 55s linear infinite;
+  animation: beamMove2 55s easeInShine infinite;
+  -webkit-animation: beamMove2 55s easeInShine infinite;
 }
 
 /* ================= DUST ================= */
@@ -97,28 +81,25 @@ body {
   inset: -50%;
 
   background:
-    radial-gradient(circle, rgba(181, 250, 252, 0.432) 1px, transparent 1px);
+    radial-gradient(circle, rgba(1, 243, 252, 0.541) 1px, transparent 1px);
 
   background-size: 140px 140px;
 
   animation: drift1 60s linear infinite;
-  mix-blend-mode: screen;
-  opacity: 0.35;
+  mix-blend-mode: soft-light;
+  opacity: 0.45;
 }
 
 .dust::after {
   content: "";
   position: absolute;
   inset: -50%;
-
-  background:
-    radial-gradient(circle, rgba(24, 237, 252, 0.384) 2px, transparent 2px);
-
+  background:    radial-gradient(circle, rgba(24, 237, 252, 0.651) 2px, transparent 2px);
   background-size: 260px 260px;
-
   animation: drift2 90s linear infinite;
-  mix-blend-mode: soft soft-light;
+  mix-blend-mode: soft-light;
   opacity: 0.3;
+  -webkit-animation: drift2 90s linear infinite;
 }
 
 /* ================= APP ================= */
@@ -152,7 +133,7 @@ body {
 .logo-glow {
   position: absolute;
   inset: -40%;
-  background: radial-gradient(circle, var(--accent-soft), transparent 20%);
+  background: radial-gradient(circle, var(--accent-soft), transparent 30%);
   filter: blur(40px);
 }
 
