@@ -56,17 +56,10 @@ body {
   content: "";
   position: absolute;
   inset: -60%;
-
-  background: conic-gradient(
-    from 0deg,
-    rgba(68, 134, 138, 0.103),
-    transparent 20%,
-    rgba(251, 253, 253, 0.199),
-    transparent 40%
-  );
-
+  background: conic-gradient(    from 0deg,    rgba(68, 134, 138, 0.103),    transparent 20%,    rgba(251, 253, 253, 0.418),    transparent 40%  );
   filter: blur(80px);
-  animation: rotate 40s linear infinite;
+  animation: rotate 20s linear infinite;
+  -webkit-animation: rotate 20s linear infinite;
 }
 
 .light-rays::after {
