@@ -4,14 +4,22 @@ const result = document.getElementById("result");
 const clearBtn = document.getElementById("clearBtn");
 const body = document.body;
 
+// 🔊 CLICK SOUND (preload to remove lag)
+const clickSound = new Audio("./assets/click.mp3");
+clickSound.preload = "auto";
+clickSound.volume = 0.25;
+
 // CLEAR
 clearBtn.onclick = () => {
+  clickSound.play().catch(() => {});
   input.value = "";
   result.classList.add("hidden");
 };
 
 // SCAN
 btn.onclick = async () => {
+  clickSound.play().catch(() => {});
+
   if (!input.value.trim()) {
     alert("Paste something first.");
     return;
@@ -19,53 +27,68 @@ btn.onclick = async () => {
 
   startScan();
 
-  // 🔥 Replace this with YOUR API
-  const res = await fakeScan(input.value);
+  try {
+    const res = await fetch("/check", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        text: input.value
+      })
+    });
 
-  showResult(res);
+    const data = await res.json();
+
+    renderResult(data.data);
+
+  } catch (err) {
+    console.error(err);
+
+    renderResult({
+      band: "ERROR",
+      reasons: ["System could not complete the scan."]
+    });
+  }
 };
 
-// SCANNING STATE
+// SCANNING STATE (NO RISK STATE HERE)
 function startScan() {
   body.classList.add("scanning");
   result.classList.add("hidden");
 }
 
-// RESULT DISPLAY
-function showResult(res) {
+// 🔒 ONLY PLACE WHERE STATE IS APPLIED
+function renderResult(data) {
   body.classList.remove("scanning");
 
   result.className = "result"; // reset
   result.classList.remove("hidden");
 
-  if (res.type === "safe") {
+  // remove old state
+  body.classList.remove("state-safe", "state-warning", "state-critical");
+
+  const band = data.band;
+
+  if (band === "SAFE") {
+    body.classList.add("state-safe");
     result.classList.add("safe");
     result.innerText = "✅ Safe — No threats detected.";
   }
 
-  if (res.type === "warning") {
+  if (band === "SUSPICIOUS") {
+    body.classList.add("state-warning");
     result.classList.add("warning");
-    result.innerText = "⚠️ Suspicious — Be careful.";
+    result.innerText = data.reasons?.[0] || "⚠️ Suspicious — Be careful.";
   }
 
-  if (res.type === "danger") {
+  if (band === "CRITICAL") {
+    body.classList.add("state-critical");
     result.classList.add("danger");
-    result.innerText = "🚨 Dangerous — Likely scam.";
+    result.innerText = data.reasons?.[0] || "🚨 Dangerous — Likely scam.";
   }
-}
 
-/* ================= MOCK API ================= */
-
-function fakeScan(text) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      if (text.includes("password")) {
-        resolve({ type: "danger" });
-      } else if (text.includes("link")) {
-        resolve({ type: "warning" });
-      } else {
-        resolve({ type: "safe" });
-      }
-    }, 2000);
-  });
+  if (band === "ERROR") {
+    result.innerText = "⚠️ Something went wrong. Try again.";
+  }
 }
