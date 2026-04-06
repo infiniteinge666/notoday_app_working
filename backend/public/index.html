@@ -2,84 +2,65 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>NoToday</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  />
 
   <link rel="stylesheet" href="./styles/styles.css" />
 </head>
+
 <body class="state-idle">
+
   <!-- LAYER 3: FX -->
-  <div class="fx-layer" aria-hidden="true">
-    <div class="sweep-light"></div>
-    <div class="dust dust-a"></div>
-    <div class="dust dust-b"></div>
-    <div class="dust dust-c"></div>
-  </div>
+  <div class="fx-layer"></div>
 
   <!-- LAYER 2: STATE IMAGE -->
-  <div class="state-layer" aria-hidden="true"></div>
+  <div class="state-layer"></div>
 
   <!-- LAYER 0: UI CORE -->
   <main class="ui-layer">
-    <!-- TOP 1/3 -->
+
+    <!-- TOP -->
     <section class="zone zone-top">
-      <div class="logo-shell">
-        <img
-          src="./assets/notoday-shield.svg"
-          class="logo"
-          alt="NoToday shield logo"
-        />
-      </div>
+      <img src="./assets/notoday-shield.svg" class="logo" />
     </section>
 
-    <!-- MIDDLE 1/3 -->
+    <!-- MIDDLE -->
     <section class="zone zone-middle">
+
       <div class="middle-stack">
-        <div class="glass-card input-card">
-          <label class="input-label" for="scanInput">What do you want to check?</label>
-          <textarea
-            id="scanInput"
-            placeholder="Paste a message, link, email, or suspicious text here..."
-            spellcheck="false"
-            autocomplete="off"
-            autocapitalize="off"
-          ></textarea>
+
+        <div class="glass input-box">
+          <textarea id="scanInput" placeholder="Paste message, link, email..."></textarea>
         </div>
 
-        <div class="actions-row">
-          <button type="button" id="pasteBtn" class="tool-btn">Paste</button>
-          <button type="button" id="uploadBtn" class="tool-btn">Upload</button>
-          <button type="button" id="clearBtn" class="tool-btn">Clear</button>
+        <div class="actions">
+          <button id="pasteBtn">Paste</button>
+          <button id="uploadBtn">Upload</button>
+          <button id="clearBtn">Clear</button>
         </div>
 
-        <div id="resultBox" class="result-box" aria-live="polite">
-          <h2 id="resultHeading" class="result-heading"></h2>
-          <p id="resultReason" class="result-reason"></p>
+        <div id="resultBox">
+          <h2 id="resultHeading"></h2>
+          <p id="resultReason"></p>
         </div>
+
       </div>
+
     </section>
 
-    <!-- BOTTOM 1/3 -->
+    <!-- BOTTOM (EMPTY – button is fixed layer) -->
     <section class="zone zone-bottom"></section>
+
   </main>
 
   <!-- LAYER 1: INTERACTION -->
   <div class="interaction-layer">
-    <button type="button" id="scanBtn" class="scan-btn">RUN SCAN</button>
+    <button id="scanBtn" class="scan-btn">RUN SCAN</button>
   </div>
 
   <input type="file" id="fileInput" accept="image/*" hidden />
 
   <script src="./app.js"></script>
+
 </body>
 </html>
