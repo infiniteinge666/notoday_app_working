@@ -1,32 +1,26 @@
-/* ================= DESIGN TOKENS ================= */
+/* ================= TOKENS ================= */
 
 :root {
   --bg-dark: #10131D;
-  --bg-surface: #182435;
-  --bg-elevated: #465977;
-
   --accent-primary: #3ED1DA;
   --accent-soft: #B5FAFC;
-
   --text-primary: rgba(255,255,255,0.9);
   --text-secondary: rgba(255,255,255,0.6);
-
-  --glass-border: rgba(255, 255, 255, 0.329);
 }
 
 /* ================= RESET ================= */
 
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 html, body {
   height: 100%;
 }
 
-/* ================= BODY ================= */
+/* ================= BASE ================= */
 
 body {
   font-family: system-ui, sans-serif;
@@ -38,37 +32,54 @@ body {
   justify-content: center;
 
   background:
-    radial-gradient(circle at 50% 25%, rgba(62, 210, 218, 0.329), transparent 40%),
-    radial-gradient(circle at 50% 80%, rgba(70, 89, 119, 0.486), transparent 60%),
+    radial-gradient(circle at 50% 80%, rgba(70,89,119,0.25), transparent 60%),
     var(--bg-dark);
 }
 
-/* ================= LIGHT ================= */
+/* ================= LIGHT BEAMS ================= */
 
 .light-rays {
   position: fixed;
   inset: 0;
   z-index: 1;
   pointer-events: none;
+  overflow: hidden;
 }
 
 .light-rays::before {
   content: "";
   position: absolute;
-  inset: -60%;
-  background: conic-gradient(    from 0deg,    rgba(68, 134, 138, 0.103),    transparent 20%,    rgba(251, 253, 253, 0.418),    transparent 20%  );
+  inset: -50%;
+
+  background:
+    linear-gradient(
+      115deg,
+      transparent 30%,
+      rgba(62,209,218,0.06),
+      rgba(181,250,252,0.10),
+      rgba(62,209,218,0.06),
+      transparent 70%
+    );
+
   filter: blur(80px);
-  animation: rotate 20s linear infinite;
-  -webkit-animation: rotate 20s linear infinite;
+  animation: beamMove1 40s linear infinite;
 }
 
 .light-rays::after {
   content: "";
   position: absolute;
-  inset: 0;
-  background:    radial-gradient(circle at 50% 30%, rgba(0, 111, 145, 0.356), transparent 60%);
-  animation: pulse 20s ease-in-out infinite;
-  -webkit-animation: pulse 20s ease-in-out infinite;
+  inset: -50%;
+
+  background:
+    linear-gradient(
+      125deg,
+      transparent 35%,
+      rgba(181,250,252,0.08),
+      transparent 65%
+    );
+
+  filter: blur(100px);
+  animation: beamMove2 55s linear infinite;
 }
 
 /* ================= DUST ================= */
@@ -86,12 +97,13 @@ body {
   inset: -50%;
 
   background:
-    radial-gradient(circle, rgba(212, 252, 253, 0.534) 1px, transparent 1px);
+    radial-gradient(circle, rgba(181,250,252,0.08) 1px, transparent 1px);
 
   background-size: 140px 140px;
 
   animation: drift1 60s linear infinite;
   mix-blend-mode: screen;
+  opacity: 0.35;
 }
 
 .dust::after {
@@ -106,6 +118,7 @@ body {
 
   animation: drift2 90s linear infinite;
   mix-blend-mode: screen;
+  opacity: 0.3;
 }
 
 /* ================= APP ================= */
@@ -114,14 +127,14 @@ body {
   position: relative;
   z-index: 2;
 
-  width: 100%;
   max-width: 420px;
-
-  padding: 20px;
+  width: 100%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  padding: 20px;
 }
 
 /* ================= LOGO ================= */
@@ -129,24 +142,18 @@ body {
 .logo-wrap {
   width: 90px;
   margin-bottom: 16px;
-
-  display: flex;
-  justify-content: center;
   position: relative;
 }
 
 .logo {
   width: 100%;
-  position: relative;
-  z-index: 2;
 }
 
 .logo-glow {
   position: absolute;
   inset: -40%;
-  background: radial-gradient(circle, var(--accent-soft), transparent);
-  -webkit-filter: blur(50px);
-  filter: blur(50px);
+  background: radial-gradient(circle, var(--accent-primary), transparent);
+  filter: blur(40px);
 }
 
 /* ================= TEXT ================= */
@@ -157,7 +164,7 @@ body {
   margin-bottom: 24px;
 }
 
-/* ================= ACTIONS ================= */
+/* ================= BUTTONS ================= */
 
 .top-actions {
   display: flex;
@@ -165,22 +172,18 @@ body {
   margin-bottom: 20px;
 }
 
-/* ================= SOFT BUTTON ================= */
-
 .soft-btn {
   padding: 10px 16px;
   border-radius: 16px;
 
   background: rgba(24,36,53,0.6);
   border: 1px solid rgba(70,89,119,0.4);
-
-  backdrop-filter: blur(18px);
-  color: var(--text-primary);
+  color: white;
 }
 
 .soft-btn.icon {
-  width: 50px;
-  height: 50px;
+  width: 52px;
+  height: 52px;
 
   display: flex;
   align-items: center;
@@ -190,14 +193,13 @@ body {
 /* ================= CARD ================= */
 
 .card {
-  width: 90%;
+  width: 100%;
 
-  background: rgba(8, 32, 65, 0.39);
+  background: rgba(24,36,53,0.6);
   border-radius: 24px;
   padding: 16px;
 
-  border: 1px solid var(--glass-border);
-  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
 .label {
@@ -214,10 +216,10 @@ body {
   border-radius: 16px;
   padding: 14px;
 
-  background: rgba(16, 19, 29, 0.384);
-  border: 1px solid rgba(186, 202, 228, 0.4);
+  background: rgba(16,19,29,0.7);
+  border: 1px solid rgba(70,89,119,0.4);
 
-  color: var(--text-primary);
+  color: white;
 }
 
 /* ================= CTA ================= */
@@ -236,37 +238,38 @@ body {
   height: 64px;
 
   border-radius: 999px;
-  border: 1px solid rgba(234, 248, 248, 0.356);
+  border: 1px solid rgba(181,250,252,0.4);
 
   background:
-    linear-gradient(180deg, rgba(181,250,252,0.35), rgba(255, 255, 255, 0.048)),
-    radial-gradient(circle at 50% 120%, rgba(62, 210, 218, 0.062), transparent 60%),
-    rgba(180, 240, 255, 0.089);
+    linear-gradient(180deg, rgba(181,250,252,0.35), rgba(255,255,255,0.08)),
+    radial-gradient(circle at 50% 120%, rgba(62,209,218,0.25), transparent 60%),
+    rgba(180,240,255,0.15);
 
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(20px);
 
   box-shadow:
-    inset 0 -2px 6px rgba(2, 229, 245, 0.445),
-    inset 0 -8px 20px rgba(255, 255, 255, 0.575),
-    0 10px 30px rgba(0, 0, 0, 0.308);
+    inset 0 2px 6px rgba(255,255,255,0.5),
+    inset 0 -8px 20px rgba(0,0,0,0.3),
+    0 10px 30px rgba(0,0,0,0.6);
 
   color: white;
   font-weight: 700;
-  letter-spacing: 0.1em;
 }
 
 /* ================= ANIMATIONS ================= */
 
-@keyframes rotate {
-  100% { transform: rotate(360deg); }
+@keyframes beamMove1 {
+  0% { transform: translateX(-40%) rotate(8deg); }
+  100% { transform: translateX(40%) rotate(8deg); }
 }
 
-@keyframes pulse {
-  50% { opacity: 0.6; }
+@keyframes beamMove2 {
+  0% { transform: translateX(30%) rotate(-10deg); }
+  100% { transform: translateX(-30%) rotate(-10deg); }
 }
 
 @keyframes drift1 {
-  50% { transform: translate(-5%, -8%); -webkit-transform: translate(-5%, -8%); -moz-transform: translate(-5%, -8%); -ms-transform: translate(-5%, -8%); -o-transform: translate(-5%, -8%); }
+  50% { transform: translate(-5%, -8%); }
 }
 
 @keyframes drift2 {
