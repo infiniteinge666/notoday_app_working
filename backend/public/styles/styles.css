@@ -43,7 +43,7 @@ body {
   position: relative;
   z-index: 4;
 
-  height: 90%;
+  height: 100%;
   display: grid;
   grid-template-rows: 33.33% 33.33% 33.33%;
   padding: 20px;
@@ -56,7 +56,7 @@ body {
   display: flex;
   align-items: flex-start;   /* 🔥 was center */
   justify-content: center;
-  padding-top: 10px;
+  padding-top: 15px;
 }
 
 .zone-middle {
