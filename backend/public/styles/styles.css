@@ -25,10 +25,10 @@ body {
 /* =========================
    STATE COLORS (LOCKED ORDER)
 ========================= */
-body.state-idle { --glow: rgba(0,255,255,0.18); }
-body.state-safe { --glow: rgba(0,255,150,0.25); }
-body.state-suspicious { --glow: rgba(255,170,0,0.28); }
-body.state-critical { --glow: rgba(255, 60, 60, 0.575); }
+body.state-idle { --glow: rgba(2, 255, 255, 0.295); }
+body.state-safe { --glow: rgba(0, 255, 42, 0.747); }
+body.state-suspicious { --glow: rgba(255, 166, 0, 0.87); }
+body.state-critical { --glow: rgba(255, 60, 60, 0.747); }
 
 /* =========================
    BACKGROUND
@@ -101,7 +101,7 @@ body.state-critical { --glow: rgba(255, 60, 60, 0.575); }
 
   filter:
     drop-shadow(0 0 10px var(--glow))
-    drop-shadow(0 0 35px var(--glow));
+    drop-shadow(0 0 25px var(--glow));
 }
 
 /* GLASS CARD */
