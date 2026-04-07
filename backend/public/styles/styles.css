@@ -8,66 +8,6 @@ body {
   color:white;
   background:#182435fd;
 }
-
-/* FX */
-.fx-layer {
-  position:fixed;
-  inset:0;
-  z-index:1;
-  pointer-events:none;
-}
-
-.beam {
-  position:absolute;
-  width:120%;
-  height:200%;
-  filter:blur(40px);
-}
-
-.beam-1 {
-  top:-40%; left:-60%;
-  background:linear-gradient(120deg,transparent 30%,rgba(10, 255, 243, 0.26),transparent 70%);
-  animation:beamMove1 14s linear infinite;
-}
-
-.beam-2 {
-  top:-30%; right:-60%;
-  background:linear-gradient(100deg,transparent 30%,rgba(15, 203, 250, 0.137),transparent 70%);
-  animation:beamMove2 18s linear infinite;
-}
-
-.dust {
-  position:absolute;
-  inset:0;
-  background:radial-gradient(rgba(2, 229, 245, 0.322) 1px, transparent 1px);
-  background-size:40px 50px;
-  opacity:0.01;
-  animation:drift1 40s linear infinite;
-}
-/* UI */
-.ui-layer {
-  position:relative;
-  z-index:100;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:100px 40px;
-}
-
-/* LOGO */
-.logo-wrap {
-  position:relative;
-  margin-bottom:70px;
-}
-
-.logo {
-  width:110px;
-  filter:
-    drop-shadow(0 0 10px rgba(3,166,166,0.5))
-    drop-shadow(0 0 30px rgba(122,184,191,0.25));
-}
-
 /* INPUT */
 textarea {
   width:100%;
@@ -140,6 +80,66 @@ button span {
   font-weight:700;
   padding:14px;
 }
+
+/* FX */
+.fx-layer {
+  position:fixed;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+}
+
+.beam {
+  position:absolute;
+  width:120%;
+  height:200%;
+  filter:blur(40px);
+}
+
+.beam-1 {
+  top:-40%; left:-60%;
+  background:linear-gradient(120deg,transparent 30%,rgba(10, 255, 243, 0.26),transparent 70%);
+  animation:beamMove1 14s linear infinite;
+}
+
+.beam-2 {
+  top:-30%; right:-60%;
+  background:linear-gradient(100deg,transparent 30%,rgba(15, 203, 250, 0.137),transparent 70%);
+  animation:beamMove2 18s linear infinite;
+}
+
+.dust {
+  position:absolute;
+  inset:0;
+  background:radial-gradient(rgba(2, 229, 245, 0.322) 1px, transparent 1px);
+  background-size:40px 50px;
+  opacity:0.01;
+  animation:drift1 40s linear infinite;
+}
+/* UI */
+.ui-layer {
+  position:relative;
+  z-index:100;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:100px 40px;
+}
+
+/* LOGO */
+.logo-wrap {
+  position:relative;
+  margin-bottom:70px;
+}
+
+.logo {
+  width:110px;
+  filter:
+    drop-shadow(0 0 10px rgba(3,166,166,0.5))
+    drop-shadow(0 0 30px rgba(122,184,191,0.25));
+}
+
 
 /* ANIMATION */
 @keyframes beamMove1 {
