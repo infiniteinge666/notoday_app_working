@@ -16,7 +16,7 @@ html, body {
 ========================= */
 body {
   font-family: system-ui, -apple-system, sans-serif;
-  background: #0e1a26;
+  background: #00182c;
   color: white;
   overflow: hidden;
 }
@@ -105,7 +105,7 @@ body {
   flex-direction: column;
   align-items: center;
 
-  padding-top: 80px;
+  padding-top: 60px;
 }
 
 /* =========================
@@ -113,7 +113,7 @@ body {
 ========================= */
 .logo {
   width: 110px;
-  margin-bottom: 40px;
+  margin-bottom: 80px;
 
   filter:
     drop-shadow(0 0 12px rgba(0,255,255,0.6))
@@ -150,7 +150,7 @@ body {
 ========================= */
 textarea {
   width: 100%;
-  height: 90px;
+  height: 100px;
 
   border: none;
   border-radius: 14px;
