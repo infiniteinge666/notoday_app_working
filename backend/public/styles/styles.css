@@ -1,87 +1,16 @@
 /* RESET */
 * { margin:0; padding:0; box-sizing:border-box; }
-html, body { height:100%; overflow:hidden; }
+html, body { height:100%; }
 
+/* BODY */
 body {
-  height:100dvh;
   font-family: system-ui;
+  background:#0e1a26;
   color:white;
-  background:#182435fd;
-}
-/* INPUT */
-textarea {
-  width:100%;
-  height:90px;
-  border:none;
-  outline:none;
-  border-radius:16px;
-  padding:12px;
-
-  background:rgba(96, 97, 97, 0.418);
-  color:white;
+  overflow:hidden;
 }
 
-/* ACTIONS */
-.actions {
-  display: flex;
-  gap: 10px;
-}
-
-/* 🔥 FIXED: NO POINTER BLOCKING */
-.button-wrap {
-  flex: 1;
-  position: relative;
-}
-
-.button-shadow {
-  position:absolute;
-  inset:-6px;
-  filter:blur(6px);
-}
-
-button {
-  all:unset;
-  cursor:pointer;
-  width:100%;
-  border-radius:999px;
-
-  background:linear-gradient(
-    -75deg,
-    rgba(255,255,255,0.05),
-    rgba(255,255,255,0.2),
-    rgba(255,255,255,0.05)
-  );
-
-  box-shadow:
-    inset 0 2px 2px rgba(0,0,0,0.05),
-    inset 0 -2px 2px rgba(255,255,255,0.5),
-    0 4px 6px rgba(0,0,0,0.2);
-}
-
-button span {
-  display:block;
-  text-align:center;
-  padding:10px;
-  font-size:13px;
-}
-
-/* RESULT */
-#resultBox {
-  min-height:40px;
-}
-
-/* SCAN BUTTON */
-.scan-wrap {
-  margin-top:10px;
-}
-
-.cta span {
-  font-size:15px;
-  font-weight:700;
-  padding:14px;
-}
-
-/* FX */
+/* FX (BACKGROUND ONLY) */
 .fx-layer {
   position:fixed;
   inset:0;
@@ -89,86 +18,118 @@ button span {
   pointer-events:none;
 }
 
-.beam {
-  position:absolute;
-  width:120%;
-  height:200%;
-  filter:blur(40px);
-}
-
-.beam-1 {
-  top:-40%; left:-60%;
-  background:linear-gradient(120deg,transparent 30%,rgba(10, 255, 243, 0.26),transparent 70%);
-  animation:beamMove1 14s linear infinite;
-}
-
-.beam-2 {
-  top:-30%; right:-60%;
-  background:linear-gradient(100deg,transparent 30%,rgba(15, 203, 250, 0.137),transparent 70%);
-  animation:beamMove2 18s linear infinite;
-}
-
-.dust {
-  position:absolute;
+/* STATE (VISUAL ONLY — NEVER INTERACTIVE) */
+.state-layer {
+  position:fixed;
   inset:0;
-  background:radial-gradient(rgba(2, 229, 245, 0.322) 1px, transparent 1px);
-  background-size:40px 50px;
-  opacity:0.01;
-  animation:drift1 40s linear infinite;
+  z-index:2;
+  pointer-events:none;
+
+  background:url("./assets/state-Idle.png") center/contain no-repeat;
+
+  opacity:0.4;
 }
-/* UI */
+
+/* UI (KING LAYER) */
 .ui-layer {
   position:relative;
-  z-index:100;
+  z-index:10;
+
   height:100%;
   display:flex;
   flex-direction:column;
   align-items:center;
-  padding:100px 40px;
+  justify-content:flex-start;
+
+  padding-top:80px;
 }
 
 /* LOGO */
-.logo-wrap {
-  position:relative;
-  margin-bottom:70px;
-}
-
 .logo {
   width:110px;
+  opacity:0.8;
+  margin-bottom:40px;
+
   filter:
-    drop-shadow(0 0 10px rgba(3,166,166,0.5))
-    drop-shadow(0 0 30px rgba(122,184,191,0.25));
+    drop-shadow(0 0 10px rgba(0,255,255,0.4));
 }
 
+/* GLASS */
+.glass {
+  width:90%;
+  max-width:360px;
 
-/* ANIMATION */
-@keyframes beamMove1 {
-  0% { transform: translateX(-60%) rotate(10deg); }
-  100% { transform: translateX(160%) rotate(10deg); }
+  backdrop-filter:blur(20px);
+  background:rgba(255,255,255,0.08);
+
+  border-radius:24px;
+  padding:20px;
+
+  display:flex;
+  flex-direction:column;
+  gap:14px;
 }
 
-@keyframes beamMove2 {
-  0% { transform: translateX(60%) rotate(-10deg); }
-  100% { transform: translateX(-160%) rotate(-10deg); }
+/* INPUT */
+textarea {
+  width:100%;
+  height:90px;
+  border:none;
+  border-radius:14px;
+  padding:12px;
+
+  background:rgba(0,0,0,0.3);
+  color:white;
 }
 
-@keyframes drift1 {
-  50% { transform: translate(-5%, -8%); }
+/* BUTTON ROW */
+.actions {
+  display:flex;
+  gap:10px;
 }
-/* BUTTON PRESS EFFECT */
+
 button {
-  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  flex:1;
+  border:none;
+  border-radius:999px;
+  padding:10px;
+  color:white;
+  cursor:pointer;
+
+  background:rgba(255,255,255,0.12);
+
+  transition:all 0.08s ease;
 }
 
-button.pressed {
-  transform: translateY(2px) scale(0.98);
-
-  box-shadow:
-    inset 0 3px 4px rgba(0,0,0,0.25),
-    inset 0 -1px 2px rgba(255,255,255,0.3);
+/* PRESS EFFECT */
+button:active {
+  transform:translateY(2px) scale(0.98);
 }
 
-/* OPTIONAL: STRONGER CTA FEEL */
-.cta.pressed {
-  transform: translateY(3px) scale(0.97);
+/* CTA */
+.cta {
+  font-weight:bold;
+  padding:14px;
+  background:rgba(255,255,255,0.2);
+}
+
+/* RESULT */
+#resultBox {
+  min-height:40px;
+}
+
+/* =========================
+   STATE COLORS
+========================= */
+
+body.state-safe .state-layer {
+  background:url("./assets/state-safe.png") center/contain no-repeat;
+}
+
+body.state-suspicious .state-layer {
+  background:url("./assets/state-warning.png") center/contain no-repeat;
+}
+
+body.state-critical .state-layer {
+  background:url("./assets/state-critical.png") center/contain no-repeat;
 }

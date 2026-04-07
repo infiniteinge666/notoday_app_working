@@ -2,54 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>NoToday</title>
 
-  <link rel="stylesheet" href="./styles/styles.css" />
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 
 <body class="state-idle">
 
-  <!-- FX -->
-  <div class="fx-layer">
-    <div class="beam beam-1"></div>
-    <div class="beam beam-2"></div>
-    <div class="dust"></div>
-  </div>
+  <!-- BACKGROUND FX -->
+  <div class="fx-layer"></div>
 
-  <!-- STATE -->
+  <!-- STATE (VISUAL ONLY) -->
   <div class="state-layer"></div>
 
-  <!-- UI -->
+  <!-- UI (ONLY INTERACTIVE LAYER) -->
   <main class="ui-layer">
 
-    <!-- LOGO -->
     <div class="logo-wrap">
       <img src="./assets/notoday-shield.svg" class="logo" />
     </div>
 
-    <!-- GLASS -->
-    <div class="glass-sheet">
+    <div class="glass">
 
       <textarea id="scanInput" placeholder="Paste message, link, email..."></textarea>
 
       <div class="actions">
-
-        <div class="button-wrap">
-          <div class="button-shadow"></div>
-          <button id="pasteBtn"><span>Paste</span></button>
-        </div>
-
-        <div class="button-wrap">
-          <div class="button-shadow"></div>
-          <button id="uploadBtn"><span>Upload</span></button>
-        </div>
-
-        <div class="button-wrap">
-          <div class="button-shadow"></div>
-          <button id="clearBtn"><span>Clear</span></button>
-        </div>
-
+        <button id="pasteBtn">Paste</button>
+        <button id="uploadBtn">Upload</button>
+        <button id="clearBtn">Clear</button>
       </div>
 
       <div id="resultBox">
@@ -57,19 +38,13 @@
         <p id="resultReason"></p>
       </div>
 
-      <!-- SCAN BUTTON (NOW INSIDE GLASS) -->
-      <div class="button-wrap scan-wrap">
-        <div class="button-shadow"></div>
-        <button id="scanBtn" class="cta">
-          <span>RUN SCAN</span>
-        </button>
-      </div>
+      <button id="scanBtn" class="cta">RUN SCAN</button>
 
     </div>
 
   </main>
 
-  <input type="file" id="fileInput" accept="image/*" hidden />
+  <input type="file" id="fileInput" hidden />
 
   <script src="./app.js"></script>
 
