@@ -20,43 +20,27 @@ body {
 
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
-
-  transition: background 0.6s ease;
 }
 
 /* =========================
-   STATE COLORS (LOCKED)
+   STATE COLORS
 ========================= */
-body.state-safe {
-  --glow: rgba(0,255,150,0.35);
-}
-
-body.state-suspicious {
-  --glow: rgba(255,170,0,0.35);
-}
-
-body.state-critical {
-  --glow: rgba(255,60,60,0.4);
-}
-
-body.state-idle {
-  --glow: rgba(0,255,255,0.2);
-}
+body.state-safe { --glow: rgba(0,255,150,0.25); }
+body.state-suspicious { --glow: rgba(255,170,0,0.28); }
+body.state-critical { --glow: rgba(255,60,60,0.32); }
+body.state-idle { --glow: rgba(0,255,255,0.18); }
 
 /* =========================
-   FX LAYER
+   FX BACKGROUND
 ========================= */
 .fx-layer {
   position: fixed;
   inset: 0;
-  z-index: 2;
+  z-index: 1;
   pointer-events: none;
   overflow: hidden;
-
-  transform: translateZ(0);
 }
 
-/* LIGHT RAYS */
 .fx-layer::before,
 .fx-layer::after {
   content: "";
@@ -66,7 +50,7 @@ body.state-idle {
   left: -20%;
 
   filter: blur(40px);
-  opacity: 0.1;
+  opacity: 0.08;
 
   background: linear-gradient(
     120deg,
@@ -82,22 +66,8 @@ body.state-idle {
   animation: rayMove2 26s linear infinite;
 }
 
-/* DUST */
-.dust {
-  position: absolute;
-  inset: 0;
-
-  background:
-    radial-gradient(var(--glow) 1px, transparent 2px);
-
-  background-size: 60px 60px;
-  opacity: 0.05;
-
-  animation: dustFloat 20s ease-in-out infinite;
-}
-
 /* =========================
-   UI
+   UI LAYER
 ========================= */
 .ui-layer {
   position: relative;
@@ -118,15 +88,13 @@ body.state-idle {
   width: 110px;
   margin-bottom: 60px;
 
-  opacity: 0.9;
-
   filter:
-    drop-shadow(0 0 12px var(--glow))
-    drop-shadow(0 0 40px var(--glow));
+    drop-shadow(0 0 10px var(--glow))
+    drop-shadow(0 0 35px var(--glow));
 }
 
 /* =========================
-   GLASS CARD (BREATHING)
+   GLASS CARD
 ========================= */
 .glass {
   width: 90%;
@@ -140,16 +108,12 @@ body.state-idle {
   gap: 14px;
 
   backdrop-filter: blur(30px);
-
-  background: rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.05);
 
   box-shadow:
-    0 10px 40px rgba(0,0,0,0.4),
-    0 0 25px var(--glow),
-    inset 0 1px 0.5px rgba(255,255,255,0.8),
-    inset 0 -1px 2px rgba(255,255,255,0.4);
-
-  animation: breathe 4s ease-in-out infinite;
+    0 0 40px var(--glow),
+    inset 0 1px 0.5px rgba(255,255,255,0.7),
+    inset 0 -1px 2px rgba(255,255,255,0.3);
 }
 
 /* =========================
@@ -163,10 +127,9 @@ textarea {
   border-radius: 14px;
   padding: 12px;
 
-  background: rgba(0,0,0,0.3);
+  background: rgba(0,0,0,0.35);
   color: white;
 
-  resize: none;
   font-size: 16px;
   outline: none;
 }
@@ -180,7 +143,7 @@ textarea {
 }
 
 /* =========================
-   GLASS BUTTONS (STATE REACTIVE)
+   TRUE GLASS BUTTONS (FIXED)
 ========================= */
 button {
   flex: 1;
@@ -196,18 +159,26 @@ button {
 
   backdrop-filter: blur(20px);
 
-  background: rgba(255,255,255,0.04);
+  /* 🔥 BASE */
+  background: rgba(255,255,255,0.03);
 
+  /* 🔥 REAL GLASS DEPTH */
   box-shadow:
-    0 6px 16px rgba(0,0,0,0.3),
-    0 0 10px var(--glow),
+    0 4px 12px rgba(0,0,0,0.35),
+
+    /* INTERNAL LIGHT (THIS WAS MISSING) */
+    inset 0 0 10px var(--glow),
+
+    /* EDGE LIGHT */
     inset 0 1px 1px rgba(255,255,255,0.6),
-    inset 0 -2px 4px var(--glow);
+
+    /* BOTTOM DEPTH */
+    inset 0 -2px 4px rgba(0,0,0,0.4);
 
   transition: all 0.15s ease;
 }
 
-/* LIGHT SWEEP */
+/* 🔥 SURFACE REFLECTION */
 button::before {
   content: "";
   position: absolute;
@@ -215,39 +186,52 @@ button::before {
 
   background: linear-gradient(
     120deg,
-    transparent,
-    rgba(255,255,255,0.5),
-    transparent
+    transparent 30%,
+    rgba(255,255,255,0.6),
+    transparent 70%
   );
 
-  opacity: 0.15;
+  opacity: 0.12;
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
 }
 
-/* EDGE */
+button:hover::before {
+  transform: translateX(100%);
+}
+
+/* 🔥 EDGE OUTLINE */
 button::after {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: 999px;
+
   border: 1px solid rgba(255,255,255,0.25);
 }
 
-/* PRESS */
+/* 🔥 PRESS */
 button:active {
-  transform: translateY(3px) scale(0.96);
+  transform: translateY(2px) scale(0.97);
+
+  box-shadow:
+    inset 0 3px 6px rgba(0,0,0,0.6),
+    inset 0 0 6px var(--glow);
 }
 
-/* CTA */
+/* =========================
+   CTA BUTTON
+========================= */
 .cta {
   font-weight: bold;
   padding: 16px;
 
-  background: rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.05);
 
   box-shadow:
-    0 10px 30px var(--glow),
-    inset 0 1px 1px rgba(255,255,255,0.8),
-    inset 0 -3px 6px var(--glow);
+    0 0 25px var(--glow),
+    inset 0 0 12px var(--glow),
+    inset 0 1px 1px rgba(255,255,255,0.7);
 }
 
 /* =========================
@@ -261,15 +245,4 @@ button:active {
 @keyframes rayMove2 {
   0% { transform: translateX(60%) rotate(-12deg); }
   100% { transform: translateX(-160%) rotate(-12deg); }
-}
-
-@keyframes dustFloat {
-  0% { transform: translate(0,0); }
-  50% { transform: translate(-5%, -10%); }
-  100% { transform: translate(0,0); }
-}
-
-@keyframes breathe {
-  0%,100% { box-shadow: 0 0 15px var(--glow); }
-  50% { box-shadow: 0 0 35px var(--glow); }
 }
