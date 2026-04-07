@@ -11,10 +11,10 @@ window.addEventListener("load", () => {
   const clearBtn = document.getElementById("clearBtn");
   const fileInput = document.getElementById("fileInput");
 
-  // AUDIO (PRELOAD + UNLOCK)
+  // 🔊 AUDIO (LOWER VOLUME)
   const clickSound = new Audio("./assets/click.mp3");
   clickSound.preload = "auto";
-  clickSound.volume = 0.4;
+  clickSound.volume = 0.18; // 🔥 LOWERED
 
   document.addEventListener("pointerdown", () => {
     clickSound.play().then(() => {
@@ -49,7 +49,6 @@ window.addEventListener("load", () => {
     .filter(Boolean)
     .forEach(attachButtonFeedback);
 
-  // STATE
   function clearState() {
     document.body.classList.remove("state-safe", "state-suspicious", "state-critical");
   }
@@ -75,26 +74,20 @@ window.addEventListener("load", () => {
     else applyState("critical");
   }
 
-  // ACTIONS
   scanBtn.addEventListener("click", async () => {
     const value = input.value.trim();
     if (!value) return;
 
     clearState();
 
-    try {
-      const res = await fetch("/check", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: value })
-      });
+    const res = await fetch("/check", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: value })
+    });
 
-      const data = await res.json();
-      renderResult(data.data);
-
-    } catch (err) {
-      console.error(err);
-    }
+    const data = await res.json();
+    renderResult(data.data);
   });
 
   clearBtn.addEventListener("click", () => {
