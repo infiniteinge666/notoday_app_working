@@ -11,17 +11,23 @@ window.addEventListener("load", () => {
   const clearBtn = document.getElementById("clearBtn");
   const fileInput = document.getElementById("fileInput");
 
-  // 🔊 PRELOAD AUDIO (NO LAG)
+  // AUDIO (PRELOAD + UNLOCK)
   const clickSound = new Audio("./assets/click.mp3");
   clickSound.preload = "auto";
   clickSound.volume = 0.4;
+
+  document.addEventListener("pointerdown", () => {
+    clickSound.play().then(() => {
+      clickSound.pause();
+      clickSound.currentTime = 0;
+    }).catch(() => {});
+  }, { once: true });
 
   function playClick() {
     clickSound.currentTime = 0;
     clickSound.play().catch(() => {});
   }
 
-  // 🔘 BUTTON PUSH EFFECT
   function attachButtonFeedback(btn) {
     btn.addEventListener("pointerdown", () => {
       btn.classList.add("pressed");
@@ -29,7 +35,9 @@ window.addEventListener("load", () => {
     });
 
     btn.addEventListener("pointerup", () => {
-      btn.classList.remove("pressed");
+      requestAnimationFrame(() => {
+        btn.classList.remove("pressed");
+      });
     });
 
     btn.addEventListener("pointerleave", () => {
@@ -37,15 +45,11 @@ window.addEventListener("load", () => {
     });
   }
 
-  // APPLY TO ALL BUTTONS
   [scanBtn, pasteBtn, uploadBtn, clearBtn]
-  .filter(Boolean)
-  .forEach(attachButtonFeedback);
+    .filter(Boolean)
+    .forEach(attachButtonFeedback);
 
-  // =========================
-  // STATE CONTROL (UNCHANGED)
-  // =========================
-
+  // STATE
   function clearState() {
     document.body.classList.remove("state-safe", "state-suspicious", "state-critical");
   }
@@ -71,10 +75,7 @@ window.addEventListener("load", () => {
     else applyState("critical");
   }
 
-  // =========================
   // ACTIONS
-  // =========================
-
   scanBtn.addEventListener("click", async () => {
     const value = input.value.trim();
     if (!value) return;
