@@ -6,7 +6,7 @@ body {
   height:100dvh;
   font-family: system-ui;
   color:white;
-  background:#182435e1;
+  background:#182435fd;
 }
 
 /* FX */
@@ -87,7 +87,7 @@ body {
   gap:14px;
 
   backdrop-filter:blur(20px);
-  background:rgba(3, 88, 138, 0.356);
+  background:rgba(172, 186, 194, 0.226);
   border-radius:24px;
   padding:20px;
 }
@@ -101,19 +101,20 @@ textarea {
   border-radius:16px;
   padding:12px;
 
-  background:rgba(19, 52, 56, 0.164);
+  background:rgba(96, 97, 97, 0.418);
   color:white;
 }
 
 /* ACTIONS */
 .actions {
-  display:flex;
-  gap:10px;
+  display: flex;
+  gap: 10px;
 }
 
+/* 🔥 FIXED: NO POINTER BLOCKING */
 .button-wrap {
-  flex:1;
-  position:relative;
+  flex: 1;
+  position: relative;
 }
 
 .button-shadow {
