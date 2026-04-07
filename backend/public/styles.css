@@ -98,8 +98,11 @@ body.state-critical { --glow: rgba(255, 60, 60, 0.747); }
   margin-bottom: 60px;
 
   filter:
-    drop-shadow(0 0 5px var(--glow))
-    drop-shadow(0 0 15px var(--glow));
+    drop-shadow(0 0 10px var(--glow))
+    drop-shadow(0 0 25px var(--glow))
+    drop-shadow(0 0 45px var(--glow));
+
+  opacity: 0.9;
 }
 
 /* GLASS */
