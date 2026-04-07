@@ -79,7 +79,7 @@ body {
 
 /* GLASS */
 .glass-sheet {
-  width:100%;
+  width:90%;
   max-width:360px;
 
   display:flex;
