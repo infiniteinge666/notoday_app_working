@@ -50,7 +50,7 @@ body {
   position:fixed;
   inset:0;
   z-index:2;
-  background:url("../assets/state-idle.png") center/contain no-repeat;
+  background:url("../assets/state-Idle.png") center/contain no-repeat;
 }
 
 /* UI */

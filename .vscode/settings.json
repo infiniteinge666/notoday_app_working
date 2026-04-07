@@ -17,5 +17,6 @@
   "html.validate.styles": false,
   "html.validate.scripts": false,
 
-  "tesseract.path": ""
+  "tesseract.path": "",
+  "gitConfigUser.selectedProfile": "infiniteinge666"
 }
