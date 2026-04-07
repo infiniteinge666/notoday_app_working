@@ -44,16 +44,6 @@ body {
   opacity:0.01;
   animation:drift1 40s linear infinite;
 }
-
-/* STATE */
-.state-layer {
-  position: fixed;
-  inset: 0;
-  z-index: 10;
-  background:  center/contain no-repeat;
-  pointer-events: none; /* 🔥 THIS FIXES YOUR BUTTONS */
-}
-
 /* UI */
 .ui-layer {
   position:relative;
