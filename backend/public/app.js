@@ -11,10 +11,10 @@ window.addEventListener("load", () => {
   const clearBtn = document.getElementById("clearBtn");
   const fileInput = document.getElementById("fileInput");
 
-  // 🔊 AUDIO (LOWER VOLUME)
+  // AUDIO
   const clickSound = new Audio("./assets/click.mp3");
   clickSound.preload = "auto";
-  clickSound.volume = 0.18; // 🔥 LOWERED
+  clickSound.volume = 0.18;
 
   document.addEventListener("pointerdown", () => {
     clickSound.play().then(() => {
@@ -49,17 +49,16 @@ window.addEventListener("load", () => {
     .filter(Boolean)
     .forEach(attachButtonFeedback);
 
-  function clearState() {
-    document.body.classList.remove("state-safe", "state-suspicious", "state-critical");
-  }
+  // 🔒 STATE CONTROL
+  const STATES = [
+    "state-idle",
+    "state-safe",
+    "state-suspicious",
+    "state-critical"
+  ];
 
-  function setIdle() {
-    clearState();
-    document.body.classList.add("state-idle");
-  }
-
-  function applyState(state) {
-    clearState();
+  function setState(state) {
+    STATES.forEach(s => document.body.classList.remove(s));
     document.body.classList.add(`state-${state}`);
   }
 
@@ -67,34 +66,41 @@ window.addEventListener("load", () => {
     resultHeading.textContent = data.band;
     resultReason.textContent = data.reasons?.[0] || "";
 
-    const band = data.band.toLowerCase();
+    const band = data.band?.toLowerCase();
 
-    if (band === "safe") applyState("safe");
-    else if (band === "suspicious") applyState("suspicious");
-    else applyState("critical");
+    if (band === "safe") setState("safe");
+    else if (band === "suspicious") setState("suspicious");
+    else if (band === "critical") setState("critical");
+    else setState("idle");
   }
 
   scanBtn.addEventListener("click", async () => {
     const value = input.value.trim();
     if (!value) return;
 
-    clearState();
+    setState("idle");
 
-    const res = await fetch("/check", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: value })
-    });
+    try {
+      const res = await fetch("/check", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: value })
+      });
 
-    const data = await res.json();
-    renderResult(data.data);
+      const data = await res.json();
+      renderResult(data.data);
+
+    } catch (err) {
+      console.error(err);
+      setState("idle");
+    }
   });
 
   clearBtn.addEventListener("click", () => {
     input.value = "";
     resultHeading.textContent = "";
     resultReason.textContent = "";
-    setIdle();
+    setState("idle");
   });
 
   pasteBtn.addEventListener("click", async () => {
@@ -112,7 +118,7 @@ window.addEventListener("load", () => {
     const reader = new FileReader();
 
     reader.onload = async () => {
-      clearState();
+      setState("idle");
 
       const res = await fetch("/check", {
         method: "POST",
@@ -127,5 +133,5 @@ window.addEventListener("load", () => {
     reader.readAsDataURL(file);
   });
 
-  setIdle();
+  setState("idle");
 });

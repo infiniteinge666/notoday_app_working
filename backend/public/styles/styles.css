@@ -1,6 +1,4 @@
-/* =========================
-   RESET
-========================= */
+/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -20,18 +18,20 @@ body {
 
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
+
+  --glow: rgba(0,255,255,0.18);
 }
 
 /* =========================
-   STATE COLORS
+   STATE COLORS (LOCKED ORDER)
 ========================= */
+body.state-idle { --glow: rgba(0,255,255,0.18); }
 body.state-safe { --glow: rgba(0,255,150,0.25); }
 body.state-suspicious { --glow: rgba(255,170,0,0.28); }
 body.state-critical { --glow: rgba(255,60,60,0.32); }
-body.state-idle { --glow: rgba(0,255,255,0.18); }
 
 /* =========================
-   FX BACKGROUND
+   BACKGROUND
 ========================= */
 .fx-layer {
   position: fixed;
@@ -66,8 +66,21 @@ body.state-idle { --glow: rgba(0,255,255,0.18); }
   animation: rayMove2 26s linear infinite;
 }
 
+.dust {
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(var(--glow) 1px, transparent 2px);
+
+  background-size: 60px 60px;
+  opacity: 0.05;
+
+  animation: dustFloat 20s ease-in-out infinite;
+}
+
 /* =========================
-   UI LAYER
+   UI
 ========================= */
 .ui-layer {
   position: relative;
@@ -81,9 +94,7 @@ body.state-idle { --glow: rgba(0,255,255,0.18); }
   padding-top: 60px;
 }
 
-/* =========================
-   LOGO
-========================= */
+/* LOGO */
 .logo {
   width: 110px;
   margin-bottom: 60px;
@@ -93,9 +104,7 @@ body.state-idle { --glow: rgba(0,255,255,0.18); }
     drop-shadow(0 0 35px var(--glow));
 }
 
-/* =========================
-   GLASS CARD
-========================= */
+/* GLASS CARD */
 .glass {
   width: 90%;
   max-width: 360px;
@@ -111,14 +120,12 @@ body.state-idle { --glow: rgba(0,255,255,0.18); }
   background: rgba(255,255,255,0.05);
 
   box-shadow:
-    0 0 40px var(--glow),
+    0 0 35px var(--glow),
     inset 0 1px 0.5px rgba(255,255,255,0.7),
     inset 0 -1px 2px rgba(255,255,255,0.3);
 }
 
-/* =========================
-   INPUT
-========================= */
+/* INPUT */
 textarea {
   width: 100%;
   height: 100px;
@@ -134,17 +141,13 @@ textarea {
   outline: none;
 }
 
-/* =========================
-   BUTTON ROW
-========================= */
+/* BUTTON ROW */
 .actions {
   display: flex;
   gap: 10px;
 }
 
-/* =========================
-   TRUE GLASS BUTTONS (FIXED)
-========================= */
+/* GLASS BUTTONS */
 button {
   flex: 1;
   border-radius: 999px;
@@ -158,27 +161,17 @@ button {
   cursor: pointer;
 
   backdrop-filter: blur(20px);
-
-  /* 🔥 BASE */
   background: rgba(255,255,255,0.03);
 
-  /* 🔥 REAL GLASS DEPTH */
   box-shadow:
     0 4px 12px rgba(0,0,0,0.35),
-
-    /* INTERNAL LIGHT (THIS WAS MISSING) */
     inset 0 0 10px var(--glow),
-
-    /* EDGE LIGHT */
     inset 0 1px 1px rgba(255,255,255,0.6),
-
-    /* BOTTOM DEPTH */
     inset 0 -2px 4px rgba(0,0,0,0.4);
 
   transition: all 0.15s ease;
 }
 
-/* 🔥 SURFACE REFLECTION */
 button::before {
   content: "";
   position: absolute;
@@ -200,33 +193,22 @@ button:hover::before {
   transform: translateX(100%);
 }
 
-/* 🔥 EDGE OUTLINE */
 button::after {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: 999px;
-
   border: 1px solid rgba(255,255,255,0.25);
 }
 
-/* 🔥 PRESS */
 button:active {
   transform: translateY(2px) scale(0.97);
-
-  box-shadow:
-    inset 0 3px 6px rgba(0,0,0,0.6),
-    inset 0 0 6px var(--glow);
 }
 
-/* =========================
-   CTA BUTTON
-========================= */
+/* CTA */
 .cta {
   font-weight: bold;
   padding: 16px;
-
-  background: rgba(255,255,255,0.05);
 
   box-shadow:
     0 0 25px var(--glow),
@@ -234,9 +216,7 @@ button:active {
     inset 0 1px 1px rgba(255,255,255,0.7);
 }
 
-/* =========================
-   ANIMATIONS
-========================= */
+/* ANIMATIONS */
 @keyframes rayMove1 {
   0% { transform: translateX(-60%) rotate(15deg); }
   100% { transform: translateX(160%) rotate(15deg); }
@@ -245,4 +225,10 @@ button:active {
 @keyframes rayMove2 {
   0% { transform: translateX(60%) rotate(-12deg); }
   100% { transform: translateX(-160%) rotate(-12deg); }
+}
+
+@keyframes dustFloat {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(-5%, -10%); }
+  100% { transform: translate(0,0); }
 }
