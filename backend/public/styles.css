@@ -93,27 +93,38 @@ body.state-critical { --glow: rgba(255, 60, 60, 0.747); }
   padding-top: 60px;
 }
 
-.logo {
-  }
+/* =========================
+   LOGO (FINAL LOCKED)
+========================= */
 
-/* REAL glow layer (separate from image) */
+.logo {
+  width: 90px;
+  margin-bottom: 50px;
+
+  position: relative;
+  display: block;
+  z-index: 1;
+}
+
+/* Glow layer (independent from image) */
 .logo::after {
   content: "";
   position: absolute;
-  inset: -30px;
+  inset: -18px;
 
   border-radius: 50%;
 
   background: radial-gradient(
     circle,
     var(--glow) 0%,
-    transparent 60%
+    transparent 70%
   );
 
-  filter: blur(30px);
-  opacity: 0.7;
+  filter: blur(22px);
+  opacity: 0.55;
 
   z-index: -1;
+  pointer-events: none;
 }
 
 /* GLASS */
