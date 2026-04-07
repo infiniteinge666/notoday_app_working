@@ -1,135 +1,235 @@
-/* RESET */
-* { margin:0; padding:0; box-sizing:border-box; }
-html, body { height:100%; }
+/* =========================
+   RESET
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-/* BODY */
+html, body {
+  height: 100%;
+}
+
+/* =========================
+   BASE
+========================= */
 body {
-  font-family: system-ui;
-  background:#0e1a26;
-  color:white;
-  overflow:hidden;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #0e1a26;
+  color: white;
+  overflow: hidden;
 }
 
-/* FX (BACKGROUND ONLY) */
+/* =========================
+   FX LAYER (BACKGROUND ONLY)
+========================= */
 .fx-layer {
-  position:fixed;
-  inset:0;
-  z-index:1;
-  pointer-events:none;
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+
+  background:
+    radial-gradient(circle at 20% 30%, rgba(0,255,255,0.05), transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(0,150,255,0.05), transparent 60%);
 }
 
-/* STATE (VISUAL ONLY — NEVER INTERACTIVE) */
+/* =========================
+   STATE LAYER (NO PNGs)
+========================= */
 .state-layer {
-  position:fixed;
-  inset:0;
-  z-index:2;
-  pointer-events:none;
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
 
-  background:url("./assets/state-Idle.png") center/contain no-repeat;
+  opacity: 0.6;
 
-  opacity:0.4;
+  animation: pulse 6s ease-in-out infinite;
 }
 
-/* UI (KING LAYER) */
+/* IDLE */
+body.state-idle .state-layer {
+  background:
+    radial-gradient(circle at 50% 20%, rgba(0, 200, 255, 0.15), transparent 60%),
+    radial-gradient(circle at 50% 80%, rgba(0, 120, 255, 0.1), transparent 70%);
+}
+
+/* SAFE */
+body.state-safe .state-layer {
+  background:
+    radial-gradient(circle at 50% 20%, rgba(0, 255, 150, 0.25), transparent 60%),
+    radial-gradient(circle at 50% 80%, rgba(0, 255, 100, 0.15), transparent 70%);
+}
+
+/* WARNING */
+body.state-suspicious .state-layer {
+  background:
+    radial-gradient(circle at 50% 20%, rgba(255, 170, 0, 0.3), transparent 60%),
+    radial-gradient(circle at 50% 80%, rgba(255, 120, 0, 0.2), transparent 70%);
+}
+
+/* CRITICAL */
+body.state-critical .state-layer {
+  background:
+    radial-gradient(circle at 50% 20%, rgba(255, 50, 50, 0.35), transparent 60%),
+    radial-gradient(circle at 50% 80%, rgba(255, 0, 0, 0.2), transparent 70%);
+}
+
+/* =========================
+   UI LAYER (TOP PRIORITY)
+========================= */
 .ui-layer {
-  position:relative;
-  z-index:10;
+  position: relative;
+  z-index: 10;
 
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:flex-start;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-  padding-top:80px;
+  padding-top: 80px;
 }
 
-/* LOGO */
+/* =========================
+   LOGO
+========================= */
+.logo-wrap {
+  margin-bottom: 50px;
+}
+
 .logo {
-  width:110px;
-  opacity:0.8;
-  margin-bottom:40px;
+  width: 110px;
+  opacity: 0.8;
 
   filter:
-    drop-shadow(0 0 10px rgba(0,255,255,0.4));
+    drop-shadow(0 0 10px rgba(0,255,255,0.4))
+    drop-shadow(0 0 30px rgba(0,150,255,0.2));
 }
 
-/* GLASS */
+/* =========================
+   GLASS CARD (REACT STYLE REBUILT)
+========================= */
 .glass {
-  width:90%;
-  max-width:360px;
+  width: 90%;
+  max-width: 360px;
 
-  backdrop-filter:blur(20px);
-  background:rgba(255,255,255,0.08);
+  border-radius: 24px;
+  padding: 20px;
 
-  border-radius:24px;
-  padding:20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 
-  display:flex;
-  flex-direction:column;
-  gap:14px;
+  backdrop-filter: blur(25px);
+
+  background: linear-gradient(
+    135deg,
+    rgba(180, 210, 230, 0.25),
+    rgba(120, 160, 200, 0.15)
+  );
+
+  box-shadow:
+    12px 12px 40px rgba(0, 0, 0, 0.4),
+    -8px -8px 30px rgba(255, 255, 255, 0.05),
+    inset 0 1px 1px rgba(255,255,255,0.2),
+    inset 0 -1px 2px rgba(0,0,0,0.3);
 }
 
-/* INPUT */
+/* STATE → GLASS COLOR */
+
+body.state-safe .glass {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 150, 0.2),
+    rgba(0, 200, 120, 0.1)
+  );
+}
+
+body.state-suspicious .glass {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 170, 0, 0.25),
+    rgba(255, 120, 0, 0.15)
+  );
+}
+
+body.state-critical .glass {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 60, 60, 0.3),
+    rgba(180, 0, 0, 0.2)
+  );
+}
+
+/* =========================
+   INPUT
+========================= */
 textarea {
-  width:100%;
-  height:90px;
-  border:none;
-  border-radius:14px;
-  padding:12px;
+  width: 100%;
+  height: 90px;
 
-  background:rgba(0,0,0,0.3);
-  color:white;
+  border: none;
+  border-radius: 14px;
+  padding: 12px;
+
+  background: rgba(0,0,0,0.35);
+  color: white;
+  resize: none;
 }
 
-/* BUTTON ROW */
+/* =========================
+   BUTTONS
+========================= */
 .actions {
-  display:flex;
-  gap:10px;
+  display: flex;
+  gap: 10px;
 }
 
 button {
-  flex:1;
-  border:none;
-  border-radius:999px;
-  padding:10px;
-  color:white;
-  cursor:pointer;
+  flex: 1;
+  border: none;
+  border-radius: 999px;
+  padding: 10px;
 
-  background:rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.12);
+  color: white;
 
-  transition:all 0.08s ease;
+  cursor: pointer;
+
+  transition: all 0.08s ease;
 }
 
-/* PRESS EFFECT */
+/* PRESS */
 button:active {
-  transform:translateY(2px) scale(0.98);
+  transform: translateY(2px) scale(0.98);
+
+  box-shadow:
+    inset 0 3px 4px rgba(0,0,0,0.25),
+    inset 0 -1px 2px rgba(255,255,255,0.2);
 }
 
 /* CTA */
 .cta {
-  font-weight:bold;
-  padding:14px;
-  background:rgba(255,255,255,0.2);
-}
+  font-weight: 700;
+  padding: 14px;
 
-/* RESULT */
-#resultBox {
-  min-height:40px;
+  background: rgba(255,255,255,0.2);
 }
 
 /* =========================
-   STATE COLORS
+   RESULT
 ========================= */
-
-body.state-safe .state-layer {
-  background:url("./assets/state-safe.png") center/contain no-repeat;
+#resultBox {
+  min-height: 40px;
 }
 
-body.state-suspicious .state-layer {
-  background:url("./assets/state-warning.png") center/contain no-repeat;
-}
-
-body.state-critical .state-layer {
-  background:url("./assets/state-critical.png") center/contain no-repeat;
+/* =========================
+   PULSE
+========================= */
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 0.6; }
 }
