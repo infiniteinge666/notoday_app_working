@@ -50,7 +50,7 @@ body {
   position: fixed;
   inset: 0;
   z-index: 10;
-  background: url("../assets/state-Idle.png") center/contain no-repeat;
+  background:  center/contain no-repeat;
   pointer-events: none; /* 🔥 THIS FIXES YOUR BUTTONS */
 }
 
