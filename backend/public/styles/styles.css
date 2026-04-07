@@ -19,13 +19,13 @@ body {
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
 
-  --glow: rgba(0,255,255,0.18);
+  --glow: rgba(0, 255, 255, 0.37);
 }
 
 /* =========================
    STATE COLORS (LOCKED ORDER)
 ========================= */
-body.state-idle { --glow: rgba(2, 255, 255, 0.295); }
+body.state-idle { --glow: rgba(2, 255, 255, 0.384); }
 body.state-safe { --glow: rgba(0, 255, 42, 0.747); }
 body.state-suspicious { --glow: rgba(255, 166, 0, 0.87); }
 body.state-critical { --glow: rgba(255, 60, 60, 0.747); }
@@ -100,8 +100,8 @@ body.state-critical { --glow: rgba(255, 60, 60, 0.747); }
   margin-bottom: 60px;
 
   filter:
-    drop-shadow(0 0 10px var(--glow))
-    drop-shadow(0 0 25px var(--glow));
+    drop-shadow(0 0 5px var(--glow))
+    drop-shadow(0 0 15px var(--glow));
 }
 
 /* GLASS CARD */
