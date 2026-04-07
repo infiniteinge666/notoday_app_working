@@ -38,7 +38,9 @@ window.addEventListener("load", () => {
   }
 
   // APPLY TO ALL BUTTONS
-  [scanBtn, pasteBtn, uploadBtn, clearBtn].forEach(attachButtonFeedback);
+  [scanBtn, pasteBtn, uploadBtn, clearBtn]
+  .filter(Boolean)
+  .forEach(attachButtonFeedback);
 
   // =========================
   // STATE CONTROL (UNCHANGED)
