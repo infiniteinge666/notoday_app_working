@@ -23,53 +23,51 @@
   <!-- UI -->
   <main class="ui-layer">
 
-    <section class="zone zone-top">
+    <!-- LOGO -->
+    <div class="logo-wrap">
       <img src="./assets/notoday-shield.svg" class="logo" />
-    </section>
+    </div>
 
-    <section class="zone zone-middle">
+    <!-- GLASS -->
+    <div class="glass-sheet">
 
-      <div class="glass-sheet">
+      <textarea id="scanInput" placeholder="Paste message, link, email..."></textarea>
 
-        <textarea id="scanInput" placeholder="Paste message, link, email..."></textarea>
+      <div class="actions">
 
-        <div class="actions">
-
-          <div class="button-wrap">
-            <div class="button-shadow"></div>
-            <button id="pasteBtn"><span>Paste</span></button>
-          </div>
-
-          <div class="button-wrap">
-            <div class="button-shadow"></div>
-            <button id="uploadBtn"><span>Upload</span></button>
-          </div>
-
-          <div class="button-wrap">
-            <div class="button-shadow"></div>
-            <button id="clearBtn"><span>Clear</span></button>
-          </div>
-
+        <div class="button-wrap">
+          <div class="button-shadow"></div>
+          <button id="pasteBtn"><span>Paste</span></button>
         </div>
 
-        <div id="resultBox">
-          <h2 id="resultHeading"></h2>
-          <p id="resultReason"></p>
+        <div class="button-wrap">
+          <div class="button-shadow"></div>
+          <button id="uploadBtn"><span>Upload</span></button>
+        </div>
+
+        <div class="button-wrap">
+          <div class="button-shadow"></div>
+          <button id="clearBtn"><span>Clear</span></button>
         </div>
 
       </div>
 
-    </section>
+      <div id="resultBox">
+        <h2 id="resultHeading"></h2>
+        <p id="resultReason"></p>
+      </div>
+
+      <!-- SCAN BUTTON (NOW INSIDE GLASS) -->
+      <div class="button-wrap scan-wrap">
+        <div class="button-shadow"></div>
+        <button id="scanBtn" class="cta">
+          <span>RUN SCAN</span>
+        </button>
+      </div>
+
+    </div>
 
   </main>
-
-  <!-- SCAN BUTTON -->
-  <div class="bottom-bar">
-    <div class="button-wrap">
-      <div class="button-shadow"></div>
-      <button id="scanBtn" class="cta"><span>RUN SCAN</span></button>
-    </div>
-  </div>
 
   <input type="file" id="fileInput" accept="image/*" hidden />
 
