@@ -68,21 +68,6 @@ body {
     drop-shadow(0 0 30px rgba(122,184,191,0.25));
 }
 
-/* GLASS */
-.glass-sheet {
-  width:90%;
-  max-width:360px;
-
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-
-  backdrop-filter:blur(20px);
-  background:rgba(172, 186, 194, 0.226);
-  border-radius:24px;
-  padding:20px;
-}
-
 /* INPUT */
 textarea {
   width:100%;
