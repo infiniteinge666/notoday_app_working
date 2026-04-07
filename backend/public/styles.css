@@ -94,15 +94,26 @@ body.state-critical { --glow: rgba(255, 60, 60, 0.747); }
 }
 
 .logo {
-  width: 110px;
-  margin-bottom: 60px;
+  }
 
-  filter:
-    drop-shadow(0 0 10px var(--glow))
-    drop-shadow(0 0 25px var(--glow))
-    drop-shadow(0 0 45px var(--glow));
+/* REAL glow layer (separate from image) */
+.logo::after {
+  content: "";
+  position: absolute;
+  inset: -30px;
 
-  opacity: 0.9;
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle,
+    var(--glow) 0%,
+    transparent 60%
+  );
+
+  filter: blur(30px);
+  opacity: 0.7;
+
+  z-index: -1;
 }
 
 /* GLASS */
