@@ -1,65 +1,85 @@
 'use strict';
 
+const path = require('path');
+
+const { loadIntelOrDie } = require('../../intel/loadIntel');
 const { runCheck } = require('../../core/engine');
-const { runOCR } = require('../../core/ocr');
-const { logScan } = require('../../core/scanLogger');
 
-function asText(value) {
-  return typeof value === 'string' ? value.trim() : '';
-}
+const { logScan, logError } = require('../../core/logger');
+const { classifyScam } = require('../../core/classifier');
 
-module.exports = async function httpCheckHandler(req, res, next) {
+const intelPath = path.join(__dirname, '../../data/scamIntel.json');
+
+async function httpCheckHandler(req, res) {
   try {
-    const text = asText(req.body?.text);
-    const imageBase64 = asText(req.body?.imageBase64) || asText(req.body?.image);
+    const intel = loadIntelOrDie(intelPath);
 
+    const { text, imageBase64 } = req.body || {};
+
+    // =========================
+    // VALIDATION
+    // =========================
     if (!text && !imageBase64) {
-      return res.status(400).json({
-        success: false,
-        message: 'Provide text or a screenshot.'
-      });
+      logError('no input');
     }
 
-    let ocr = null;
-    let combinedText = text;
-
-    if (imageBase64) {
-      ocr = await runOCR(imageBase64);
-
-      if (!ocr.success && !text) {
-        return res.status(422).json({
-          success: false,
-          message: ocr.error || 'Could not read screenshot.'
-        });
-      }
-
-      if (ocr.text) {
-        combinedText = [text, ocr.text].filter(Boolean).join('\n');
-      }
+    if (imageBase64 && typeof imageBase64 !== 'string') {
+      logError('couldnt read');
     }
 
-    const intelState = req.app.locals.intelState || {};
-    const intel = intelState.intel || {};
+    if (text && text.length > 5000) {
+      logError('breach attempt');
+    }
 
-    logScan({
-      ip: req.ip,
-      ingress: imageBase64 ? (text ? 'TEXT+IMAGE' : 'IMAGE') : 'TEXT',
-      len: combinedText.length
+    // =========================
+    // RUN ENGINE
+    // =========================
+    const result = runCheck({
+      text,
+      imageBase64,
+      intel
     });
 
-    const data = runCheck(combinedText, intel);
-    data.degraded = Boolean(intelState.degraded);
+    // =========================
+    // CLASSIFICATION
+    // =========================
+    const scamClass = classifyScam(result.reasons);
 
-    if (ocr?.text) {
-      data.ocrText = ocr.text;
-    }
+    let ingress = 'text';
+    if (imageBase64) ingress = 'image';
 
+    // =========================
+    // LOGGING
+    // =========================
+    logScan({
+      band: result.band,
+      scamClass,
+      ingress
+    });
+
+    // =========================
+    // RESPONSE
+    // =========================
     return res.json({
       success: true,
-      message: 'OK',
-      data
+      data: result
     });
+
   } catch (err) {
-    return next(err);
+    console.error('[notoday] check error:', err);
+
+    logError('server failure');
+
+    return res.status(500).json({
+      success: false,
+      message: 'Scan failed',
+      data: {
+        band: 'ERROR',
+        score: 0,
+        reasons: ['The system could not process the scan.']
+      }
+    });
   }
-};
+}
+
+module.exports = httpCheckHandler;
