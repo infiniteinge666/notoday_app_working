@@ -19,7 +19,7 @@ body {
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
 
-  --glow: rgba(157, 160, 160, 0.932);
+  --glow: rgba(231, 228, 228, 0.781);
 }
 
 /* =========================
@@ -49,7 +49,7 @@ body.state-critical { --glow: rgba(255, 60, 60, 0.747); }
   height: 200%;
   left: -20%;
   filter: blur(40px);
-  opacity: 0.5;
+  opacity: 0.08;
 
   background: linear-gradient(
     120deg,
@@ -73,7 +73,7 @@ body.state-critical { --glow: rgba(255, 60, 60, 0.747); }
     radial-gradient(var(--glow) 1.5px, transparent 1px);
 
   background-size: 120px 90px;
-  opacity: 0.05;
+  opacity: 0.09;
 
   animation: dustFloat 5s ease-in-out infinite;
 }
