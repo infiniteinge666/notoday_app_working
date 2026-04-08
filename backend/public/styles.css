@@ -72,10 +72,10 @@ body.state-critical { --glow: rgba(255, 60, 60, 0.747); }
   background:
     radial-gradient(var(--glow) 1.5px, transparent 1px);
 
-  background-size: 90px 90px;
-  opacity: 0.6;
+  background-size: 120px 90px;
+  opacity: 0.9;
 
-  animation: dustFloat 10s ease-in-out infinite;
+  animation: dustFloat 5s ease-in-out infinite;
 }
 
 /* =========================
