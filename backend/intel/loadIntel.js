@@ -1,24 +1,39 @@
 'use strict';
 
 const fs = require('fs');
+const path = require('path');
+const { validateIntelSchema } = require('./schema');
 
-function loadIntelOrDie(filePath) {
+function loadIntel(filePath) {
+  const resolved = path.resolve(filePath);
+
   try {
-    const raw = fs.readFileSync(filePath, 'utf8');
-    const intel = JSON.parse(raw);
+    const raw = fs.readFileSync(resolved, 'utf8');
+    const parsed = JSON.parse(raw);
+    const intel = validateIntelSchema(parsed);
 
-    if (!intel || typeof intel !== 'object') {
-      throw new Error('Invalid intel format');
-    }
-
-    return intel;
-
+    return {
+      intel,
+      degraded: false,
+      intelPath: resolved,
+      error: null
+    };
   } catch (err) {
-    console.error('[INTEL LOAD FAILED]', err);
-    throw new Error('Intel load failure');
+    console.error('Intel load failed:', err.message, resolved);
+
+    return {
+      intel: validateIntelSchema({
+        version: 'fallback',
+        updatedAt: null,
+        knownBadDomains: [],
+        scamDomainKeywords: [],
+        scamPatterns: []
+      }),
+      degraded: true,
+      intelPath: resolved,
+      error: err.message
+    };
   }
 }
 
-module.exports = {
-  loadIntelOrDie
-};
+module.exports = { loadIntel };

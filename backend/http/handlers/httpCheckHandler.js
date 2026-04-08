@@ -1,120 +1,65 @@
 'use strict';
 
-const path = require('path');
-
-const { loadIntelOrDie } = require('../../intel/loadIntel');
 const { runCheck } = require('../../core/engine');
+const { runOCR } = require('../../core/ocr');
+const { logScan } = require('../../core/scanLogger');
 
-const { logScan, logError } = require('../../core/logger');
-const { classifyScam } = require('../../core/classifier');
-
-const intelPath = path.join(__dirname, '../../data/scamIntel.json');
-
-async function httpCheckHandler(req, res) {
-  try {
-    const intel = loadIntelOrDie(intelPath);
-
-    const { text, imageBase64 } = req.body || {};
-
-    // =========================
-    // VALIDATION
-    // =========================
-    if (!text && !imageBase64) {
-      logError('no input');
-    }
-
-    if (imageBase64 && typeof imageBase64 !== 'string') {
-      logError('couldnt read');
-    }
-
-    if (text && text.length > 5000) {
-      logError('breach attempt');
-    }
-
-    // =========================
-    // RUN ENGINE (SAFE)
-    // =========================
-    let result;
-
-    try {
-      result = runCheck({
-        text,
-        imageBase64,
-        intel
-      });
-    } catch (engineErr) {
-      console.error('[ENGINE ERROR]', engineErr);
-      logError('engine failure');
-
-      return res.status(500).json({
-        success: false,
-        message: 'Engine failure',
-        data: {
-          band: 'ERROR',
-          score: 0,
-          reasons: ['Engine failed to process input']
-        }
-      });
-    }
-
-    // =========================
-    // RESULT VALIDATION (CRITICAL FIX)
-    // =========================
-    if (!result || !result.band || !Array.isArray(result.reasons)) {
-      console.error('[INVALID RESULT]', result);
-      logError('invalid result');
-
-      return res.status(500).json({
-        success: false,
-        message: 'Invalid result',
-        data: {
-          band: 'ERROR',
-          score: 0,
-          reasons: ['Invalid engine output']
-        }
-      });
-    }
-
-    // =========================
-    // CLASSIFICATION (SAFE NOW)
-    // =========================
-    const scamClass = classifyScam(result.reasons);
-
-    let ingress = 'text';
-    if (imageBase64) ingress = 'image';
-
-    // =========================
-    // LOGGING
-    // =========================
-    logScan({
-      band: result.band,
-      scamClass,
-      ingress
-    });
-
-    // =========================
-    // RESPONSE
-    // =========================
-    return res.json({
-      success: true,
-      data: result
-    });
-
-  } catch (err) {
-    console.error('[CHECK ERROR]', err);
-
-    logError('server failure');
-
-    return res.status(500).json({
-      success: false,
-      message: err.message || 'Scan failed',
-      data: {
-        band: 'ERROR',
-        score: 0,
-        reasons: [err.message || 'The system could not process the scan.']
-      }
-    });
-  }
+function asText(value) {
+  return typeof value === 'string' ? value.trim() : '';
 }
 
-module.exports = httpCheckHandler;
+module.exports = async function httpCheckHandler(req, res, next) {
+  try {
+    const text = asText(req.body?.text);
+    const imageBase64 = asText(req.body?.imageBase64) || asText(req.body?.image);
+
+    if (!text && !imageBase64) {
+      return res.status(400).json({
+        success: false,
+        message: 'Provide text or a screenshot.'
+      });
+    }
+
+    let ocr = null;
+    let combinedText = text;
+
+    if (imageBase64) {
+      ocr = await runOCR(imageBase64);
+
+      if (!ocr.success && !text) {
+        return res.status(422).json({
+          success: false,
+          message: ocr.error || 'Could not read screenshot.'
+        });
+      }
+
+      if (ocr.text) {
+        combinedText = [text, ocr.text].filter(Boolean).join('\n');
+      }
+    }
+
+    const intelState = req.app.locals.intelState || {};
+    const intel = intelState.intel || {};
+
+    logScan({
+      ip: req.ip,
+      ingress: imageBase64 ? (text ? 'TEXT+IMAGE' : 'IMAGE') : 'TEXT',
+      len: combinedText.length
+    });
+
+    const data = runCheck(combinedText, intel);
+    data.degraded = Boolean(intelState.degraded);
+
+    if (ocr?.text) {
+      data.ocrText = ocr.text;
+    }
+
+    return res.json({
+      success: true,
+      message: 'OK',
+      data
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
