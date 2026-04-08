@@ -32,16 +32,51 @@ async function httpCheckHandler(req, res) {
     }
 
     // =========================
-    // RUN ENGINE
+    // RUN ENGINE (SAFE)
     // =========================
-    const result = runCheck({
-      text,
-      imageBase64,
-      intel
-    });
+    let result;
+
+    try {
+      result = runCheck({
+        text,
+        imageBase64,
+        intel
+      });
+    } catch (engineErr) {
+      console.error('[ENGINE ERROR]', engineErr);
+      logError('engine failure');
+
+      return res.status(500).json({
+        success: false,
+        message: 'Engine failure',
+        data: {
+          band: 'ERROR',
+          score: 0,
+          reasons: ['Engine failed to process input']
+        }
+      });
+    }
 
     // =========================
-    // CLASSIFICATION
+    // RESULT VALIDATION (CRITICAL FIX)
+    // =========================
+    if (!result || !result.band || !Array.isArray(result.reasons)) {
+      console.error('[INVALID RESULT]', result);
+      logError('invalid result');
+
+      return res.status(500).json({
+        success: false,
+        message: 'Invalid result',
+        data: {
+          band: 'ERROR',
+          score: 0,
+          reasons: ['Invalid engine output']
+        }
+      });
+    }
+
+    // =========================
+    // CLASSIFICATION (SAFE NOW)
     // =========================
     const scamClass = classifyScam(result.reasons);
 
@@ -66,17 +101,17 @@ async function httpCheckHandler(req, res) {
     });
 
   } catch (err) {
-    console.error('[notoday] check error:', err);
+    console.error('[CHECK ERROR]', err);
 
     logError('server failure');
 
     return res.status(500).json({
       success: false,
-      message: 'Scan failed',
+      message: err.message || 'Scan failed',
       data: {
         band: 'ERROR',
         score: 0,
-        reasons: ['The system could not process the scan.']
+        reasons: [err.message || 'The system could not process the scan.']
       }
     });
   }
