@@ -19,13 +19,13 @@ body {
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
 
-  --glow: rgba(3, 187, 187, 0.63);
+  --glow: rgba(228, 233, 233, 0.932);
 }
 
 /* =========================
    STATE COLORS
 ========================= */
-body.state-idle { --glow: rgba(107, 252, 252, 0.644); }
+body.state-idle { --glow: rgba(2, 112, 116, 0.76); }
 body.state-safe { --glow: rgba(0, 255, 42, 0.747); }
 body.state-suspicious { --glow: rgba(255, 166, 0, 0.87); }
 body.state-critical { --glow: rgba(255, 60, 60, 0.747); }
@@ -70,10 +70,10 @@ body.state-critical { --glow: rgba(255, 60, 60, 0.747); }
   inset: 0;
 
   background:
-    radial-gradient(var(--glow) 1px, transparent 2px);
+    radial-gradient(var(--glow) 1.5px, transparent 1px);
 
-  background-size: 60px 60px;
-  opacity: 0.09;
+  background-size: 90px 90px;
+  opacity: 0.6;
 
   animation: dustFloat 10s ease-in-out infinite;
 }
