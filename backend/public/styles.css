@@ -58,7 +58,7 @@ body.state-critical { --glow: rgba(255, 60, 60, 0.747); }
     transparent
   );
 
-  animation: rayMove1 20s linear infinite;
+  animation: rayMove1 10s linear infinite;
 }
 
 .fx-layer::after {
@@ -73,7 +73,7 @@ body.state-critical { --glow: rgba(255, 60, 60, 0.747); }
     radial-gradient(var(--glow) 1.5px, transparent 1px);
 
   background-size: 120px 90px;
-  opacity: 0.09;
+  opacity: 0.2;
 
   animation: dustFloat 5s ease-in-out infinite;
 }
@@ -98,7 +98,7 @@ body.state-critical { --glow: rgba(255, 60, 60, 0.747); }
 ========================= */
 
 .logo {
-  width: 90px;
+  width: 120px;
   margin-bottom: 50px;
 
   position: relative;
