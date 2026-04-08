@@ -19,13 +19,13 @@ body {
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
 
-  --glow: rgba(0, 255, 255, 0.37);
+  --glow: rgba(3, 187, 187, 0.63);
 }
 
 /* =========================
    STATE COLORS
 ========================= */
-body.state-idle { --glow: rgba(2, 255, 255, 0.384); }
+body.state-idle { --glow: rgba(107, 252, 252, 0.644); }
 body.state-safe { --glow: rgba(0, 255, 42, 0.747); }
 body.state-suspicious { --glow: rgba(255, 166, 0, 0.87); }
 body.state-critical { --glow: rgba(255, 60, 60, 0.747); }
@@ -49,7 +49,7 @@ body.state-critical { --glow: rgba(255, 60, 60, 0.747); }
   height: 200%;
   left: -20%;
   filter: blur(40px);
-  opacity: 0.08;
+  opacity: 0.09;
 
   background: linear-gradient(
     120deg,
@@ -73,9 +73,9 @@ body.state-critical { --glow: rgba(255, 60, 60, 0.747); }
     radial-gradient(var(--glow) 1px, transparent 2px);
 
   background-size: 60px 60px;
-  opacity: 0.05;
+  opacity: 0.09;
 
-  animation: dustFloat 20s ease-in-out infinite;
+  animation: dustFloat 10s ease-in-out infinite;
 }
 
 /* =========================
@@ -294,11 +294,11 @@ button:active {
 }
 
 .bar-1 {
-  background: #00e6e6;
+  background: #07fafa;
 }
 
 .bar-2 {
-  background: #00ccff;
+  background: #00ccff9c;
 }
 
 .bar-3 {
