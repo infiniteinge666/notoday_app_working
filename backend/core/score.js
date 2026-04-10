@@ -1,32 +1,93 @@
-'use strict';
+"use strict";
 
-function scoreEvidence(evidence = []) {
-  const absoluteTriggered = evidence.some(item => {
-    return item.absolute || ['known_bad_domain', 'credential_request', 'credentials'].includes(item.type);
-  });
+/**
+ * NoToday - score.js
+ * Deterministic score aggregation and final band selection.
+ */
 
-  let score = evidence.reduce((sum, item) => sum + (Number(item.weight) || 0), 0);
-  score = absoluteTriggered ? 100 : Math.max(0, Math.min(99, score));
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
 
-  let band = 'SAFE';
-  if (score >= 80) band = 'CRITICAL';
-  else if (score >= 35) band = 'SUSPICIOUS';
-
-  const reasons = evidence.length
-    ? evidence
-        .slice()
-        .sort((a, b) => (b.weight || 0) - (a.weight || 0))
-        .map(item => item.reason || item.label)
+function dedupeStrings(values) {
+  return Array.from(
+    new Set(
+      (Array.isArray(values) ? values : [])
+        .map((value) => (typeof value === "string" ? value.trim() : ""))
         .filter(Boolean)
-        .slice(0, 3)
-    : ['No strong scam indicators detected.'];
+    )
+  );
+}
+
+function buildWhatNotToDo(band) {
+  if (band === "CRITICAL") {
+    return [
+      "Do not send money.",
+      "Do not click links or continue the conversation.",
+      "Do not share passwords, OTPs, PINs, CVVs, card details, screenshots, or ID documents.",
+    ];
+  }
+
+  if (band === "SUSPICIOUS") {
+    return [
+      "Do not act until you verify the request independently.",
+      "Do not use the contact details provided in the message itself.",
+      "Do not send money or sensitive information until verified.",
+    ];
+  }
+
+  return [
+    "Stay cautious and verify anything involving money or personal information.",
+  ];
+}
+
+function buildSummaryBand(score) {
+  if (score >= 85) return "CRITICAL";
+  if (score >= 35) return "SUSPICIOUS";
+  return "SAFE";
+}
+
+function scoreEvidence(evidence = {}) {
+  const absolute = evidence.absolute || null;
+  const knownBadDomain = evidence.knownBadDomain || null;
+  const textScore = Number.isFinite(evidence.textScore) ? evidence.textScore : 0;
+  const domainScore = Number.isFinite(evidence.domainScore) ? evidence.domainScore : 0;
+  const urgencyScore = Number.isFinite(evidence.urgencyScore) ? evidence.urgencyScore : 0;
+  const reasons = Array.isArray(evidence.reasons) ? evidence.reasons : [];
+
+  if (absolute && absolute.hit) {
+    return {
+      band: "CRITICAL",
+      score: 100,
+      reasons: dedupeStrings([absolute.reason, ...reasons]),
+      whatNotToDo: buildWhatNotToDo("CRITICAL"),
+    };
+  }
+
+  if (knownBadDomain && knownBadDomain.hit) {
+    return {
+      band: "CRITICAL",
+      score: 100,
+      reasons: dedupeStrings([knownBadDomain.reason, ...reasons]),
+      whatNotToDo: buildWhatNotToDo("CRITICAL"),
+    };
+  }
+
+  const rawScore = textScore + domainScore + urgencyScore;
+  const finalScore = clamp(Math.round(rawScore), 0, 99);
+  const band = buildSummaryBand(finalScore);
 
   return {
-    score,
     band,
-    absoluteTriggered,
-    reasons
+    score: finalScore,
+    reasons:
+      dedupeStrings(reasons).length > 0
+        ? dedupeStrings(reasons)
+        : ["No strong scam indicators were detected in this input."],
+    whatNotToDo: buildWhatNotToDo(band),
   };
 }
 
-module.exports = { scoreEvidence };
+module.exports = {
+  scoreEvidence,
+};

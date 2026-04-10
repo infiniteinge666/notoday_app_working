@@ -1,137 +1,442 @@
-'use strict';
+"use strict";
 
-function uniqueBy(items, keyFn) {
-  const seen = new Set();
-  const out = [];
+/**
+ * NoToday - match.js
+ * Multilingual-safe deterministic matching.
+ *
+ * Supports:
+ * - known bad domains
+ * - domain keyword scoring
+ * - text pattern scoring
+ * - absolute scam signals
+ * - structural "free money" / multiplier detection
+ */
 
-  for (const item of items) {
-    const key = keyFn(item);
-    if (seen.has(key)) continue;
-    seen.add(key);
-    out.push(item);
-  }
+const {
+  normalizeInput,
+  tokenizeInput,
+  extractNumbers,
+  extractDomains,
+} = require("./normalize");
 
-  return out;
+const DEFAULT_REASON_MAP = {
+  known_bad_domain: "This message links to a known scam domain.",
+  suspicious_domain_keyword: "The link contains scam-like domain wording.",
+  suspicious_text_pattern: "The wording matches known scam behaviour.",
+  free_money: "This message promises unrealistic returns or free money.",
+  urgency: "The message creates time pressure to stop you verifying.",
+  credential_request: "The message asks for sensitive financial or login information.",
+  private_account_payment: "The message suggests payment to a personal account.",
+};
+
+const BUILT_IN_FREE_MONEY_TOKENS = [
+  "free",
+  "gratis",
+  "gratuit",
+  "gratuito",
+  "gratuita",
+  "무료",
+  "ฟรี",
+  "免费",
+  "免費",
+  "бесплатно",
+  "bonus",
+  "bono",
+  "โบนัส",
+  "奖励",
+  "獎勵",
+  "reward",
+  "prize",
+  "win",
+  "winnings",
+  "gift",
+  "cashback",
+  "double",
+  "triple",
+  "x2",
+  "x3",
+];
+
+const BUILT_IN_DEPOSIT_TOKENS = [
+  "deposit",
+  "pay",
+  "payment",
+  "send",
+  "topup",
+  "top-up",
+  "fund",
+  "transfer",
+  "เติมเงิน",
+  "ฝาก",
+  "โอน",
+  "充值",
+  "入金",
+  "оплат",
+  "пополн",
+];
+
+const BUILT_IN_RECEIVE_TOKENS = [
+  "get",
+  "receive",
+  "claim",
+  "earn",
+  "collect",
+  "obtain",
+  "รับ",
+  "ได้",
+  "领取",
+  "получ",
+];
+
+const BUILT_IN_URGENCY_TOKENS = [
+  "urgent",
+  "immediately",
+  "now",
+  "today",
+  "final chance",
+  "limited time",
+  "only today",
+  "act now",
+  "expires",
+  "last chance",
+  "30 seconds",
+  "1 hour",
+  "2 hours",
+  "deadline",
+  "ด่วน",
+  "ตอนนี้",
+  "วันนี้เท่านั้น",
+  "限时",
+  "立即",
+  "срочно",
+];
+
+const BUILT_IN_CREDENTIAL_TOKENS = [
+  "otp",
+  "pin",
+  "cvv",
+  "password",
+  "passcode",
+  "verification code",
+  "one-time pin",
+  "banking app screenshot",
+  "card number",
+  "security code",
+];
+
+const BUILT_IN_PRIVATE_ACCOUNT_TOKENS = [
+  "personal account",
+  "private account",
+  "individual account",
+  "pay this person",
+  "send to my account",
+];
+
+function asArray(value) {
+  return Array.isArray(value) ? value : [];
 }
 
-function matchesDomain(host, candidate) {
-  return host === candidate || host.endsWith(`.${candidate}`);
+function toPatternObjects(list, defaultWeight = 25, defaultCategory = "generic") {
+  return asArray(list)
+    .map((entry) => {
+      if (typeof entry === "string") {
+        return {
+          value: normalizeInput(entry),
+          weight: defaultWeight,
+          category: defaultCategory,
+        };
+      }
+
+      if (entry && typeof entry === "object" && entry.value) {
+        return {
+          value: normalizeInput(entry.value),
+          weight: Number.isFinite(Number(entry.weight)) ? Number(entry.weight) : defaultWeight,
+          category: normalizeInput(entry.category || defaultCategory),
+        };
+      }
+
+      return null;
+    })
+    .filter(Boolean)
+    .filter((entry) => entry.value.length > 0);
 }
 
-function pushEvidence(list, entry) {
-  list.push({
-    type: entry.type || 'signal',
-    label: entry.label || 'Signal detected',
-    reason: entry.reason || entry.label || 'Signal detected',
-    weight: Number(entry.weight) || 0,
-    absolute: Boolean(entry.absolute),
-    whatNotToDo: Array.isArray(entry.whatNotToDo) ? entry.whatNotToDo : [],
-    band: entry.band || null,
-    source: entry.source || null
-  });
+function uniqueStrings(list) {
+  return Array.from(new Set(asArray(list).map((x) => normalizeInput(x)).filter(Boolean)));
 }
 
-function collectEvidence(normalized, intel = {}) {
-  const evidence = [];
-  const domains = Array.isArray(normalized.domains) ? normalized.domains : [];
-  const lower = normalized.lower || '';
+function includesAny(text, patterns) {
+  return patterns.some((pattern) => pattern && text.includes(pattern));
+}
 
-  const knownBadDomains = Array.isArray(intel.knownBadDomains) ? intel.knownBadDomains : [];
-  const scamDomainKeywords = Array.isArray(intel.scamDomainKeywords) ? intel.scamDomainKeywords : [];
-  const scamPatterns = Array.isArray(intel.scamPatterns) ? intel.scamPatterns : [];
+function findKnownBadDomainHit(text, intel = {}) {
+  const domains = extractDomains(text);
+  const knownBadDomains = uniqueStrings(intel.knownBadDomains);
 
   for (const domain of domains) {
     for (const bad of knownBadDomains) {
-      if (matchesDomain(domain, bad)) {
-        pushEvidence(evidence, {
-          type: 'known_bad_domain',
-          label: `Known bad domain detected: ${domain}`,
-          reason: `The message references a domain already marked as malicious: ${domain}.`,
-          weight: 100,
-          absolute: true,
-          whatNotToDo: ['Do not open the link or sign in on that site.'],
-          source: domain
-        });
-      }
-    }
-
-    for (const keyword of scamDomainKeywords) {
-      if (domain.includes(keyword)) {
-        pushEvidence(evidence, {
-          type: 'suspicious_domain_keyword',
-          label: `Suspicious domain wording: ${domain}`,
-          reason: `The domain contains scam-like wording (“${keyword}”).`,
-          weight: 25,
-          whatNotToDo: ['Do not trust a site purely because its name sounds official.'],
-          source: domain
-        });
+      if (domain === bad || domain.endsWith(`.${bad}`) || domain.includes(bad)) {
+        return {
+          hit: true,
+          domain,
+          matched: bad,
+          reason: DEFAULT_REASON_MAP.known_bad_domain,
+          score: 100,
+        };
       }
     }
   }
 
-  const builtInRules = [
-    {
-      type: 'credential_request',
-      label: 'Credential request',
-      pattern: /(password|passcode|otp|one[- ]time (pin|passcode|password)|cvv|seed phrase|recovery phrase|banking details|card number)/i,
-      weight: 100,
-      absolute: true,
-      reason: 'The message asks for sensitive credentials or verification codes.',
-      whatNotToDo: ['Do not share passwords, OTPs, CVVs, or seed phrases.']
-    },
-    {
-      type: 'urgent_threat',
-      label: 'Urgency or threat language',
-      pattern: /(urgent|immediately|within 24 hours|suspended|locked|final warning|avoid closure)/i,
-      weight: 25,
-      reason: 'The message uses pressure or fear to rush a response.',
-      whatNotToDo: ['Do not act under pressure from the message alone.']
-    },
-    {
-      type: 'payment_request',
-      label: 'Unusual payment request',
-      pattern: /(gift ?card|crypto|bitcoin|usdt|wire transfer|bank transfer)/i,
-      weight: 45,
-      reason: 'The message requests payment through channels often used in scams.',
-      whatNotToDo: ['Do not send payment before verifying through an official channel.']
-    },
-    {
-      type: 'login_lure',
-      label: 'Account verification lure',
-      pattern: /(verify your account|confirm your account|log in now|sign in now|secure your account)/i,
-      weight: 35,
-      reason: 'The message pushes an account login or verification step.',
-      whatNotToDo: ['Do not sign in from links sent in messages.']
-    }
-  ];
-
-  for (const rule of builtInRules) {
-    if (rule.pattern.test(lower)) {
-      pushEvidence(evidence, rule);
-    }
-  }
-
-  for (const item of scamPatterns) {
-    try {
-      const regex = new RegExp(item.pattern, item.flags || 'i');
-      if (!regex.test(normalized.text)) continue;
-
-      pushEvidence(evidence, {
-        type: item.id || 'intel_rule',
-        label: item.label || 'Intel pattern matched',
-        reason: item.reason || item.label || 'Intel pattern matched.',
-        weight: Number(item.weight) || 0,
-        absolute: Boolean(item.absolute),
-        whatNotToDo: Array.isArray(item.whatNotToDo) ? item.whatNotToDo : [],
-        band: item.band || null,
-        source: item.id || 'intel'
-      });
-    } catch {
-      // ignore invalid regex rules
-    }
-  }
-
-  return uniqueBy(evidence, item => `${item.type}|${item.label}|${item.reason}`);
+  return {
+    hit: false,
+    domain: null,
+    matched: null,
+    reason: null,
+    score: 0,
+  };
 }
 
-module.exports = { collectEvidence };
+function scoreDomainKeywords(text, intel = {}) {
+  const domains = extractDomains(text);
+  const domainKeywordPatterns = toPatternObjects(intel.scamDomainKeywords, 25, "domain_keyword");
+
+  const matches = [];
+  let total = 0;
+
+  if (domains.length === 0 || domainKeywordPatterns.length === 0) {
+    return { score: 0, matches };
+  }
+
+  for (const domain of domains) {
+    for (const pattern of domainKeywordPatterns) {
+      if (domain.includes(pattern.value)) {
+        matches.push({
+          value: pattern.value,
+          weight: pattern.weight,
+          category: "suspicious_domain_keyword",
+          reason: DEFAULT_REASON_MAP.suspicious_domain_keyword,
+          source: domain,
+        });
+        total += pattern.weight;
+      }
+    }
+  }
+
+  return {
+    score: Math.min(total, 90),
+    matches,
+  };
+}
+
+function scoreTextPatterns(text, intel = {}) {
+  const normalized = normalizeInput(text);
+  const patternObjects = toPatternObjects(intel.scamPatterns, 20, "text_pattern");
+
+  const matches = [];
+  let total = 0;
+
+  for (const pattern of patternObjects) {
+    if (normalized.includes(pattern.value)) {
+      matches.push({
+        value: pattern.value,
+        weight: pattern.weight,
+        category: pattern.category || "suspicious_text_pattern",
+        reason:
+          pattern.category === "credentials"
+            ? DEFAULT_REASON_MAP.credential_request
+            : DEFAULT_REASON_MAP.suspicious_text_pattern,
+      });
+      total += pattern.weight;
+    }
+  }
+
+  return {
+    score: Math.min(total, 95),
+    matches,
+  };
+}
+
+function detectUrgencySignals(text) {
+  const normalized = normalizeInput(text);
+  const tokenHit = includesAny(normalized, BUILT_IN_URGENCY_TOKENS);
+
+  if (!tokenHit) {
+    return { hit: false, reason: null, score: 0 };
+  }
+
+  return {
+    hit: true,
+    reason: DEFAULT_REASON_MAP.urgency,
+    score: 30,
+  };
+}
+
+function detectCredentialSignals(text, intel = {}) {
+  const normalized = normalizeInput(text);
+  const builtInHit = includesAny(normalized, BUILT_IN_CREDENTIAL_TOKENS);
+
+  const patternObjects = toPatternObjects(intel.scamPatterns, 20, "text_pattern");
+  const intelCredentialHit = patternObjects.some((entry) => {
+    const category = entry.category || "";
+    return (category === "credentials" || category === "absolute") && normalized.includes(entry.value);
+  });
+
+  if (!builtInHit && !intelCredentialHit) {
+    return { hit: false, reason: null, score: 0 };
+  }
+
+  return {
+    hit: true,
+    reason: DEFAULT_REASON_MAP.credential_request,
+    score: 100,
+  };
+}
+
+function detectPrivateAccountPayment(text) {
+  const normalized = normalizeInput(text);
+
+  if (!includesAny(normalized, BUILT_IN_PRIVATE_ACCOUNT_TOKENS)) {
+    return { hit: false, reason: null, score: 0 };
+  }
+
+  return {
+    hit: true,
+    reason: DEFAULT_REASON_MAP.private_account_payment,
+    score: 100,
+  };
+}
+
+function hasAscendingAdjacentNumbers(numbers) {
+  if (!Array.isArray(numbers) || numbers.length < 2) return false;
+
+  for (let i = 0; i < numbers.length - 1; i += 1) {
+    const current = numbers[i];
+    const next = numbers[i + 1];
+
+    if (!Number.isFinite(current) || !Number.isFinite(next)) continue;
+    if (next > current) return true;
+  }
+
+  return false;
+}
+
+function detectMultiplierPattern(text) {
+  const normalized = normalizeInput(text);
+  const tokens = tokenizeInput(normalized);
+  const numbers = extractNumbers(normalized);
+
+  const hasAscendingNumbers = hasAscendingAdjacentNumbers(numbers);
+  const hasFreeMoneyToken = includesAny(normalized, BUILT_IN_FREE_MONEY_TOKENS);
+  const hasDepositToken = includesAny(normalized, BUILT_IN_DEPOSIT_TOKENS);
+  const hasReceiveToken = includesAny(normalized, BUILT_IN_RECEIVE_TOKENS);
+  const hasMultiplierToken =
+    /\bx\s?[2-9]\b/.test(normalized) ||
+    /\b[2-9]x\b/.test(normalized) ||
+    normalized.includes("triple") ||
+    normalized.includes("double");
+
+  /**
+   * High-confidence structure:
+   * - ascending monetary numbers
+   * AND
+   * - free/bonus/multiplier wording
+   * OR
+   * - deposit/pay + receive/get wording
+   */
+  const structuralHit =
+    hasAscendingNumbers &&
+    (hasFreeMoneyToken || hasMultiplierToken || (hasDepositToken && hasReceiveToken));
+
+  if (!structuralHit) {
+    return {
+      hit: false,
+      numbers,
+      tokens,
+      reason: null,
+      score: 0,
+    };
+  }
+
+  return {
+    hit: true,
+    numbers,
+    tokens,
+    reason: DEFAULT_REASON_MAP.free_money,
+    score: 100,
+  };
+}
+
+function checkAbsoluteTextSignals(text, intel = {}) {
+  const normalized = normalizeInput(text);
+
+  const patternObjects = toPatternObjects(intel.scamPatterns, 20, "text_pattern");
+  const intelAbsolute = patternObjects.find((entry) => {
+    const category = entry.category || "";
+    return (category === "absolute" || category === "credentials") && normalized.includes(entry.value);
+  });
+
+  if (intelAbsolute) {
+    return {
+      hit: true,
+      category: intelAbsolute.category,
+      reason:
+        intelAbsolute.category === "credentials"
+          ? DEFAULT_REASON_MAP.credential_request
+          : DEFAULT_REASON_MAP.suspicious_text_pattern,
+      score: 100,
+      matched: intelAbsolute.value,
+    };
+  }
+
+  const credentialHit = detectCredentialSignals(normalized, intel);
+  if (credentialHit.hit) {
+    return {
+      hit: true,
+      category: "credentials",
+      reason: credentialHit.reason,
+      score: 100,
+      matched: null,
+    };
+  }
+
+  const privateAccountHit = detectPrivateAccountPayment(normalized);
+  if (privateAccountHit.hit) {
+    return {
+      hit: true,
+      category: "private_account_payment",
+      reason: privateAccountHit.reason,
+      score: 100,
+      matched: null,
+    };
+  }
+
+  const freeMoneyHit = detectMultiplierPattern(normalized);
+  if (freeMoneyHit.hit) {
+    return {
+      hit: true,
+      category: "free_money",
+      reason: freeMoneyHit.reason,
+      score: 100,
+      matched: null,
+    };
+  }
+
+  return {
+    hit: false,
+    category: null,
+    reason: null,
+    score: 0,
+    matched: null,
+  };
+}
+
+module.exports = {
+  findKnownBadDomainHit,
+  scoreDomainKeywords,
+  scoreTextPatterns,
+  detectUrgencySignals,
+  detectCredentialSignals,
+  detectPrivateAccountPayment,
+  detectMultiplierPattern,
+  checkAbsoluteTextSignals,
+};
