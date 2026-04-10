@@ -13,68 +13,13 @@ window.addEventListener("load", () => {
   const clearBtn = $("clearBtn");
   const fileInput = $("fileInput");
 
-  const scanLogEl = $("scanLog");
-  const errorLogEl = $("errorLog");
-
   const loader = $("loaderOverlay");
-
-  const MAX_LOG = 10;
 
   // =========================
   // STATE
   // =========================
   function setState(state) {
     document.body.className = `state-${state}`;
-  }
-
-  // =========================
-  // TIME
-  // =========================
-  function now() {
-    return new Date().toLocaleTimeString();
-  }
-
-  // =========================
-  // CLASSIFIER
-  // =========================
-  function classify(data) {
-    const text = (data.reasons || []).join(" ").toLowerCase();
-
-    if (/otp|pin|cvv/.test(text)) return "Credential Theft";
-    if (/bank|payment/.test(text)) return "Payment Fraud";
-    if (/investment|crypto/.test(text)) return "Investment Scam";
-    if (/parcel|delivery/.test(text)) return "Delivery Scam";
-    if (/invoice|supplier/.test(text)) return "Invoice Fraud";
-
-    return "Social Engineering";
-  }
-
-  // =========================
-  // LOGS
-  // =========================
-  function addScanLog(state, scamClass) {
-    const item = document.createElement("div");
-    item.className = "log-item";
-
-    item.innerHTML = `
-      <span>${now()}</span>
-      <span>${state}</span>
-      <span>${scamClass}</span>
-    `;
-
-    scanLogEl.prepend(item);
-  }
-
-  function addErrorLog(msg) {
-    const item = document.createElement("div");
-    item.className = "log-item";
-
-    item.innerHTML = `
-      <span>${now()}</span>
-      <span>${msg}</span>
-    `;
-
-    errorLogEl.prepend(item);
   }
 
   // =========================
@@ -89,17 +34,21 @@ window.addEventListener("load", () => {
   }
 
   // =========================
-  // RESULT
+  // RESULT (FIXED)
   // =========================
   function renderResult(data) {
     const band = data.band;
-    const scamClass = classify(data);
 
     resultHeading.textContent = band;
-    resultReason.textContent = scamClass;
+
+    // 🔥 USE BACKEND EXPLANATION DIRECTLY
+    if (data.explanation && data.explanation.length > 0) {
+      resultReason.textContent = data.explanation.join(" ");
+    } else {
+      resultReason.textContent = "No explanation available.";
+    }
 
     setState(band.toLowerCase());
-    addScanLog(band, scamClass);
   }
 
   // =========================
@@ -110,18 +59,28 @@ window.addEventListener("load", () => {
     const value = input.value.trim();
 
     if (!value) {
-      addErrorLog("No input");
       return;
     }
 
-    const res = await fetch("/check", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: value })
-    });
+    showLoader();
 
-    const data = await res.json();
-    renderResult(data.data);
+    try {
+      const res = await fetch("/check", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: value })
+      });
+
+      const data = await res.json();
+
+      hideLoader();
+      renderResult(data.data);
+
+    } catch {
+      hideLoader();
+      resultReason.textContent = "Scan failed. Please try again.";
+      setState("error");
+    }
   });
 
   // =========================
@@ -133,10 +92,7 @@ window.addEventListener("load", () => {
 
     const file = fileInput.files[0];
 
-    if (!file) {
-      addErrorLog("No upload");
-      return;
-    }
+    if (!file) return;
 
     const reader = new FileReader();
 
@@ -158,7 +114,8 @@ window.addEventListener("load", () => {
 
       } catch {
         hideLoader();
-        addErrorLog("Upload failed");
+        resultReason.textContent = "Upload failed.";
+        setState("error");
       }
     };
 
