@@ -2,37 +2,25 @@
 
 /**
  * NoToday - engine.js
- * Deterministic scan engine (FIXED)
- *
- * Critical Fix:
- * - Absolute indicators are now correctly wired into scoring
- * - No more SAFE on obvious scams
+ * Deterministic scan engine
  */
 
 const { normalizeInput } = require("./normalize");
-
 const {
   findKnownBadDomainHit,
   scoreDomainKeywords,
   scoreTextPatterns,
   detectUrgencySignals,
-  checkAbsoluteTextSignals, // 🔥 REQUIRED
+  checkAbsoluteTextSignals,
 } = require("./match");
-
 const { scoreEvidence } = require("./score");
 
-/**
- * Ensure safe string handling
- */
 function safeString(value) {
   if (value === null || value === undefined) return "";
   if (typeof value === "string") return value;
   return String(value);
 }
 
-/**
- * Normalize incoming payload structure
- */
 function coalesceInput(input) {
   if (typeof input === "string") {
     return {
@@ -63,9 +51,6 @@ function coalesceInput(input) {
   };
 }
 
-/**
- * Combine all possible input sources
- */
 function buildScanText(input) {
   const parts = [
     safeString(input.text),
@@ -78,9 +63,6 @@ function buildScanText(input) {
   return parts.join(" \n ");
 }
 
-/**
- * Deduplicate reasons
- */
 function dedupeStrings(values) {
   return Array.from(
     new Set(
@@ -92,40 +74,84 @@ function dedupeStrings(values) {
 }
 
 /**
- * Human explanation layer
+ * Human-readable explanation builder
  */
-function formatExplanation(result) {
-  const reasons = Array.isArray(result.reasons) ? result.reasons : [];
+function buildReasons(result, context = {}) {
+  const reasons = [];
+  const absolute = context.absolute || null;
+  const knownBadDomain = context.knownBadDomain || null;
+  const urgencyHit = Boolean(context.urgencyHit);
 
-  if (result.band === "CRITICAL") {
-    return dedupeStrings([
-      ...reasons,
-      "This is highly likely to be a scam. Do not engage or send money.",
-    ]);
+  if (absolute && absolute.hit) {
+    if (absolute.category === "free_money") {
+      const nums = Array.isArray(absolute.numbers) ? absolute.numbers : [];
+      if (nums.length >= 2) {
+        reasons.push(
+          `This message promises more money than you send (${nums[0]} -> ${nums[1]}).`
+        );
+      } else {
+        reasons.push("This message promises unrealistic returns or free money.");
+      }
+      reasons.push("Real money does not multiply instantly without real risk.");
+    } else if (absolute.category === "credentials") {
+      reasons.push("This message asks for sensitive information such as an OTP, PIN, CVV, or password.");
+      reasons.push("Legitimate organisations do not ask for these details through messages like this.");
+    } else if (absolute.category === "private_account_payment") {
+      reasons.push("This message asks for payment to a private or personal account.");
+      reasons.push("Legitimate businesses and institutions should not redirect payments this way.");
+    } else {
+      reasons.push(absolute.reason || "A critical scam indicator was detected.");
+    }
   }
 
-  if (result.band === "SUSPICIOUS") {
-    return dedupeStrings([
-      ...reasons,
-      "This message shows warning signs. Verify independently before acting.",
-    ]);
+  if (knownBadDomain && knownBadDomain.hit) {
+    reasons.push(`This message links to a known scam domain: ${knownBadDomain.domain}.`);
   }
 
-  return dedupeStrings([
-    ...reasons,
-    "No strong scam indicators detected, but always verify before sending money.",
-  ]);
+  if (urgencyHit) {
+    reasons.push("The message creates urgency to stop you from verifying it properly.");
+  }
+
+  if (reasons.length === 0) {
+    if (result.band === "SAFE") {
+      reasons.push("No strong scam indicators were detected.");
+    } else if (result.band === "SUSPICIOUS") {
+      reasons.push("This message shows warning signs commonly seen in scams.");
+    } else {
+      reasons.push("This message contains strong scam indicators.");
+    }
+  }
+
+  return dedupeStrings(reasons);
 }
 
-/**
- * MAIN ENGINE
- */
+function buildWhatNotToDo(band) {
+  if (band === "CRITICAL") {
+    return [
+      "Do not send money.",
+      "Do not click links.",
+      "Do not share passwords, OTPs, PINs, CVVs, screenshots, or ID documents.",
+    ];
+  }
+
+  if (band === "SUSPICIOUS") {
+    return [
+      "Do not act until you verify the request independently.",
+      "Do not use the contact details provided in the message itself.",
+      "Do not send money or sensitive information until verified.",
+    ];
+  }
+
+  return [
+    "Still verify independently before sending money or sharing personal information.",
+  ];
+}
+
 function runCheck(input, intel = {}) {
   const ingress = coalesceInput(input);
   const rawText = buildScanText(ingress);
   const normalizedText = normalizeInput(rawText);
 
-  // FAIL-SAFE: no content
   if (!normalizedText) {
     return {
       band: "SAFE",
@@ -136,23 +162,12 @@ function runCheck(input, intel = {}) {
     };
   }
 
-  // 🔥 CRITICAL FIX — ABSOLUTE DETECTION FIRST
   const absolute = checkAbsoluteTextSignals(normalizedText, intel);
-
-  // OPTIONAL DEBUG (keep for now)
-  if (absolute.hit) {
-    console.log("[ABSOLUTE HIT]", absolute.reason);
-  }
-
-  // DOMAIN CHECK
   const knownBadDomain = findKnownBadDomainHit(normalizedText, intel);
-
-  // SCORING SIGNALS
   const domainKeywordResult = scoreDomainKeywords(normalizedText, intel);
   const textPatternResult = scoreTextPatterns(normalizedText, intel);
   const urgencyResult = detectUrgencySignals(normalizedText);
 
-  // COLLECT REASONS
   const rawReasons = [
     ...domainKeywordResult.matches.map((m) => m.reason),
     ...textPatternResult.matches.map((m) => m.reason),
@@ -162,9 +177,8 @@ function runCheck(input, intel = {}) {
     rawReasons.push(urgencyResult.reason);
   }
 
-  // 🔥 FIXED SCORING PIPELINE
   const scored = scoreEvidence({
-    absolute, // 🔥 THIS WAS MISSING — NOW FIXED
+    absolute,
     knownBadDomain,
     textScore: textPatternResult.score,
     domainScore: domainKeywordResult.score,
@@ -172,20 +186,21 @@ function runCheck(input, intel = {}) {
     reasons: rawReasons,
   });
 
-  const explanation = formatExplanation(scored);
+  const explanation = buildReasons(scored, {
+    absolute,
+    knownBadDomain,
+    urgencyHit: urgencyResult.hit,
+  });
 
   return {
     band: scored.band,
     score: scored.score,
-    reasons: scored.reasons,
+    reasons: explanation,
     explanation,
-    whatNotToDo: scored.whatNotToDo,
+    whatNotToDo: buildWhatNotToDo(scored.band),
   };
 }
 
-/**
- * Compatibility alias
- */
 function scan(input, intel = {}) {
   return runCheck(input, intel);
 }
