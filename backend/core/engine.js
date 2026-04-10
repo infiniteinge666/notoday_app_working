@@ -78,51 +78,81 @@ function dedupeStrings(values) {
  */
 function buildReasons(result, context = {}) {
   const reasons = [];
+
   const absolute = context.absolute || null;
   const knownBadDomain = context.knownBadDomain || null;
   const urgencyHit = Boolean(context.urgencyHit);
 
-  if (absolute && absolute.hit) {
-    if (absolute.category === "free_money") {
-      const nums = Array.isArray(absolute.numbers) ? absolute.numbers : [];
-      if (nums.length >= 2) {
-        reasons.push(
-          `This message promises more money than you send (${nums[0]} -> ${nums[1]}).`
-        );
-      } else {
-        reasons.push("This message promises unrealistic returns or free money.");
-      }
-      reasons.push("Real money does not multiply instantly without real risk.");
-    } else if (absolute.category === "credentials") {
-      reasons.push("This message asks for sensitive information such as an OTP, PIN, CVV, or password.");
-      reasons.push("Legitimate organisations do not ask for these details through messages like this.");
-    } else if (absolute.category === "private_account_payment") {
-      reasons.push("This message asks for payment to a private or personal account.");
-      reasons.push("Legitimate businesses and institutions should not redirect payments this way.");
+  // 🔴 FREE MONEY (ABSOLUTE)
+  if (absolute && absolute.hit && absolute.category === "free_money") {
+    const nums = Array.isArray(absolute.numbers) ? absolute.numbers : [];
+
+    if (nums.length >= 2) {
+      reasons.push(
+        `This message promises more money than you send (${nums[0]} -> ${nums[1]}).`
+      );
     } else {
-      reasons.push(absolute.reason || "A critical scam indicator was detected.");
+      reasons.push("This message promises unrealistic returns or free money.");
     }
+
+    reasons.push("Real money does not multiply instantly without real risk.");
   }
 
+  // 🔴 CREDENTIAL REQUEST
+  if (absolute && absolute.hit && absolute.category === "credentials") {
+    reasons.push(
+      "This message asks for sensitive information like an OTP, PIN, CVV, or password."
+    );
+    reasons.push(
+      "Legitimate organisations will never ask for this information through messages."
+    );
+  }
+
+  // 🔴 PRIVATE ACCOUNT PAYMENT
+  if (absolute && absolute.hit && absolute.category === "private_account_payment") {
+    reasons.push(
+      "This message asks you to send money to a personal or private account."
+    );
+    reasons.push(
+      "Legitimate businesses do not redirect payments to personal accounts."
+    );
+  }
+
+  // 🔴 KNOWN BAD DOMAIN
   if (knownBadDomain && knownBadDomain.hit) {
-    reasons.push(`This message links to a known scam domain: ${knownBadDomain.domain}.`);
+    reasons.push(
+      `This message links to a known scam domain (${knownBadDomain.domain}).`
+    );
+    reasons.push(
+      "This domain has been flagged in scam activity before."
+    );
   }
 
+  // 🟠 URGENCY
   if (urgencyHit) {
-    reasons.push("The message creates urgency to stop you from verifying it properly.");
+    reasons.push(
+      "The message creates urgency to pressure you into acting without verifying."
+    );
   }
 
-  if (reasons.length === 0) {
-    if (result.band === "SAFE") {
-      reasons.push("No strong scam indicators were detected.");
-    } else if (result.band === "SUSPICIOUS") {
-      reasons.push("This message shows warning signs commonly seen in scams.");
-    } else {
-      reasons.push("This message contains strong scam indicators.");
-    }
+  // 🟡 GENERIC SUSPICIOUS
+  if (reasons.length === 0 && result.band === "SUSPICIOUS") {
+    reasons.push(
+      "This message contains patterns commonly used in scams."
+    );
+    reasons.push(
+      "You should verify this independently before taking action."
+    );
   }
 
-  return dedupeStrings(reasons);
+  // 🟢 SAFE
+  if (reasons.length === 0 && result.band === "SAFE") {
+    reasons.push(
+      "No strong scam indicators were detected in this message."
+    );
+  }
+
+  return Array.from(new Set(reasons));
 }
 
 function buildWhatNotToDo(band) {
