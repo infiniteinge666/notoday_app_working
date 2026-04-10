@@ -22,6 +22,8 @@ router.get('/intel', httpIntelHandler);
 router.post('/check', httpCheckHandler);
 
 // =========================
-// INVESTOR METRICS (FIXED)
+// INVESTOR ROUTE
 // =========================
 router.get('/investor', httpInvestorHandler);
+
+module.exports = router;
