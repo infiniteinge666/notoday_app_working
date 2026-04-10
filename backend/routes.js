@@ -12,5 +12,7 @@ router.get('/health', (req, res) => {
 
 router.get('/intel', httpIntelHandler);
 router.post('/check', httpCheckHandler);
+const httpInvestorHandler = require('./http/handlers/httpInvestorHandler');
 
+app.get('/investor', httpInvestorHandler);
 module.exports = router;

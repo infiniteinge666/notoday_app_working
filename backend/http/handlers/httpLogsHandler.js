@@ -1,5 +1,5 @@
 'use strict';
-
+const totalScans = scans.length;
 const fs = require('fs');
 const path = require('path');
 
