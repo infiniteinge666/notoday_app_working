@@ -1,3 +1,5 @@
+"use strict";
+
 window.addEventListener("load", () => {
 
   const $ = (id) => document.getElementById(id);
@@ -34,16 +36,25 @@ window.addEventListener("load", () => {
   }
 
   // =========================
-  // RESULT (FIXED)
+  // TOKEN
+  // =========================
+  function getToken() {
+    return localStorage.getItem("notoday_token") || "";
+  }
+
+  // =========================
+  // RESULT
   // =========================
   function renderResult(data) {
     const band = data.band;
 
     resultHeading.textContent = band;
 
-    // 🔥 USE BACKEND EXPLANATION DIRECTLY
+    // 🔥 MULTI-LINE EXPLANATION (CORRECT)
     if (data.explanation && data.explanation.length > 0) {
-      resultReason.textContent = data.explanation.join(" ");
+      resultReason.innerHTML = data.explanation
+        .map(line => `<div>${line}</div>`)
+        .join("");
     } else {
       resultReason.textContent = "No explanation available.";
     }
@@ -52,28 +63,44 @@ window.addEventListener("load", () => {
   }
 
   // =========================
+  // HANDLE BLOCKED STATE
+  // =========================
+  function renderBlocked(message) {
+    resultHeading.textContent = "BLOCKED";
+    resultReason.textContent = message || "Access restricted.";
+    setState("blocked");
+  }
+
+  // =========================
   // TEXT SCAN
   // =========================
   scanBtn.addEventListener("click", async () => {
 
     const value = input.value.trim();
-
-    if (!value) {
-      return;
-    }
+    if (!value) return;
 
     showLoader();
 
     try {
       const res = await fetch("/check", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-token": getToken()
+        },
         body: JSON.stringify({ text: value })
       });
 
       const data = await res.json();
 
       hideLoader();
+
+      // 🔥 HANDLE TOKEN BLOCK
+      if (!data.success) {
+        renderBlocked(data.message || "Access denied");
+        return;
+      }
+
       renderResult(data.data);
 
     } catch {
@@ -91,7 +118,6 @@ window.addEventListener("load", () => {
   fileInput.addEventListener("change", () => {
 
     const file = fileInput.files[0];
-
     if (!file) return;
 
     const reader = new FileReader();
@@ -103,13 +129,22 @@ window.addEventListener("load", () => {
       try {
         const res = await fetch("/check", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-token": getToken()
+          },
           body: JSON.stringify({ imageBase64: reader.result })
         });
 
         const data = await res.json();
 
         hideLoader();
+
+        if (!data.success) {
+          renderBlocked(data.message || "Access denied");
+          return;
+        }
+
         renderResult(data.data);
 
       } catch {
