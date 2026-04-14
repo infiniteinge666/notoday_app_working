@@ -787,6 +787,169 @@
     }
   ],
   "scamPatterns": [
+  {
+    "value": "(?:^|[^a-z0-9])(absa|africanbank|bidvestbank|capitec|capitecbank|fnb|nedbank|standardbank|tymebank|tymedigital|discovery|sars|sassa|saps|natis|takealot|temu|vodacom|mtn|telkom|facebook|instagram|meta|dhl|aramex|dawnwing|thecourierguy)(?:[-_\\.,])",
+    "category": "domain_lookalike",
+    "weight": 85
+  },
+
+  {
+    "value": "(?:debt\\s+summons|summons\\s+stage|legal\\s+summons).{0,60}(?:whatsapp|wa\\.me)",
+    "category": "legal_impersonation",
+    "weight": 100
+  },
+  {
+    "value": "(?:assigned\\s+to\\s+|handed\\s+over\\s+to).{0,40}(?:whatsapp|contact\\s+us\\s+on\\s+whatsapp)",
+    "category": "handoff_manipulation",
+    "weight": 95
+  },
+  {
+    "value": "wa\\.me\\/\\d+",
+    "category": "private_channel_handoff",
+    "weight": 100
+  },
+
+  {
+    "value": "(?:summons|warrant|court|arrest).{0,40}(?:pay|fine|settle)",
+    "category": "threat",
+    "weight": 30
+  },
+
+  {
+    "value": "(?:final\\s+notice|last\\s+chance|24\\s*hours|within\\s+\\d+\\s*hours)",
+    "category": "urgency",
+    "weight": 20
+  },
+  {
+    "value": "act\\s+now|urgent\\b|immediately\\b|final\\s+notice",
+    "category": "urgency",
+    "weight": 25
+  },
+
+  {
+    "value": "(?:black\\s*friday|mega\\s*sale|flash\\s*sale).{0,40}(?:limited|today only|ends tonight)",
+    "category": "fake_store",
+    "weight": 20
+  },
+  {
+    "value": "(?:chargeback|asset\\s+recovery|hacker).{0,40}(?:fee|deposit|upfront)",
+    "category": "recovery",
+    "weight": 30
+  },
+  {
+    "value": "(?:claim).{0,30}(?:prize|reward).{0,30}(?:fee|payment)",
+    "category": "prize",
+    "weight": 25
+  },
+  {
+    "value": "(?:confirm|verify|update).{0,30}(?:bank|account).{0,30}(?:details|info|information)",
+    "category": "bank_impersonation",
+    "weight": 20
+  },
+  {
+    "value": "(?:crypto|bitcoin|usdt|ethereum).{0,40}(?:deposit|wallet|address)",
+    "category": "investment",
+    "weight": 20
+  },
+  {
+    "value": "(?:delayed\\s*)?refund.{0,40}(?:fica|documents|verify|verification)",
+    "category": "authority_tax",
+    "weight": 25
+  },
+  {
+    "value": "(?:dhl|the courier guy|aramex|dawn wing|post office).{0,40}(?:fee|payment|held|customs)",
+    "category": "delivery_fee",
+    "weight": 25
+  },
+  {
+    "value": "(?:double|triple).{0,20}(?:your\\s+money|investment)",
+    "category": "investment",
+    "weight": 30
+  },
+  {
+    "value": "(?:emergency|crisis).{0,40}(?:need\\s+money|send\\s+money|help\\s+me)",
+    "category": "romance_isolation",
+    "weight": 20
+  },
+
+  {
+    "value": "(?:fnb|absa|nedbank|standard\\s*bank|capitec|tymebank|discovery\\s*bank).{0,40}(?:login|verify|secure|otp|pin)",
+    "category": "bank_impersonation",
+    "weight": 30
+  },
+  {
+    "value": "(?:guaranteed|risk[-\\s]*free).{0,30}(?:returns?|profit)",
+    "category": "investment",
+    "weight": 25
+  },
+  {
+    "value": "(?:keep\\s+this\\s+between\\s+us|don't\\s+tell\\s+anyone|secret)",
+    "category": "romance_isolation",
+    "weight": 25
+  },
+  {
+    "value": "(?:natis)\\s+services\\s+(?:are\\s+)?blocked|blocked\\s+your\\s+access\\s+to\\s+natis",
+    "category": "service_threat",
+    "weight": 95
+  },
+
+  {
+    "value": "(?:parcel|package).{0,40}(?:waiting|pending|held|on hold)",
+    "category": "delivery_fee",
+    "weight": 20
+  },
+  {
+    "value": "(?:pay|fee).{0,30}(?:release|unlock).{0,30}(?:funds|wallet)",
+    "category": "recovery",
+    "weight": 25
+  },
+  {
+    "value": "(?:shorturl|bit\\.ly|tinyurl|t\\.co|is\\.gd|rebrand\\.ly)\\/[a-z0-9]+",
+    "category": "link_shortener",
+    "weight": 20
+  },
+
+  {
+    "value": "(?:task|rating|like\\s+and\\s+earn|work\\s+from\\s+home).{0,40}(?:earn|profit|commission)",
+    "category": "task_scam",
+    "weight": 25
+  },
+
+  {
+    "value": "\\b(otp|pin|cvv|password|verification code)\\b",
+    "category": "credentials",
+    "weight": 100
+  },
+
+  {
+    "value": "anydesk|teamviewer|remote\\s+access|screen\\s+share|quick\\s+support",
+    "category": "remote_takeover",
+    "weight": 100
+  },
+
+  {
+    "value": "pay\\s+into\\s+a\\s+private\\s+individual",
+    "category": "money",
+    "weight": 45
+  },
+
+  {
+    "value": "send proof of payment",
+    "category": "payment_redirect",
+    "weight": 85
+  },
+
+  {
+    "value": "whatsapp number",
+    "category": "private_channel_handoff",
+    "weight": 95
+  },
+
+  {
+    "value": "you are entitled to compensation",
+    "category": "free_money",
+    "weight": 100
+  },
     {
       "value": "(?:^|[^a-z0-9])(absa|africanbank|bidvestbank|capitec|capitecbank|fnb|nedbank|standardbank|tymebank|tymedigital|discovery|sars|sassa|saps|natis|takealot|temu|vodacom|mtn|telkom|facebook|instagram|meta|dhl|aramex|dawnwing|thecourierguy)(?:[-_\\.,])",
       "category": "domain_lookalike",
