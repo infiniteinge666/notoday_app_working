@@ -1,5 +1,5 @@
 {
-  "version": "v21",
+  "version": "v22",
   "knownBadDomains": [
     {
       "value": "aarotrtria.cc",
@@ -792,6 +792,36 @@
       "category": "domain_lookalike",
       "weight": 85
     },
+        {
+      "value": "(?:debt\\s+summons|summons\\s+stage|legal\\s+summons).{0,60}(?:whatsapp|wa\\.me)",
+      "category": "legal_impersonation",
+      "weight": 100
+    },
+
+    {
+      "value": "(?:assigned\\s+to\\s+|handed\\s+over\\s+to).{0,40}(?:whatsapp|contact\\s+us\\s+on\\s+whatsapp)",
+      "category": "handoff_manipulation",
+      "weight": 95
+    },
+
+    {
+      "value": "wa\\.me\\/\\d+",
+      "category": "private_channel_handoff",
+      "weight": 100
+    },
+
+    {
+      "value": "(?:summons|warrant|court|arrest)",
+      "category": "threat",
+      "weight": 90
+    },
+
+    {
+      "value": "(?:final\\s+notice|urgent|immediately)",
+      "category": "urgency",
+      "weight": 40
+    },
+    
     {
       "value": "(?:black\\s*friday|mega\\s*sale|flash\\s*sale).{0,40}(?:limited|today only|ends tonight)",
       "category": "fake_store",
