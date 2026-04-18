@@ -6,11 +6,13 @@ const loadIntelOrDie = require("../../intel/loadIntel");
 const engineModule = require("../../core/engine");
 const ocrModule = require("../../core/ocr");
 
+// Resolve engine function safely
 const runCheck =
   typeof engineModule === "function"
     ? engineModule
     : engineModule.runCheck || engineModule.scan;
 
+// Resolve OCR function safely
 const extractTextFromImage =
   typeof ocrModule === "function"
     ? ocrModule
@@ -19,6 +21,7 @@ const extractTextFromImage =
       ocrModule.ocr ||
       null;
 
+// Multer setup (memory storage for OCR)
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
@@ -51,29 +54,54 @@ function httpCheckHandler(req, res) {
       let text = "";
       let imageBuffer = null;
 
+      // TEXT INPUT
       if (req.body && typeof req.body.text === "string" && req.body.text.trim()) {
         text = req.body.text.trim();
       }
 
+      // BASE64 INPUT (fallback path)
       if (
         req.body &&
         typeof req.body.imageBase64 === "string" &&
         req.body.imageBase64.trim()
       ) {
-        imageBuffer = Buffer.from(req.body.imageBase64.trim(), "base64");
+        try {
+          imageBuffer = Buffer.from(req.body.imageBase64.trim(), "base64");
+        } catch (e) {
+          console.error("BASE64 PARSE ERROR:", e);
+        }
       }
 
+      // MULTER FILE INPUT (primary path)
       if (req.file && req.file.buffer) {
         imageBuffer = req.file.buffer;
       }
 
+      // OCR PROCESSING (WITH DEBUG VISIBILITY)
       if (imageBuffer && typeof extractTextFromImage === "function") {
+        console.log("OCR START — buffer size:", imageBuffer.length);
+
         const ocrText = await extractTextFromImage(imageBuffer);
+
+        console.log("OCR RAW RESULT:", ocrText);
+        console.log("OCR TYPE:", typeof ocrText);
+        console.log("OCR LENGTH:", ocrText ? ocrText.length : 0);
+
         if (typeof ocrText === "string" && ocrText.trim()) {
           text = ocrText.trim();
+        } else {
+          console.log("OCR RETURNED EMPTY OR INVALID");
+        }
+      } else {
+        if (!imageBuffer) {
+          console.log("NO IMAGE BUFFER PROVIDED");
+        }
+        if (typeof extractTextFromImage !== "function") {
+          console.log("OCR FUNCTION NOT RESOLVED");
         }
       }
 
+      // FINAL VALIDATION
       if (!text) {
         return res.status(400).json({
           success: false,
@@ -93,6 +121,7 @@ function httpCheckHandler(req, res) {
         message: "Scan complete",
         data: result
       });
+
     } catch (error) {
       console.error("CHECK ERROR:", error);
 
