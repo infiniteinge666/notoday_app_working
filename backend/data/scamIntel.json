@@ -1,5 +1,5 @@
 {
-  "version": "v22",
+  "version": "v23",
   "knownBadDomains": [
     {
       "value": "aarotrtria.cc",
@@ -2040,6 +2040,31 @@
 {
   "value": "whatsapp us urgently to stop summons",
   "type": "absolute"
+},
+{
+  "value": "debt summons",
+  "category": "legal_threat",
+  "weight": 80
+},
+{
+  "value": "capfin sold debt",
+  "category": "debt_scam",
+  "weight": 70
+},
+{
+  "value": "assigned to acquifin",
+  "category": "debt_scam",
+  "weight": 70
+},
+{
+  "value": "whatsapp",
+  "category": "suspicious_channel",
+  "weight": 40
+},
+{
+  "value": "stop summons",
+  "category": "legal_threat",
+  "weight": 80
 }
   ]
 }
