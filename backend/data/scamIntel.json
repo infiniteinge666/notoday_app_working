@@ -2036,6 +2036,10 @@
   "weight": 50,
   "reason": "Uses WhatsApp link",
   "whatNotToDo": "Do not click WhatsApp links for sensitive matters"
+},
+{
+  "value": "whatsapp us urgently to stop summons",
+  "type": "absolute"
 }
   ]
 }
