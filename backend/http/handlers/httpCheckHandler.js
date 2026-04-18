@@ -14,7 +14,10 @@ const runCheck =
 const extractTextFromImage =
   typeof ocrModule === "function"
     ? ocrModule
-    : ocrModule.extractTextFromImage || ocrModule.extractText || ocrModule.ocr;
+    : ocrModule.extractTextFromImage ||
+      ocrModule.extractText ||
+      ocrModule.ocr ||
+      null;
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -64,11 +67,7 @@ function httpCheckHandler(req, res) {
         imageBuffer = req.file.buffer;
       }
 
-      if (imageBuffer) {
-        if (typeof extractTextFromImage !== "function") {
-          throw new Error("extractTextFromImage is not a function");
-        }
-
+      if (imageBuffer && typeof extractTextFromImage === "function") {
         const ocrText = await extractTextFromImage(imageBuffer);
         if (typeof ocrText === "string" && ocrText.trim()) {
           text = ocrText.trim();
