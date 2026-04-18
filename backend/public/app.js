@@ -65,39 +65,7 @@ window.addEventListener("load", () => {
   }
 
   // =========================
-  // SAFE BASE64 EXTRACT (FIX)
-  // =========================
-  function extractBase64(dataUrl) {
-    const match = dataUrl.match(/^data:(.*?);base64,(.*)$/);
-
-    if (!match || !match[2]) {
-      throw new Error("Invalid image format");
-    }
-
-    return match[2];
-  }
-
-  function readFile(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        try {
-          const base64 = extractBase64(reader.result);
-          resolve(base64);
-        } catch (err) {
-          reject(err);
-        }
-      };
-
-      reader.onerror = () => reject("File read failed");
-
-      reader.readAsDataURL(file);
-    });
-  }
-
-  // =========================
-  // IMAGE UPLOAD (FINAL FIX)
+  // IMAGE UPLOAD
   // =========================
   fileInput.addEventListener("change", async (e) => {
     const file = e.target.files[0];
@@ -111,17 +79,12 @@ window.addEventListener("load", () => {
 
     try {
       setState("processing");
-
-      const base64 = await readFile(file);
-
-      console.log("BASE64 OK:", base64.length);
+      const formData = new FormData();
+      formData.append("image", file);
 
       const res = await fetch("https://notoday.co.za/check", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ imageBase64: base64 }),
+        body: formData,
       });
 
       const payload = await res.json();
