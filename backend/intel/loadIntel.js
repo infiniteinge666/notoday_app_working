@@ -1,55 +1,75 @@
-"use strict";
+'use strict';
 
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const { validateIntel } = require('./schema');
 
-const PRIMARY_INTEL_PATH = path.join(__dirname, "..", "data", "scamIntel.json");
+function loadIntel(intelPath) {
+  let intel = null;
+  let degraded = false;
 
-function readJsonFile(filePath) {
-  const raw = fs.readFileSync(filePath, "utf8");
-  return JSON.parse(raw);
-}
+  console.log('[loadIntel] start', {
+    intelPath
+  });
 
-function ensureArray(value) {
-  return Array.isArray(value) ? value : [];
-}
-
-function normalizeIntelShape(intel) {
-  const safeIntel = intel && typeof intel === "object" ? intel : {};
-
-  return {
-    version: safeIntel.version || "fallback",
-    degraded: Boolean(safeIntel.degraded),
-    knownBadDomains: ensureArray(safeIntel.knownBadDomains),
-    scamDomainKeywords: ensureArray(safeIntel.scamDomainKeywords),
-    scamPatterns: ensureArray(safeIntel.scamPatterns)
-  };
-}
-
-function buildFallbackIntel(reason) {
-  return {
-    version: "fallback",
-    degraded: true,
-    reason,
-    knownBadDomains: [],
-    scamDomainKeywords: [],
-    scamPatterns: []
-  };
-}
-
-function loadIntelOrDie() {
   try {
-    if (!fs.existsSync(PRIMARY_INTEL_PATH)) {
-      return buildFallbackIntel("Primary intel file missing");
-    }
+    const raw = fs.readFileSync(intelPath, 'utf8');
 
-    const parsed = readJsonFile(PRIMARY_INTEL_PATH);
-    const intel = normalizeIntelShape(parsed);
-    intel.degraded = false;
-    return intel;
-  } catch (error) {
-    return buildFallbackIntel(error && error.message ? error.message : "Intel load failed");
+    console.log('[loadIntel] file:read_success', {
+      intelPath,
+      bytes: Buffer.byteLength(raw, 'utf8')
+    });
+
+    const parsed = JSON.parse(raw);
+
+    console.log('[loadIntel] file:parse_success', {
+      intelPath,
+      version: parsed?.version || 'unknown'
+    });
+
+    const v = validateIntel(parsed);
+
+    console.log('[loadIntel] validation:result', {
+      ok: !!v?.ok,
+      errors: Array.isArray(v?.errors) ? v.errors : []
+    });
+
+    if (!v.ok) {
+      degraded = true;
+      intel = null;
+
+      console.error('[loadIntel] degraded:validation_failed', {
+        intelPath
+      });
+    } else {
+      intel = parsed;
+
+      console.log('[loadIntel] counts', {
+        version: intel?.version || 'unknown',
+        scamPatterns: Array.isArray(intel?.scamPatterns) ? intel.scamPatterns.length : 0,
+        knownBadDomains: Array.isArray(intel?.knownBadDomains) ? intel.knownBadDomains.length : 0,
+        scamDomainKeywords: Array.isArray(intel?.scamDomainKeywords) ? intel.scamDomainKeywords.length : 0,
+        saOfficialDomains: Array.isArray(intel?.saOfficialDomains) ? intel.saOfficialDomains.length : 0
+      });
+    }
+  } catch (e) {
+    degraded = true;
+    intel = null;
+
+    console.error('[loadIntel] degraded:load_failed', {
+      intelPath,
+      message: e?.message || 'Unknown load error',
+      stack: e?.stack || null
+    });
   }
+
+  console.log('[loadIntel] end', {
+    intelPath,
+    degraded,
+    hasIntel: !!intel,
+    version: intel?.version || 'unknown'
+  });
+
+  return { intelPath, intel, degraded };
 }
 
-module.exports = loadIntelOrDie;
+module.exports = { loadIntel };

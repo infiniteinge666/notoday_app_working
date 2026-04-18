@@ -2,102 +2,75 @@
 
 const Tesseract = require('tesseract.js');
 
-let sharpModule;
-let sharpLoadAttempted = false;
+const MAX_OCR_CHARS = 8000;
+const OCR_TIMEOUT_MS = 12000;
 
-function getSharp() {
-  if (sharpLoadAttempted) return sharpModule;
-  sharpLoadAttempted = true;
+async function runOCR(imageBuffer) {
+  const bufferSize = Buffer.isBuffer(imageBuffer) ? imageBuffer.length : 0;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), OCR_TIMEOUT_MS);
 
-  try {
-    sharpModule = require('sharp');
-  } catch (err) {
-    sharpModule = null;
-    console.warn('[notoday] sharp unavailable, OCR preprocessing disabled:', err?.message || err);
-  }
-
-  return sharpModule;
-}
-
-function normalizeInput(input) {
-  if (Buffer.isBuffer(input)) return input;
-  if (typeof input !== 'string') return null;
-
-  const trimmed = input.trim();
-  if (!trimmed) return null;
-
-  const match = trimmed.match(/^data:image\/\w+;base64,(.+)$/i);
-  const b64 = match ? match[1] : trimmed;
+  console.log('[ocr] start', {
+    bufferSize,
+    timeoutMs: OCR_TIMEOUT_MS
+  });
 
   try {
-    return Buffer.from(b64, 'base64');
-  } catch {
-    return null;
-  }
-}
+    const result = await Tesseract.recognize(
+      imageBuffer,
+      'eng',
+      {
+        logger: () => {},
+        abortSignal: controller.signal
+      }
+    );
 
-async function preprocess(buffer) {
-  const sharp = getSharp();
-  if (!sharp) {
-    return buffer;
-  }
+    let text = (result.data.text || '').trim();
 
-  return sharp(buffer)
-    .rotate()
-    .grayscale()
-    .normalize()
-    .sharpen()
-    .resize({ width: 1600, withoutEnlargement: true })
-    .png()
-    .toBuffer();
-}
-
-function cleanText(text) {
-  return String(text || '')
-    .replace(/\r/g, '')
-    .replace(/[ \t]+/g, ' ')
-    .replace(/\n{3,}/g, '\n\n')
-    .trim();
-}
-
-function heuristicScore(text) {
-  let score = 0;
-  if (/https?:\/\//i.test(text)) score += 20;
-  if (/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(text)) score += 15;
-  if (/urgent|verify|login|secure|claim|otp|password/i.test(text)) score += 20;
-  score += Math.min(40, text.split(/\s+/).filter(Boolean).length);
-  return score;
-}
-
-async function runOCR(input) {
-  const buffer = normalizeInput(input);
-  if (!buffer) {
-    return { success: false, text: '', error: 'Invalid image data.' };
-  }
-
-  try {
-    const prepared = await preprocess(buffer);
-    const result = await Tesseract.recognize(prepared, 'eng', {
-      logger: () => {}
+    console.log('[ocr] raw_output', {
+      rawLength: text.length,
+      preview: text.slice(0, 300)
     });
 
-    const text = cleanText(result?.data?.text || '');
     if (!text) {
-      return { success: false, text: '', error: 'No readable text found in screenshot.' };
+      console.error('[ocr] empty_output', {
+        bufferSize
+      });
+
+      return { success: false, text: '' };
     }
+
+    if (text.length > MAX_OCR_CHARS) {
+      console.log('[ocr] truncate', {
+        originalLength: text.length,
+        maxLength: MAX_OCR_CHARS
+      });
+
+      text = text.slice(0, MAX_OCR_CHARS);
+    }
+
+    console.log('[ocr] success', {
+      finalLength: text.length
+    });
 
     return {
       success: true,
-      text,
-      score: heuristicScore(text),
-      passes: [{ text, score: heuristicScore(text) }]
+      text
     };
+
   } catch (err) {
-    return {
-      success: false,
-      text: '',
-      error: err?.message || 'OCR failed.'
-    };
+    console.error('[ocr] error', {
+      message: err?.message || 'Unknown OCR error',
+      stack: err?.stack || null,
+      bufferSize
+    });
+
+    return { success: false, text: '' };
+  } finally {
+    clearTimeout(timeout);
+    console.log('[ocr] finish', {
+      bufferSize
+    });
   }
 }
 
