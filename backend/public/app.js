@@ -13,16 +13,12 @@ window.addEventListener("load", () => {
   const clearBtn = $("clearBtn");
   const fileInput = $("fileInput");
 
-  // =========================
-  // STATE
-  // =========================
+  const loader = $("loaderOverlay");
+
   function setState(state) {
     document.body.className = `state-${state}`;
   }
 
-  // =========================
-  // RESULT RENDER
-  // =========================
   function renderResult(data) {
     if (!data) return;
 
@@ -34,9 +30,6 @@ window.addEventListener("load", () => {
     resultReason.textContent = (data.reasons && data.reasons.join(", ")) || "";
   }
 
-  // =========================
-  // TEXT SCAN
-  // =========================
   async function handleTextScan() {
     const text = input.value.trim();
     if (!text) return;
@@ -44,7 +37,7 @@ window.addEventListener("load", () => {
     setState("processing");
 
     try {
-      const res = await fetch("/check", {
+      const res = await fetch("https://notoday.co.za/check", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,51 +50,12 @@ window.addEventListener("load", () => {
       if (payload && payload.data) {
         renderResult(payload.data);
       }
-
     } catch (err) {
       console.error("Text scan failed:", err);
-      alert("Scan failed");
-      setState("idle");
+      setState("suspicious");
     }
   }
 
-  // =========================
-  // SAFE BASE64 READER (FIX)
-  // =========================
-  function readFileAsBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        try {
-          if (!reader.result || !reader.result.includes(",")) {
-            return reject("Invalid image data");
-          }
-
-          const base64 = reader.result.split(",")[1];
-
-          if (!base64 || base64.length < 100) {
-            return reject("Corrupted image data");
-          }
-
-          resolve(base64);
-
-        } catch (err) {
-          reject(err);
-        }
-      };
-
-      reader.onerror = () => {
-        reject("FileReader failed");
-      };
-
-      reader.readAsDataURL(file);
-    });
-  }
-
-  // =========================
-  // SCREENSHOT UPLOAD (FIXED)
-  // =========================
   fileInput.addEventListener("change", async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -114,41 +68,49 @@ window.addEventListener("load", () => {
       return;
     }
 
-    try {
-      setState("processing");
+    const reader = new FileReader();
 
-      const base64 = await readFileAsBase64(file);
+    reader.onload = async function () {
+      try {
+        if (!reader.result || !reader.result.includes(",")) {
+          throw new Error("Invalid image data");
+        }
 
-      console.log("BASE64 LENGTH:", base64.length);
+        const base64 = reader.result.split(",")[1];
 
-      const res = await fetch("/check", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          imageBase64: base64,
-        }),
-      });
+        setState("processing");
 
-      const payload = await res.json();
+        const res = await fetch("https://notoday.co.za/check", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            imageBase64: base64,
+          }),
+        });
 
-      if (payload && payload.data) {
-        renderResult(payload.data);
+        const payload = await res.json();
+
+        if (payload && payload.data) {
+          renderResult(payload.data);
+        }
+      } catch (err) {
+        console.error("Image scan failed:", err);
+        alert("Upload failed: " + err.message);
+        setState("suspicious");
       }
+    };
 
-    } catch (err) {
-      console.error("UPLOAD ERROR:", err);
-      alert("Upload failed: " + err);
-      setState("idle");
-    }
+    reader.onerror = function () {
+      console.error("FileReader error");
+      alert("Failed to read image");
+      setState("suspicious");
+    };
 
-    fileInput.value = "";
+    reader.readAsDataURL(file);
   });
 
-  // =========================
-  // BUTTONS
-  // =========================
   scanBtn.addEventListener("click", handleTextScan);
 
   pasteBtn.addEventListener("click", async () => {
@@ -172,9 +134,6 @@ window.addEventListener("load", () => {
     resultReason.textContent = "";
   });
 
-  // =========================
-  // INIT
-  // =========================
   setState("idle");
 
 });
