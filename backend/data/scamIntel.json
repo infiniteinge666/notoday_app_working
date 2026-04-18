@@ -2116,6 +2116,27 @@
       "value": "(?:see\\s+the\\s+attached).{0,20}(?:loan|bonus|pdf)",
       "category": "attachment_lure",
       "weight": 90
-    }
+    },
+    {
+  "value": "confirm the payment",
+  "category": "payment_request",
+  "weight": 40,
+  "reason": "Requests payment to complete delivery",
+  "whatNotToDo": "Do not click links or make payments for unexpected deliveries"
+},
+{
+  "value": "tracking number is",
+  "category": "delivery_bait",
+  "weight": 25,
+  "reason": "Unsolicited parcel tracking message",
+  "whatNotToDo": "Ignore unsolicited delivery notifications"
+},
+{
+  "value": "do not reply to this email",
+  "category": "generic_template",
+  "weight": 10,
+  "reason": "Generic non-monitored inbox phrasing",
+  "whatNotToDo": "Do not trust generic automated messages"
+}
   ]
 }
