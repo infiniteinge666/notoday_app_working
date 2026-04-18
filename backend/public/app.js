@@ -13,23 +13,29 @@ window.addEventListener("load", () => {
   const clearBtn = $("clearBtn");
   const fileInput = $("fileInput");
 
-  const loader = $("loaderOverlay");
-
+  // =========================
+  // STATE
+  // =========================
   function setState(state) {
     document.body.className = `state-${state}`;
   }
 
+  // =========================
+  // RESULT
+  // =========================
   function renderResult(data) {
     if (!data) return;
 
     const band = (data.band || "SAFE").toLowerCase();
-
     setState(band);
 
     resultHeading.textContent = data.band || "RESULT";
-    resultReason.textContent = (data.reasons && data.reasons.join(", ")) || "";
+    resultReason.textContent = (data.reasons || []).join(", ");
   }
 
+  // =========================
+  // TEXT SCAN
+  // =========================
   async function handleTextScan() {
     const text = input.value.trim();
     if (!text) return;
@@ -50,67 +56,92 @@ window.addEventListener("load", () => {
       if (payload && payload.data) {
         renderResult(payload.data);
       }
+
     } catch (err) {
-      console.error("Text scan failed:", err);
-      setState("suspicious");
+      console.error("TEXT ERROR:", err);
+      alert("Scan failed");
+      setState("idle");
     }
   }
 
+  // =========================
+  // SAFE BASE64 EXTRACT (FIX)
+  // =========================
+  function extractBase64(dataUrl) {
+    const match = dataUrl.match(/^data:(.*?);base64,(.*)$/);
+
+    if (!match || !match[2]) {
+      throw new Error("Invalid image format");
+    }
+
+    return match[2];
+  }
+
+  function readFile(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        try {
+          const base64 = extractBase64(reader.result);
+          resolve(base64);
+        } catch (err) {
+          reject(err);
+        }
+      };
+
+      reader.onerror = () => reject("File read failed");
+
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // =========================
+  // IMAGE UPLOAD (FINAL FIX)
+  // =========================
   fileInput.addEventListener("change", async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const MAX_SIZE = 8 * 1024 * 1024;
-
-    if (file.size > MAX_SIZE) {
-      alert("Image too large. Please use a smaller screenshot.");
+    if (file.size > 8 * 1024 * 1024) {
+      alert("Image too large");
       fileInput.value = "";
       return;
     }
 
-    const reader = new FileReader();
+    try {
+      setState("processing");
 
-    reader.onload = async function () {
-      try {
-        if (!reader.result || !reader.result.includes(",")) {
-          throw new Error("Invalid image data");
-        }
+      const base64 = await readFile(file);
 
-        const base64 = reader.result.split(",")[1];
+      console.log("BASE64 OK:", base64.length);
 
-        setState("processing");
+      const res = await fetch("https://notoday.co.za/check", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ imageBase64: base64 }),
+      });
 
-        const res = await fetch("https://notoday.co.za/check", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            imageBase64: base64,
-          }),
-        });
+      const payload = await res.json();
 
-        const payload = await res.json();
-
-        if (payload && payload.data) {
-          renderResult(payload.data);
-        }
-      } catch (err) {
-        console.error("Image scan failed:", err);
-        alert("Upload failed: " + err.message);
-        setState("suspicious");
+      if (payload && payload.data) {
+        renderResult(payload.data);
       }
-    };
 
-    reader.onerror = function () {
-      console.error("FileReader error");
-      alert("Failed to read image");
-      setState("suspicious");
-    };
+    } catch (err) {
+      console.error("UPLOAD ERROR:", err);
+      alert("Upload failed: " + err);
+      setState("idle");
+    }
 
-    reader.readAsDataURL(file);
+    fileInput.value = "";
   });
 
+  // =========================
+  // BUTTONS
+  // =========================
   scanBtn.addEventListener("click", handleTextScan);
 
   pasteBtn.addEventListener("click", async () => {
