@@ -1,44 +1,36 @@
 'use strict';
-const totalScans = scans.length;
-const fs = require('fs');
-const path = require('path');
-
-const SCAN_LOG_PATH = path.join(__dirname, '../../data/scan.log');
-const ERROR_LOG_PATH = path.join(__dirname, '../../data/error.log');
-
-// =========================
-// SAFE FILE READ
-// =========================
-function safeRead(filePath, limit = 100) {
-  try {
-    if (!fs.existsSync(filePath)) return [];
-
-    const lines = fs.readFileSync(filePath, 'utf8')
-      .trim()
-      .split('\n')
-      .filter(Boolean)
-      .slice(-limit)
-      .reverse();
-
-    return lines.map(line => {
-      try {
-        return JSON.parse(line);
-      } catch {
-        return null;
-      }
-    }).filter(Boolean);
-
-  } catch {
-    return [];
-  }
-}
-
-// =========================
-// HANDLER
-// =========================
 function httpLogsHandler(req, res) {
   try {
-    const scans = safeRead(SCAN_LOG_PATH);
+    const fs = require('fs');
+    const path = require('path');
+    const ERROR_LOG_PATH = path.join(__dirname, '../../data/error.log');
+
+    function safeRead(filePath, limit = 100) {
+      try {
+        if (!fs.existsSync(filePath)) return [];
+
+        const lines = fs.readFileSync(filePath, 'utf8')
+          .trim()
+          .split('\n')
+          .filter(Boolean)
+          .slice(-limit)
+          .reverse();
+
+        return lines.map((line) => {
+          try {
+            return JSON.parse(line);
+          } catch {
+            return null;
+          }
+        }).filter(Boolean);
+      } catch {
+        return [];
+      }
+    }
+
+    const scans = Array.isArray(req?.app?.locals?.scans)
+      ? req.app.locals.scans
+      : [];
     const errors = safeRead(ERROR_LOG_PATH);
 
     return res.json({
@@ -52,6 +44,10 @@ function httpLogsHandler(req, res) {
   } catch (err) {
     return res.status(500).json({
       success: false,
+      data: {
+        scans: [],
+        errors: []
+      },
       message: 'Log retrieval failed'
     });
   }

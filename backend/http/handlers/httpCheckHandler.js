@@ -6,12 +6,33 @@ const { logScan } = require('../../core/scanLogger');
 
 const MAX_BASE64_IMAGE_BYTES = 8 * 1024 * 1024;
 
+function isStrictBase64(value) {
+  const base64 = String(value || '').replace(/\s+/g, '');
+  if (!base64) return false;
+  if (base64.length % 4 !== 0) return false;
+  if (/[^A-Za-z0-9+/=]/.test(base64)) return false;
+
+  const firstPaddingIndex = base64.indexOf('=');
+  if (firstPaddingIndex !== -1 && firstPaddingIndex < base64.length - 2) {
+    return false;
+  }
+
+  return true;
+}
+
 function decodeBase64Image(dataUrl) {
   const match = String(dataUrl || '').match(/^data:(image\/(?:png|jpeg|jpg|webp|gif));base64,(.+)$/i);
   if (!match) return null;
 
-  const buffer = Buffer.from(match[2], 'base64');
+  const base64 = String(match[2] || '').replace(/\s+/g, '');
+  if (!isStrictBase64(base64)) return null;
+
+  const buffer = Buffer.from(base64, 'base64');
   if (!buffer.length || buffer.length > MAX_BASE64_IMAGE_BYTES) return null;
+
+  if (buffer.toString('base64').replace(/=+$/u, '') !== base64.replace(/=+$/u, '')) {
+    return null;
+  }
 
   return buffer;
 }
@@ -61,7 +82,16 @@ module.exports = async function httpCheckHandler(req, res) {
     }
 
     if (imageBuffer) {
-      const ocrResult = await runOCR(imageBuffer);
+      let ocrResult = { success: false, text: '' };
+
+      try {
+        ocrResult = await runOCR(imageBuffer);
+      } catch (error) {
+        console.error('[httpCheckHandler] ocr_error', {
+          message: error?.message || 'Unknown OCR error',
+          stack: error?.stack || null
+        });
+      }
 
       if (!ocrResult?.success || !ocrResult?.text) {
         return res.status(200).json({
