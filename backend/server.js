@@ -4,7 +4,7 @@ const path = require("path");
 // ========================================
 // 🔒 FIXED IMPORTS (NO DESTRUCTURING)
 // ========================================
-const httpCheckHandler = require("./http/handlers/httpCheckHandler");
+const { httpCheckHandler } = require("./http/handlers/httpCheckHandler");
 const httpIntelHandler = require("./http/handlers/httpIntelHandler");
 
 const app = express();
