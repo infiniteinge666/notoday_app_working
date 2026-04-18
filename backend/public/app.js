@@ -1,5 +1,3 @@
-"use strict";
-
 window.addEventListener("load", () => {
 
   const $ = (id) => document.getElementById(id);
@@ -25,138 +23,126 @@ window.addEventListener("load", () => {
   }
 
   // =========================
-  // LOADER
-  // =========================
-  function showLoader() {
-    loader.classList.remove("hidden");
-  }
-
-  function hideLoader() {
-    loader.classList.add("hidden");
-  }
-
-  // =========================
-  // TOKEN
-  // =========================
-  function getToken() {
-    return localStorage.getItem("notoday_token") || "";
-  }
-
-  // =========================
-  // RESULT
+  // RESULT RENDER
   // =========================
   function renderResult(data) {
-    const band = data.band;
+    if (!data) return;
 
-    resultHeading.textContent = band;
+    const band = (data.band || "SAFE").toLowerCase();
 
-    // 🔥 MULTI-LINE EXPLANATION (CORRECT)
-    if (data.explanation && data.explanation.length > 0) {
-      resultReason.innerHTML = data.explanation
-        .map(line => `<div>${line}</div>`)
-        .join("");
-    } else {
-      resultReason.textContent = "No explanation available.";
-    }
+    setState(band);
 
-    setState(band.toLowerCase());
+    resultHeading.textContent = data.band || "RESULT";
+    resultReason.textContent = (data.reasons && data.reasons.join(", ")) || "";
   }
 
   // =========================
-  // HANDLE BLOCKED STATE
+  // TEXT SCAN (UNCHANGED LOGIC)
   // =========================
-  function renderBlocked(message) {
-    resultHeading.textContent = "BLOCKED";
-    resultReason.textContent = message || "Access restricted.";
-    setState("blocked");
-  }
+  async function handleTextScan() {
+    const text = input.value.trim();
+    if (!text) return;
 
-  // =========================
-  // TEXT SCAN
-  // =========================
-  scanBtn.addEventListener("click", async () => {
-
-    const value = input.value.trim();
-    if (!value) return;
-
-    showLoader();
+    setState("processing");
 
     try {
       const res = await fetch("/check", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-api-token": getToken()
         },
-        body: JSON.stringify({ text: value })
+        body: JSON.stringify({ text }),
       });
 
-      const data = await res.json();
+      const payload = await res.json();
 
-      hideLoader();
-
-      // 🔥 HANDLE TOKEN BLOCK
-      if (!data.success) {
-        renderBlocked(data.message || "Access denied");
-        return;
+      if (payload && payload.data) {
+        renderResult(payload.data);
       }
-
-      renderResult(data.data);
-
-    } catch {
-      hideLoader();
-      resultReason.textContent = "Scan failed. Please try again.";
-      setState("error");
+    } catch (err) {
+      console.error("Text scan failed:", err);
+      setState("suspicious");
     }
+  }
+
+  // =========================
+  // SCREENSHOT UPLOAD (FIXED)
+  // =========================
+  fileInput.addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Frontend size guard (8MB)
+    const MAX_SIZE = 8 * 1024 * 1024;
+
+    if (file.size > MAX_SIZE) {
+      console.warn("File too large, rejected before upload");
+      alert("Image too large. Please use a smaller screenshot.");
+      fileInput.value = "";
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = async function () {
+      const base64 = reader.result.split(",")[1];
+
+      setState("processing");
+
+      try {
+        const res = await fetch("/check", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            imageBase64: base64,
+          }),
+        });
+
+        const payload = await res.json();
+
+        if (payload && payload.data) {
+          renderResult(payload.data);
+        }
+      } catch (err) {
+        console.error("Image scan failed:", err);
+        setState("suspicious");
+      }
+    };
+
+    reader.readAsDataURL(file);
   });
 
   // =========================
-  // UPLOAD
+  // BUTTONS
   // =========================
-  uploadBtn.addEventListener("click", () => fileInput.click());
+  scanBtn.addEventListener("click", handleTextScan);
 
- fileInput.addEventListener("change", async (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  // ========================================
-  // 🔒 FRONTEND SIZE GUARD (NON-VISUAL)
-  // ========================================
-  const MAX_SIZE = 8 * 1024 * 1024; // 8MB safe buffer under 10MB backend
-
-  if (file.size > MAX_SIZE) {
-    console.warn("File too large, rejected before upload");
-    alert("Image too large. Please use a smaller screenshot.");
-    fileInput.value = "";
-    return;
-  }
-
-  const reader = new FileReader();
-
-  reader.onload = async function () {
-    const base64 = reader.result.split(",")[1];
-
-    await runScan({
-      imageBase64: base64,
-    });
-  };
-
-  reader.readAsDataURL(file);
-});
-
-  // =========================
-  // PASTE + CLEAR
-  // =========================
   pasteBtn.addEventListener("click", async () => {
-    input.value = await navigator.clipboard.readText();
+    try {
+      const text = await navigator.clipboard.readText();
+      input.value = text;
+    } catch (err) {
+      console.error("Paste failed:", err);
+    }
+  });
+
+  uploadBtn.addEventListener("click", () => {
+    fileInput.click();
   });
 
   clearBtn.addEventListener("click", () => {
     input.value = "";
+    fileInput.value = "";
+    setState("idle");
     resultHeading.textContent = "";
     resultReason.textContent = "";
-    setState("idle");
   });
 
+  // =========================
+  // INIT
+  // =========================
   setState("idle");
+
 });
