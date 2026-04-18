@@ -1959,6 +1959,55 @@
       "value": "enter the code to secure your account",
       "category": "credential_request",
       "weight": 90
-    }
+    },
+    {
+  "value": "confirm the payment",
+  "category": "payment_request",
+  "weight": 40,
+  "reason": "Requests payment to complete delivery",
+  "whatNotToDo": "Do not click links or make payments for unexpected deliveries"
+},
+{
+  "value": "tracking number is",
+  "category": "delivery_bait",
+  "weight": 25,
+  "reason": "Unsolicited parcel tracking message",
+  "whatNotToDo": "Ignore unsolicited delivery notifications"
+},
+{
+  "value": "do not reply to this email",
+  "category": "generic_template",
+  "weight": 90,
+  "reason": "Generic non-monitored inbox phrasing",
+  "whatNotToDo": "Do not trust generic automated messages"
+},
+{
+  "value": "debt summons stage",
+  "category": "legal_threat",
+  "weight": 50,
+  "reason": "Threat of legal summons via SMS",
+  "whatNotToDo": "Do not respond to legal threats sent via SMS or WhatsApp"
+},
+{
+  "value": "whatsapp us urgently",
+  "category": "off_channel_redirect",
+  "weight": 45,
+  "reason": "Redirects to WhatsApp for urgent action",
+  "whatNotToDo": "Do not move to WhatsApp for financial or legal matters"
+},
+{
+  "value": "stop summons",
+  "category": "fear_pressure",
+  "weight": 40,
+  "reason": "Uses fear to force immediate action",
+  "whatNotToDo": "Do not act under pressure from threats"
+},
+{
+  "value": "wa.me",
+  "category": "untrusted_channel",
+  "weight": 50,
+  "reason": "Uses WhatsApp link for sensitive matter",
+  "whatNotToDo": "Do not engage through WhatsApp links for debt/legal issues"
+}
   ]
 }
