@@ -1,172 +1,246 @@
 'use strict';
 
-const { normalizeText, extractDomainCandidates } = require('./normalize');
+const { normalizeInput, extractDomains } = require('./normalize');
 
-// Deterministic pattern match:
-// - If a pattern looks like a regex (contains common regex meta / escapes), use RegExp.test()
-// - Otherwise, use a plain substring contains match.
-// This fixes the current intel reality where many scamPatterns are stored as regex strings.
-function looksLikeRegex(s) {
-  if (!s) return false;
-  // common regex markers used in our intel
-  return /\\[bdsw]|[\(\)\|\[\]\?\+\*\^\$]/.test(s);
+function dedupeStrings(values) {
+  return Array.from(
+    new Set(
+      (Array.isArray(values) ? values : [])
+        .map((value) => (typeof value === 'string' ? value.trim() : ''))
+        .filter(Boolean)
+    )
+  );
 }
 
-// Return: { hit, value }
-function findKnownBadDomainHit(raw, intel) {
-  const domains = extractDomainCandidates(raw);
-  const list = (intel.knownBadDomains || []).map(x => String(x.value || x || '').toLowerCase());
-
-  console.log('[match] knownBad:start', {
-    candidateDomainsCount: domains.length,
-    knownBadDomainsCount: list.length
-  });
-
-  for (const d of domains) {
-    const dn = String(d || '').toLowerCase();
-    if (list.includes(dn)) {
-      console.log('[match] knownBad:hit', {
-        value: dn
-      });
-
-      return { hit: true, value: dn };
-    }
-  }
-
-  console.log('[match] knownBad:end', {
-    hit: false
-  });
-
-  return { hit: false, value: null };
+function numberValue(value, fallback = 0) {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? numeric : fallback;
 }
 
-// Return: { score, reasons, hits }
-function scoreDomainKeywords(raw, intel) {
-  const domains = extractDomainCandidates(raw);
-  const kw = intel.scamDomainKeywords || [];
+function looksLikeRegex(pattern) {
+  if (!pattern) return false;
+  return /\\[bdsw]|[\(\)\|\[\]\?\+\*\^\$]/.test(pattern);
+}
 
-  console.log('[match] domainKeywords:start', {
-    candidateDomainsCount: domains.length,
-    keywordCount: kw.length
-  });
+function sanitizeFlags(flags) {
+  const safeFlags = String(flags || 'i').replace(/[^dgimsuy]/g, '');
+  return safeFlags || 'i';
+}
 
-  let score = 0;
-  const reasons = [];
-  const hits = [];
+function buildHit(base = {}) {
+  return {
+    type: base.type || 'signal',
+    category: base.category || 'unknown',
+    label: base.label || base.reason || base.value || 'Intel signal',
+    value: base.value || '',
+    weight: numberValue(base.weight, 0),
+    reason: base.reason || '',
+    whatNotToDo: Array.isArray(base.whatNotToDo) ? base.whatNotToDo.filter(Boolean) : [],
+    absolute: Boolean(base.absolute),
+    band: base.band || '',
+    context: base.context || ''
+  };
+}
 
-  for (const d of domains) {
-    const dn = String(d || '').toLowerCase();
+function findKnownBadDomainHit(raw, intel = {}) {
+  const domains = extractDomains(raw);
+  const entries = Array.isArray(intel.knownBadDomains) ? intel.knownBadDomains : [];
 
-    for (const k of kw) {
-      const token = String(k.value || '').toLowerCase();
-      if (!token) continue;
+  for (const domain of domains) {
+    const candidate = String(domain || '').toLowerCase();
 
-      if (dn.includes(token)) {
-        const w = Number(k.weight || 0);
-        if (w <= 0) continue;
+    for (const entry of entries) {
+      const value = String(entry?.value || entry || '').toLowerCase();
+      if (!value) continue;
 
-        score += w;
-        const msg = `Domain keyword "${token}" matched in "${dn}" (+${w})`;
-        reasons.push(msg);
-        hits.push({ type: 'domain_keyword', category: k.category || 'domain_keyword', value: token, weight: w, context: dn });
+      if (candidate === value || candidate.endsWith(`.${value}`)) {
+        return {
+          hit: true,
+          value,
+          weight: numberValue(entry?.weight, 100),
+          reason: entry?.reason || `Known bad domain detected: ${value}.`,
+          match: buildHit({
+            type: 'known_bad_domain',
+            category: entry?.category || 'known_bad_domain',
+            label: entry?.label || 'Known bad domain',
+            value,
+            weight: numberValue(entry?.weight, 100),
+            reason: entry?.reason || `Known bad domain detected: ${value}.`,
+            whatNotToDo: entry?.whatNotToDo,
+            absolute: true,
+            band: entry?.band || 'CRITICAL',
+            context: candidate
+          })
+        };
       }
     }
   }
 
-  // conservative clamp
-  score = Math.min(score, 80);
-
-  console.log('[match] domainKeywords:end', {
-    hitCount: hits.length,
-    score,
-    categories: hits.map(hit => hit.category)
-  });
-
-  return { score, reasons, hits };
+  return {
+    hit: false,
+    value: null,
+    weight: 0,
+    reason: '',
+    match: null
+  };
 }
 
-// Return: { score, reasons, hits, absoluteTriggered }
-function scoreTextPatterns(raw, intel) {
-  const text = normalizeText(raw);
-  const patterns = intel.scamPatterns || [];
+function scoreDomainKeywords(raw, intel = {}) {
+  const domains = extractDomains(raw);
+  const entries = Array.isArray(intel.scamDomainKeywords) ? intel.scamDomainKeywords : [];
 
-  console.log('[match] textPatterns:start', {
-    normalizedTextLength: text.length,
-    patternCount: patterns.length
-  });
+  let score = 0;
+  let urgencyScore = 0;
+  const reasons = [];
+  const hits = [];
+
+  for (const domain of domains) {
+    const candidate = String(domain || '').toLowerCase();
+
+    for (const entry of entries) {
+      const token = String(entry?.value || entry || '').toLowerCase();
+      if (!token || !candidate.includes(token)) continue;
+
+      const weight = numberValue(entry?.weight, 0);
+      const reason = entry?.reason || `Domain keyword "${token}" matched in "${candidate}".`;
+      const hit = buildHit({
+        type: 'domain_keyword',
+        category: entry?.category || 'domain_keyword',
+        label: entry?.label || `Domain keyword: ${token}`,
+        value: token,
+        weight,
+        reason,
+        whatNotToDo: entry?.whatNotToDo,
+        absolute: Boolean(entry?.absolute),
+        band: entry?.band,
+        context: candidate
+      });
+
+      hits.push(hit);
+      reasons.push(reason);
+
+      if (hit.category === 'urgency') {
+        urgencyScore += weight;
+      } else {
+        score += weight;
+      }
+    }
+  }
+
+  return {
+    score: Math.min(score, 80),
+    urgencyScore: Math.min(urgencyScore, 80),
+    reasons: dedupeStrings(reasons),
+    hits
+  };
+}
+
+function scoreTextPatterns(raw, intel = {}) {
+  const text = normalizeInput(raw);
+  const patterns = Array.isArray(intel.scamPatterns) ? intel.scamPatterns : [];
 
   let score = 0;
   const reasons = [];
   const hits = [];
-  let absoluteTriggered = false;
+  let absoluteHit = null;
 
-  for (const p of patterns) {
-    const patternRaw = String(p.value || '');
-    if (!patternRaw) continue;
-
-    const w = Number(p.weight || 0);
-    const cat = String(p.category || 'unknown');
+  for (const entry of patterns) {
+    const patternSource = String(entry?.pattern || entry?.value || '');
+    if (!patternSource) continue;
 
     let matched = false;
 
-    if (looksLikeRegex(patternRaw)) {
-      // Regex path (deterministic). Guard against invalid regex strings.
+    if (looksLikeRegex(patternSource)) {
       try {
-        const re = new RegExp(patternRaw, 'i');
+        const re = new RegExp(patternSource, sanitizeFlags(entry?.flags));
         matched = re.test(text);
-      } catch (e) {
-        console.error('[match] textPatterns:regex_error', {
-          category: cat,
-          pattern: patternRaw,
-          message: e?.message || 'Invalid regex'
-        });
-
-        // Fall back to literal contains on a de-escaped version (best-effort, still deterministic).
-        const literal = patternRaw
+      } catch (error) {
+        const fallbackLiteral = patternSource
           .replace(/\\b/g, '')
           .replace(/\\s\+/g, ' ')
           .replace(/\\s\*/g, ' ')
           .replace(/\\s/g, ' ')
-          .toLowerCase();
-        matched = text.includes(literal.trim());
+          .toLowerCase()
+          .trim();
+
+        matched = fallbackLiteral ? text.includes(fallbackLiteral) : false;
       }
     } else {
-      // Plain contains path
-      matched = text.includes(patternRaw.toLowerCase());
+      matched = text.includes(patternSource.toLowerCase());
     }
 
     if (!matched) continue;
 
-    // Absolute credential gate:
-    // - category "credentials" is absolute by policy
-    // - also treat "credential_request" as absolute (same meaning, avoids category drift)
-    if (cat === 'credentials' || cat === 'credential_request') absoluteTriggered = true;
+    const weight = numberValue(entry?.weight, 0);
+    const reason = entry?.reason || `Matched pattern: ${patternSource}.`;
+    const category = String(entry?.category || 'unknown');
+    const absolute =
+      Boolean(entry?.absolute) ||
+      category === 'credentials' ||
+      category === 'credential_request';
 
-    if (w > 0) score += w;
-
-    const msg = `Matched "${patternRaw}" [${cat}] (+${w})`;
-    reasons.push(msg);
-    hits.push({ type: 'pattern', category: cat, value: patternRaw, weight: w });
-
-    console.log('[match] textPatterns:hit', {
-      category: cat,
-      weight: w
+    const hit = buildHit({
+      type: 'pattern',
+      category,
+      label: entry?.label || category || 'Pattern hit',
+      value: patternSource,
+      weight,
+      reason,
+      whatNotToDo: entry?.whatNotToDo,
+      absolute,
+      band: entry?.band,
+      context: text.slice(0, 300)
     });
+
+    hits.push(hit);
+    reasons.push(reason);
+    score += weight;
+
+    if (absolute && !absoluteHit) {
+      absoluteHit = {
+        hit: true,
+        reason,
+        value: patternSource,
+        match: hit
+      };
+    }
   }
 
-  // conservative clamp (absolute handled elsewhere)
-  score = Math.min(score, 90);
+  return {
+    score: Math.min(score, 90),
+    reasons: dedupeStrings(reasons),
+    hits,
+    absoluteHit
+  };
+}
 
-  console.log('[match] textPatterns:end', {
-    matchCount: hits.length,
-    score,
-    absoluteTriggered
-  });
+function collectEvidence(raw, intel = {}) {
+  const knownBadDomain = findKnownBadDomainHit(raw, intel);
+  const domainKeywords = scoreDomainKeywords(raw, intel);
+  const textPatterns = scoreTextPatterns(raw, intel);
+  const hits = [
+    ...(knownBadDomain.match ? [knownBadDomain.match] : []),
+    ...domainKeywords.hits,
+    ...textPatterns.hits
+  ];
 
-  return { score, reasons, hits, absoluteTriggered };
+  return {
+    absolute: textPatterns.absoluteHit,
+    knownBadDomain,
+    textScore: textPatterns.score,
+    domainScore: domainKeywords.score,
+    urgencyScore: domainKeywords.urgencyScore,
+    reasons: dedupeStrings([
+      ...(knownBadDomain.reason ? [knownBadDomain.reason] : []),
+      ...domainKeywords.reasons,
+      ...textPatterns.reasons
+    ]),
+    hits
+  };
 }
 
 module.exports = {
+  collectEvidence,
   findKnownBadDomainHit,
   scoreDomainKeywords,
   scoreTextPatterns

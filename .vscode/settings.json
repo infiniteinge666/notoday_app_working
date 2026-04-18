@@ -18,5 +18,7 @@
   "html.validate.scripts": false,
 
   "tesseract.path": "",
-  "gitConfigUser.selectedProfile": "infiniteinge666"
+  "gitConfigUser.selectedProfile": "infiniteinge666",
+  "chatgpt.runCodexInWindowsSubsystemForLinux": true,
+  "chatgpt.openOnStartup": true
 }

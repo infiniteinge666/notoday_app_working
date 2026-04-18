@@ -9,25 +9,14 @@ const { loadIntel } = require('./intel/loadIntel');
 const app = express();
 app.disable('x-powered-by');
 
-console.log('[server] boot:start');
-
-// Parse JSON only
 app.use(express.json({ limit: '256kb' }));
+app.use(express.urlencoded({ extended: false, limit: '256kb' }));
 
-// Request visibility
 app.use((req, res, next) => {
   const startedAt = Date.now();
 
-  console.log('[server] request:start', {
-    method: req.method,
-    path: req.originalUrl || req.url,
-    ip: req.ip,
-    contentType: req.headers['content-type'] || null,
-    contentLength: req.headers['content-length'] || null
-  });
-
   res.on('finish', () => {
-    console.log('[server] request:end', {
+    console.log('[server] request', {
       method: req.method,
       path: req.originalUrl || req.url,
       statusCode: res.statusCode,
@@ -38,67 +27,75 @@ app.use((req, res, next) => {
   next();
 });
 
-// Serve UI
 const publicPath = path.join(__dirname, 'public');
-console.log('[server] static:register', { publicPath });
-
 app.use(express.static(publicPath, {
   extensions: ['html'],
   index: 'index.html'
 }));
 
-// Load intel at boot (validated). No runtime mutation.
 const intelPath = path.join(__dirname, 'data', 'scamIntel.json');
-console.log('[server] intel:boot:load:start', { intelPath });
-
 const intelState = loadIntel(intelPath);
 app.locals.intelState = intelState;
 
-console.log('[server] intel:boot:load:end', {
-  intelPath: intelState.intelPath,
-  degraded: !!intelState.degraded,
-  version: intelState?.intel?.version || 'unknown'
-});
-
-// Locked API surface
-console.log('[server] routes:register:start', { mountPath: '/' });
 app.use('/', routes);
-console.log('[server] routes:register:end', { mountPath: '/' });
 
-// Never return HTML stack traces
 app.use((err, req, res, next) => {
-  console.error('[server] error:global', {
+  if (!err) {
+    return next();
+  }
+
+  const uploadCode = err.code || '';
+  if (uploadCode === 'LIMIT_FILE_SIZE' || uploadCode === 'LIMIT_FILE_TYPE' || uploadCode === 'MULTER_MISSING') {
+    const uploadMessage =
+      uploadCode === 'LIMIT_FILE_SIZE'
+        ? 'Uploaded image is too large.'
+        : uploadCode === 'LIMIT_FILE_TYPE'
+          ? 'Only image uploads are supported.'
+          : 'Image upload support is unavailable on this server.';
+
+    return res.status(200).json({
+      success: true,
+      message: 'OK',
+      data: {
+        band: 'SUSPICIOUS',
+        score: 50,
+        degraded: uploadCode === 'MULTER_MISSING',
+        reasons: [uploadMessage],
+        why: ['Try uploading a smaller image or paste the text directly.'],
+        whatNotToDo: ['Do not act on the message until you verify it independently.']
+      }
+    });
+  }
+
+  console.error('[server] error', {
     method: req?.method || null,
     path: req?.originalUrl || req?.url || null,
     message: err?.message || 'Unknown error',
     stack: err?.stack || null
   });
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
+    message: 'OK',
     data: {
       band: 'SUSPICIOUS',
       score: 50,
+      degraded: true,
       reasons: ['System error (bounded).'],
-      degraded: true
-    },
-    message: 'OK'
+      why: ['Please try again shortly.'],
+      whatNotToDo: ['Do not act on the message until you verify it independently.']
+    }
   });
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  const intel = intelState?.intel || null;
-  const version = intel?.version || 'unknown';
-  const degraded = !!intelState?.degraded;
-
-  console.log('[server] boot:complete', {
+  console.log('[notoday] listening', {
     port: PORT,
     intelPath: intelState.intelPath,
-    intelVersion: version,
-    degraded
+    intelVersion: intelState?.intel?.version || 'unknown',
+    degraded: Boolean(intelState?.degraded)
   });
-
-  console.log(`[notoday] listening on :${PORT}`);
-  console.log(`[notoday] intelPath=${intelState.intelPath} version=${version} degraded=${degraded}`);
 });
+
+module.exports = app;
