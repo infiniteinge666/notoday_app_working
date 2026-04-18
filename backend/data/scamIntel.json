@@ -1,5 +1,5 @@
 {
-  "version": "v23",
+  "version": "v24",
   "knownBadDomains": [
     {
       "value": "aarotrtria.cc",
@@ -804,7 +804,7 @@
   },
 
   {
-    "value": "(?:debt\\s+summons|summons\\s+stage|legal\\s+summons).{0,60}(?:whatsapp|wa\\.me)",
+    "value": "summons|summons",
     "category": "legal_impersonation",
     "weight": 100
   },
@@ -1982,89 +1982,9 @@
   "whatNotToDo": "Do not trust generic automated messages"
 },
 {
-  "value": "debt summons stage",
-  "category": "legal_threat",
-  "weight": 50,
-  "reason": "Threat of legal summons via SMS",
-  "whatNotToDo": "Do not respond to legal threats sent via SMS or WhatsApp"
-},
-{
-  "value": "whatsapp us urgently",
-  "category": "off_channel_redirect",
-  "weight": 45,
-  "reason": "Redirects to WhatsApp for urgent action",
-  "whatNotToDo": "Do not move to WhatsApp for financial or legal matters"
-},
-{
-  "value": "stop summons",
-  "category": "fear_pressure",
-  "weight": 40,
-  "reason": "Uses fear to force immediate action",
-  "whatNotToDo": "Do not act under pressure from threats"
-},
-{
-  "value": "wa.me",
-  "category": "untrusted_channel",
-  "weight": 50,
-  "reason": "Uses WhatsApp link for sensitive matter",
-  "whatNotToDo": "Do not engage through WhatsApp links for debt/legal issues"
-},
-{
-  "value": "whatsapp",
-  "category": "off_channel_redirect",
-  "weight": 30,
-  "reason": "Moves conversation to WhatsApp",
-  "whatNotToDo": "Do not continue financial or legal matters on WhatsApp"
-},
-{
-  "value": "summons",
-  "category": "legal_threat",
-  "weight": 40,
-  "reason": "Threat of legal action",
-  "whatNotToDo": "Do not respond to legal threats via SMS"
-},
-{
-  "value": "debt",
-  "category": "financial_pressure",
-  "weight": 25,
-  "reason": "Mentions debt in unsolicited message",
-  "whatNotToDo": "Verify debt claims through official channels"
-},
-{
-  "value": "wa.me",
-  "category": "untrusted_channel",
-  "weight": 50,
-  "reason": "Uses WhatsApp link",
-  "whatNotToDo": "Do not click WhatsApp links for sensitive matters"
-},
-{
-  "value": "whatsapp us urgently to stop summons",
-  "type": "absolute"
-},
-{
-  "value": "debt summons",
-  "category": "legal_threat",
-  "weight": 80
-},
-{
-  "value": "capfin sold debt",
-  "category": "debt_scam",
-  "weight": 70
-},
-{
-  "value": "assigned to acquifin",
-  "category": "debt_scam",
-  "weight": 70
-},
-{
-  "value": "whatsapp",
-  "category": "suspicious_channel",
-  "weight": 40
-},
-{
   "value": "stop summons",
   "category": "legal_threat",
-  "weight": 80
+  "weight": 100
 }
   ]
 }
