@@ -1,7 +1,7 @@
 'use strict';
 
 const fs = require('fs');
-const { validateIntel } = require('./schema');
+const { validateIntelSchema } = require('./schema');
 
 function loadIntel(intelPath) {
   let intel = null;
@@ -26,14 +26,10 @@ function loadIntel(intelPath) {
       version: parsed?.version || 'unknown'
     });
 
-    const v = validateIntel(parsed);
+    // 🔥 Correct validation (normalizer, not validator with ok flag)
+    const normalized = validateIntelSchema(parsed);
 
-    console.log('[loadIntel] validation:result', {
-      ok: !!v?.ok,
-      errors: Array.isArray(v?.errors) ? v.errors : []
-    });
-
-    if (!v.ok) {
+    if (!normalized || typeof normalized !== 'object') {
       degraded = true;
       intel = null;
 
@@ -41,7 +37,7 @@ function loadIntel(intelPath) {
         intelPath
       });
     } else {
-      intel = parsed;
+      intel = normalized;
 
       console.log('[loadIntel] counts', {
         version: intel?.version || 'unknown',
