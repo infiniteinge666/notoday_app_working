@@ -2008,6 +2008,34 @@
   "weight": 50,
   "reason": "Uses WhatsApp link for sensitive matter",
   "whatNotToDo": "Do not engage through WhatsApp links for debt/legal issues"
+},
+{
+  "value": "whatsapp",
+  "category": "off_channel_redirect",
+  "weight": 30,
+  "reason": "Moves conversation to WhatsApp",
+  "whatNotToDo": "Do not continue financial or legal matters on WhatsApp"
+},
+{
+  "value": "summons",
+  "category": "legal_threat",
+  "weight": 40,
+  "reason": "Threat of legal action",
+  "whatNotToDo": "Do not respond to legal threats via SMS"
+},
+{
+  "value": "debt",
+  "category": "financial_pressure",
+  "weight": 25,
+  "reason": "Mentions debt in unsolicited message",
+  "whatNotToDo": "Verify debt claims through official channels"
+},
+{
+  "value": "wa.me",
+  "category": "untrusted_channel",
+  "weight": 50,
+  "reason": "Uses WhatsApp link",
+  "whatNotToDo": "Do not click WhatsApp links for sensitive matters"
 }
   ]
 }
