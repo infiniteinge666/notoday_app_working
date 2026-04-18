@@ -1,50 +1,89 @@
 "use strict";
 
 const multer = require("multer");
-const upload = multer();
+const loadIntelOrDie = require("../../intel/loadIntel");
 
-const { runCheck } = require("../../core/engine");
-const { loadIntelOrDie } = require("../../intel/loadIntel");
-const { extractTextFromImage } = require("../../core/ocr");
+const engineModule = require("../../core/engine");
+const ocrModule = require("../../core/ocr");
 
-// middleware wrapper
-const uploadMiddleware = upload.single("image");
+const runCheck =
+  typeof engineModule === "function"
+    ? engineModule
+    : engineModule.runCheck || engineModule.scan;
+
+const extractTextFromImage =
+  typeof ocrModule === "function"
+    ? ocrModule
+    : ocrModule.extractTextFromImage || ocrModule.extractText || ocrModule.ocr;
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 10 * 1024 * 1024
+  }
+});
 
 function httpCheckHandler(req, res) {
-  uploadMiddleware(req, res, async function (err) {
+  upload.single("image")(req, res, async function onUploadComplete(err) {
     try {
       if (err) {
-        console.error("Upload error:", err);
-        return res.json({
+        console.error("UPLOAD ERROR:", err);
+        return res.status(400).json({
           success: false,
           message: "Upload failed",
-          data: { band: "ERROR", score: 0, reasons: ["Upload error"] }
+          data: {
+            band: "ERROR",
+            score: 0,
+            reasons: ["Upload failed"]
+          }
         });
+      }
+
+      if (typeof runCheck !== "function") {
+        throw new Error("runCheck is not a function");
       }
 
       const intel = loadIntelOrDie();
 
       let text = "";
+      let imageBuffer = null;
 
-      // =========================
-      // TEXT INPUT
-      // =========================
-      if (req.body && req.body.text) {
-        text = req.body.text;
+      if (req.body && typeof req.body.text === "string" && req.body.text.trim()) {
+        text = req.body.text.trim();
       }
 
-      // =========================
-      // IMAGE INPUT
-      // =========================
+      if (
+        req.body &&
+        typeof req.body.imageBase64 === "string" &&
+        req.body.imageBase64.trim()
+      ) {
+        imageBuffer = Buffer.from(req.body.imageBase64.trim(), "base64");
+      }
+
       if (req.file && req.file.buffer) {
-        text = await extractTextFromImage(req.file.buffer);
+        imageBuffer = req.file.buffer;
+      }
+
+      if (imageBuffer) {
+        if (typeof extractTextFromImage !== "function") {
+          throw new Error("extractTextFromImage is not a function");
+        }
+
+        const ocrText = await extractTextFromImage(imageBuffer);
+        if (typeof ocrText === "string" && ocrText.trim()) {
+          text = ocrText.trim();
+        }
       }
 
       if (!text) {
-        return res.json({
+        return res.status(400).json({
           success: false,
           message: "No input provided",
-          data: { band: "ERROR", score: 0, reasons: ["No input"] }
+          data: {
+            band: "ERROR",
+            score: 0,
+            reasons: ["No input"]
+          }
         });
       }
 
@@ -55,21 +94,20 @@ function httpCheckHandler(req, res) {
         message: "Scan complete",
         data: result
       });
+    } catch (error) {
+      console.error("CHECK ERROR:", error);
 
-    } catch (err) {
-      console.error("CHECK ERROR:", err);
-
-      return res.json({
+      return res.status(500).json({
         success: false,
         message: "Scan failed",
         data: {
           band: "ERROR",
           score: 0,
-          reasons: [err.message || "Unknown error"]
+          reasons: [error && error.message ? error.message : "Unknown error"]
         }
       });
     }
   });
 }
 
-module.exports = { httpCheckHandler };
+module.exports = httpCheckHandler;
