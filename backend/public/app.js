@@ -115,47 +115,34 @@ window.addEventListener("load", () => {
   // =========================
   uploadBtn.addEventListener("click", () => fileInput.click());
 
-  fileInput.addEventListener("change", () => {
+ fileInput.addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
 
-    const file = fileInput.files[0];
-    if (!file) return;
+  // ========================================
+  // 🔒 FRONTEND SIZE GUARD (NON-VISUAL)
+  // ========================================
+  const MAX_SIZE = 8 * 1024 * 1024; // 8MB safe buffer under 10MB backend
 
-    const reader = new FileReader();
+  if (file.size > MAX_SIZE) {
+    console.warn("File too large, rejected before upload");
+    alert("Image too large. Please use a smaller screenshot.");
+    fileInput.value = "";
+    return;
+  }
 
-    reader.onload = async () => {
+  const reader = new FileReader();
 
-      showLoader();
+  reader.onload = async function () {
+    const base64 = reader.result.split(",")[1];
 
-      try {
-        const res = await fetch("/check", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-token": getToken()
-          },
-          body: JSON.stringify({ imageBase64: reader.result })
-        });
+    await runScan({
+      imageBase64: base64,
+    });
+  };
 
-        const data = await res.json();
-
-        hideLoader();
-
-        if (!data.success) {
-          renderBlocked(data.message || "Access denied");
-          return;
-        }
-
-        renderResult(data.data);
-
-      } catch {
-        hideLoader();
-        resultReason.textContent = "Upload failed.";
-        setState("error");
-      }
-    };
-
-    reader.readAsDataURL(file);
-  });
+  reader.readAsDataURL(file);
+});
 
   // =========================
   // PASTE + CLEAR
