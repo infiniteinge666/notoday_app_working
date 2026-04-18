@@ -13,8 +13,6 @@ window.addEventListener("load", () => {
   const clearBtn = $("clearBtn");
   const fileInput = $("fileInput");
 
-  const loader = $("loaderOverlay");
-
   // =========================
   // STATE
   // =========================
@@ -37,7 +35,7 @@ window.addEventListener("load", () => {
   }
 
   // =========================
-  // TEXT SCAN (UNCHANGED LOGIC)
+  // TEXT SCAN
   // =========================
   async function handleTextScan() {
     const text = input.value.trim();
@@ -59,10 +57,46 @@ window.addEventListener("load", () => {
       if (payload && payload.data) {
         renderResult(payload.data);
       }
+
     } catch (err) {
       console.error("Text scan failed:", err);
-      setState("suspicious");
+      alert("Scan failed");
+      setState("idle");
     }
+  }
+
+  // =========================
+  // SAFE BASE64 READER (FIX)
+  // =========================
+  function readFileAsBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        try {
+          if (!reader.result || !reader.result.includes(",")) {
+            return reject("Invalid image data");
+          }
+
+          const base64 = reader.result.split(",")[1];
+
+          if (!base64 || base64.length < 100) {
+            return reject("Corrupted image data");
+          }
+
+          resolve(base64);
+
+        } catch (err) {
+          reject(err);
+        }
+      };
+
+      reader.onerror = () => {
+        reject("FileReader failed");
+      };
+
+      reader.readAsDataURL(file);
+    });
   }
 
   // =========================
@@ -72,46 +106,44 @@ window.addEventListener("load", () => {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Frontend size guard (8MB)
     const MAX_SIZE = 8 * 1024 * 1024;
 
     if (file.size > MAX_SIZE) {
-      console.warn("File too large, rejected before upload");
       alert("Image too large. Please use a smaller screenshot.");
       fileInput.value = "";
       return;
     }
 
-    const reader = new FileReader();
-
-    reader.onload = async function () {
-      const base64 = reader.result.split(",")[1];
-
+    try {
       setState("processing");
 
-      try {
-        const res = await fetch("/check", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            imageBase64: base64,
-          }),
-        });
+      const base64 = await readFileAsBase64(file);
 
-        const payload = await res.json();
+      console.log("BASE64 LENGTH:", base64.length);
 
-        if (payload && payload.data) {
-          renderResult(payload.data);
-        }
-      } catch (err) {
-        console.error("Image scan failed:", err);
-        setState("suspicious");
+      const res = await fetch("/check", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          imageBase64: base64,
+        }),
+      });
+
+      const payload = await res.json();
+
+      if (payload && payload.data) {
+        renderResult(payload.data);
       }
-    };
 
-    reader.readAsDataURL(file);
+    } catch (err) {
+      console.error("UPLOAD ERROR:", err);
+      alert("Upload failed: " + err);
+      setState("idle");
+    }
+
+    fileInput.value = "";
   });
 
   // =========================
