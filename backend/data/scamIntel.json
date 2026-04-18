@@ -1,202 +1,807 @@
-"scamPatterns": [
-  {
-    "value": "(?:^|[^a-z0-9])(absa|africanbank|bidvestbank|capitec|capitecbank|fnb|nedbank|standardbank|tymebank|tymedigital|discovery|sars|sassa|saps|natis|takealot|temu|vodacom|mtn|telkom|facebook|instagram|meta|dhl|aramex|dawnwing|thecourierguy)(?:[-_\\.,])",
-    "category": "domain_lookalike",
-    "weight": 85
-  },
-
-  {
-    "value": "(?:debt\\s+summons|summons\\s+stage|legal\\s+summons).{0,60}(?:whatsapp|wa\\.me)",
-    "category": "legal_impersonation",
-    "weight": 100
-  },
-  {
-    "value": "(?:assigned\\s+to\\s+|handed\\s+over\\s+to).{0,40}(?:whatsapp|contact\\s+us\\s+on\\s+whatsapp)",
-    "category": "handoff_manipulation",
-    "weight": 95
-  },
-  {
-    "value": "wa\\.me\\/\\d+",
-    "category": "private_channel_handoff",
-    "weight": 100
-  },
-
-  {
-    "value": "(?:summons|warrant|court|arrest).{0,40}(?:pay|fine|settle)",
-    "category": "threat",
-    "weight": 30
-  },
-
-  {
-    "value": "(?:final\\s+notice|last\\s+chance|24\\s*hours|within\\s+\\d+\\s*hours)",
-    "category": "urgency",
-    "weight": 20
-  },
-  {
-    "value": "act\\s+now|urgent\\b|immediately\\b|final\\s+notice",
-    "category": "urgency",
-    "weight": 25
-  },
-
-  {
-    "value": "(?:black\\s*friday|mega\\s*sale|flash\\s*sale).{0,40}(?:limited|today only|ends tonight)",
-    "category": "fake_store",
-    "weight": 20
-  },
-  {
-    "value": "(?:chargeback|asset\\s+recovery|hacker).{0,40}(?:fee|deposit|upfront)",
-    "category": "recovery",
-    "weight": 30
-  },
-  {
-    "value": "(?:claim).{0,30}(?:prize|reward).{0,30}(?:fee|payment)",
-    "category": "prize",
-    "weight": 25
-  },
-  {
-    "value": "(?:confirm|verify|update).{0,30}(?:bank|account).{0,30}(?:details|info|information)",
-    "category": "bank_impersonation",
-    "weight": 20
-  },
-  {
-    "value": "(?:crypto|bitcoin|usdt|ethereum).{0,40}(?:deposit|wallet|address)",
-    "category": "investment",
-    "weight": 20
-  },
-  {
-    "value": "(?:delayed\\s*)?refund.{0,40}(?:fica|documents|verify|verification)",
-    "category": "authority_tax",
-    "weight": 25
-  },
-  {
-    "value": "(?:dhl|the courier guy|aramex|dawn wing|post office).{0,40}(?:fee|payment|held|customs)",
-    "category": "delivery_fee",
-    "weight": 25
-  },
-  {
-    "value": "(?:double|triple).{0,20}(?:your\\s+money|investment)",
-    "category": "investment",
-    "weight": 30
-  },
-  {
-    "value": "(?:emergency|crisis).{0,40}(?:need\\s+money|send\\s+money|help\\s+me)",
-    "category": "romance_isolation",
-    "weight": 20
-  },
-
-  {
-    "value": "(?:fnb|absa|nedbank|standard\\s*bank|capitec|tymebank|discovery\\s*bank).{0,40}(?:login|verify|secure|otp|pin)",
-    "category": "bank_impersonation",
-    "weight": 30
-  },
-  {
-    "value": "(?:guaranteed|risk[-\\s]*free).{0,30}(?:returns?|profit)",
-    "category": "investment",
-    "weight": 25
-  },
-  {
-    "value": "(?:keep\\s+this\\s+between\\s+us|don't\\s+tell\\s+anyone|secret)",
-    "category": "romance_isolation",
-    "weight": 25
-  },
-  {
-    "value": "(?:natis)\\s+services\\s+(?:are\\s+)?blocked|blocked\\s+your\\s+access\\s+to\\s+natis",
-    "category": "service_threat",
-    "weight": 95
-  },
-
-  {
-    "value": "(?:parcel|package).{0,40}(?:waiting|pending|held|on hold)",
-    "category": "delivery_fee",
-    "weight": 20
-  },
-  {
-    "value": "(?:pay|fee).{0,30}(?:release|unlock).{0,30}(?:funds|wallet)",
-    "category": "recovery",
-    "weight": 25
-  },
-  {
-    "value": "(?:shorturl|bit\\.ly|tinyurl|t\\.co|is\\.gd|rebrand\\.ly)\\/[a-z0-9]+",
-    "category": "link_shortener",
-    "weight": 20
-  },
-
-  {
-    "value": "(?:task|rating|like\\s+and\\s+earn|work\\s+from\\s+home).{0,40}(?:earn|profit|commission)",
-    "category": "task_scam",
-    "weight": 25
-  },
-
-  {
-    "value": "\\b(otp|pin|cvv|password|verification code)\\b",
-    "category": "credentials",
-    "weight": 100
-  },
-
-  {
-    "value": "anydesk|teamviewer|remote\\s+access|screen\\s+share|quick\\s+support",
-    "category": "remote_takeover",
-    "weight": 100
-  },
-
-  {
-    "value": "pay\\s+into\\s+a\\s+private\\s+individual",
-    "category": "money",
-    "weight": 45
-  },
-
-  {
-    "value": "send proof of payment",
-    "category": "payment_redirect",
-    "weight": 85
-  },
-
-  {
-    "value": "whatsapp number",
-    "category": "private_channel_handoff",
-    "weight": 95
-  },
-
-  {
-    "value": "you are entitled to compensation",
-    "category": "free_money",
-    "weight": 100
-  },
+{
+  "version": "v21",
+  "knownBadDomains": [
+    {
+      "value": "aarotrtria.cc",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "absa-secure-login.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "absa-verify.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "audoune.com",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "banking-verify.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "capitec-clearance.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "capitec-secure.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "capitec-verification.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "capitec-verify.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "courierv.top",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "dhl-tracking-za.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "doctorgoilan.ro",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "fincen-gov-payment.com",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "fincen-payment-release.com",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "fnb-login.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "fnb-secure.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "fnb-verification.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "glc49.hostico.ro",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "hostico.ro",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "instant-eft.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "nedbank-secure.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "pay-id.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "rnd1059.com",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "rnd2546.com",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "sars-gov.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "sars-payout.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "sars-refund-coza.com",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "sars-refund.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "secure-easy-eft.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "standardbank-login.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "standardbank-secure.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "takealot-delivery.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "temperedwall.com",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "temu-claim-reward.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "temu-offer-za.co.za",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "wjdil.buzz",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "za.aarotrtria.cc",
+      "category": "knownbaddomain",
+      "weight": 100
+    },
+    {
+      "value": "zawadiweddingfilms.co.ke",
+      "category": "knownbaddomain",
+      "weight": 100
+    }
+  ],
+  "scamDomainKeywords": [
+    {
+      "value": "aarto",
+      "category": "domain_keyword",
+      "weight": 25
+    },
+    {
+      "value": "aarot",
+      "category": "domain_keyword",
+      "weight": 80
+    },
+    {
+      "value": "aarotr",
+      "category": "domain_keyword",
+      "weight": 80
+    },
+    {
+      "value": "aarotrtria",
+      "category": "domain_keyword",
+      "weight": 90
+    },
+    {
+      "value": "account",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "act-fast",
+      "category": "urgency",
+      "weight": 70
+    },
+    {
+      "value": "action",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "activation-fee",
+      "category": "money_drain",
+      "weight": 80
+    },
+    {
+      "value": "admin-fee",
+      "category": "money_drain",
+      "weight": 75
+    },
+    {
+      "value": "airdrop",
+      "category": "crypto_airdrop",
+      "weight": 80
+    },
+    {
+      "value": "apk",
+      "category": "sideloading",
+      "weight": 85
+    },
+    {
+      "value": "app-update",
+      "category": "sideloading",
+      "weight": 75
+    },
+    {
+      "value": "bank",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "banking-update",
+      "category": "banking_abuse",
+      "weight": 80
+    },
+    {
+      "value": "blocked",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "claim",
+      "category": "domain_keyword",
+      "weight": 18
+    },
+    {
+      "value": "clearance-fee",
+      "category": "money_drain",
+      "weight": 85
+    },
+    {
+      "value": "crypto-reward",
+      "category": "crypto_airdrop",
+      "weight": 80
+    },
+    {
+      "value": "cvv",
+      "category": "domain_keyword",
+      "weight": 22
+    },
+    {
+      "value": "deadline",
+      "category": "urgency",
+      "weight": 65
+    },
+    {
+      "value": "delivery",
+      "category": "domain_keyword",
+      "weight": 18
+    },
+    {
+      "value": "demerit",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "dhl",
+      "category": "domain_keyword",
+      "weight": 14
+    },
+    {
+      "value": "efiling",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "enforcement",
+      "category": "domain_keyword",
+      "weight": 25
+    },
+    {
+      "value": "exclusive",
+      "category": "social_engineering",
+      "weight": 60
+    },
+    {
+      "value": "fee",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "fines",
+      "category": "domain_keyword",
+      "weight": 18
+    },
+    {
+      "value": "html-attachment",
+      "category": "redirect_laundering",
+      "weight": 85
+    },
+    {
+      "value": "immediately",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "instant-eft",
+      "category": "payment_redirect",
+      "weight": 80
+    },
+    {
+      "value": "invoice",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "limited-time",
+      "category": "urgency",
+      "weight": 70
+    },
+    {
+      "value": "locked",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "login",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "meta-refresh",
+      "category": "redirect_laundering",
+      "weight": 85
+    },
+    {
+      "value": "natis",
+      "category": "domain_keyword",
+      "weight": 25
+    },
+    {
+      "value": "no-verification",
+      "category": "social_engineering",
+      "weight": 70
+    },
+    {
+      "value": "otp",
+      "category": "domain_keyword",
+      "weight": 22
+    },
+    {
+      "value": "parcel",
+      "category": "domain_keyword",
+      "weight": 18
+    },
+    {
+      "value": "pay-id",
+      "category": "payment_redirect",
+      "weight": 80
+    },
+    {
+      "value": "payment",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "pin",
+      "category": "domain_keyword",
+      "weight": 22
+    },
+    {
+      "value": "proof-of-payment",
+      "category": "payment_redirect",
+      "weight": 80
+    },
+    {
+      "value": "refund",
+      "category": "domain_keyword",
+      "weight": 18
+    },
+    {
+      "value": "release-fee",
+      "category": "money_drain",
+      "weight": 85
+    },
+    {
+      "value": "rtia",
+      "category": "domain_keyword",
+      "weight": 25
+    },
+    {
+      "value": "sars",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "secure-login",
+      "category": "domain_keyword",
+      "weight": 80
+    },
+    {
+      "value": "selected",
+      "category": "social_engineering",
+      "weight": 60
+    },
+    {
+      "value": "settle",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "statement-download",
+      "category": "payment_redirect",
+      "weight": 80
+    },
+    {
+      "value": "bol-statement",
+      "category": "banking_abuse",
+      "weight": 80
+    },
+    {
+      "value": "businessonline-statement",
+      "category": "banking_abuse",
+      "weight": 75
+    },
+    {
+      "value": "secure-statement",
+      "category": "banking_abuse",
+      "weight": 75
+    },
+    {
+      "value": "account-statement",
+      "category": "banking_abuse",
+      "weight": 65
+    },
+    {
+      "value": "view-statement",
+      "category": "banking_abuse",
+      "weight": 60
+    },
+    {
+      "value": "traffic-fine",
+      "category": "authority_impersonation",
+      "weight": 70
+    },
+    {
+      "value": "speeding-ticket",
+      "category": "authority_impersonation",
+      "weight": 70
+    },
+    {
+      "value": "eskom-",
+      "category": "domain_keyword",
+      "weight": 80
+    },
+    {
+      "value": "municipality-",
+      "category": "domain_keyword",
+      "weight": 75
+    },
+    {
+      "value": "prepaid-token",
+      "category": "domain_keyword",
+      "weight": 75
+    },
+    {
+      "value": "loadshedding-compensation",
+      "category": "domain_keyword",
+      "weight": 80
+    },
+    {
+      "value": "loan-bonus",
+      "category": "financial_lure",
+      "weight": 85
+    },
+    {
+      "value": "repayment-holiday",
+      "category": "financial_lure",
+      "weight": 80
+    },
+    {
+      "value": "agric-loans",
+      "category": "financial_lure",
+      "weight": 75
+    }
+  ],
+  "saOfficialDomains": [
+    {
+      "value": "absa.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "africanbank.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "alfred.eskom.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "app.temu.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "aramex.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "bank.tymedigital.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "bidvestbank.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "business.facebook.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "capitecbank.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "cellc.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "checkers.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "csonline.eskom.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "dawnwing.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "dha.gov.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "dhl.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "discovery.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "efiling.sars.gov.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "eskom.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "facebook.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "fincen.gov",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "fnb.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "gov.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "instagram.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "investec.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "makro.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "meta.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "mrp.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "mtn.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "natis.gov.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "nedbank.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "onedayonly.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "online.discovery.bank",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "online.natis.gov.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "ozow.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "paycity.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "payfast.io",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "peachpayments.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "picknpay.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "sapost.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "saps.gov.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "sars.gov.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "sassa.gov.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "services.gov.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "shoprite.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "standardbank.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "takealot.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "telkom.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "temu.com",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "thecourierguy.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "tymebank.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "vodacom.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "woolworths.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "www.gov.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "www.paycity.co.za",
+      "category": "official",
+      "weight": 0
+    }
+  ],
+  "scamPatterns": [
     {
       "value": "(?:^|[^a-z0-9])(absa|africanbank|bidvestbank|capitec|capitecbank|fnb|nedbank|standardbank|tymebank|tymedigital|discovery|sars|sassa|saps|natis|takealot|temu|vodacom|mtn|telkom|facebook|instagram|meta|dhl|aramex|dawnwing|thecourierguy)(?:[-_\\.,])",
       "category": "domain_lookalike",
       "weight": 85
     },
-        {
-      "value": "(?:debt\\s+summons|summons\\s+stage|legal\\s+summons).{0,60}(?:whatsapp|wa\\.me)",
-      "category": "legal_impersonation",
-      "weight": 100
-    },
-
-    {
-      "value": "(?:assigned\\s+to\\s+|handed\\s+over\\s+to).{0,40}(?:whatsapp|contact\\s+us\\s+on\\s+whatsapp)",
-      "category": "handoff_manipulation",
-      "weight": 95
-    },
-
-    {
-      "value": "wa\\.me\\/\\d+",
-      "category": "private_channel_handoff",
-      "weight": 100
-    },
-
-    {
-      "value": "(?:summons|warrant|court|arrest)",
-      "category": "threat",
-      "weight": 90
-    },
-
-    {
-      "value": "(?:final\\s+notice|urgent|immediately)",
-      "category": "urgency",
-      "weight": 40
-    },
-    
     {
       "value": "(?:black\\s*friday|mega\\s*sale|flash\\s*sale).{0,40}(?:limited|today only|ends tonight)",
       "category": "fake_store",
@@ -1048,6 +1653,286 @@
       "weight": 75
     },
     {
+      "value": "aarto",
+      "category": "domain_keyword",
+      "weight": 25
+    },
+    {
+      "value": "aarot",
+      "category": "domain_keyword",
+      "weight": 80
+    },
+    {
+      "value": "aarotr",
+      "category": "domain_keyword",
+      "weight": 80
+    },
+    {
+      "value": "aarotrtria",
+      "category": "domain_keyword",
+      "weight": 90
+    },
+    {
+      "value": "account",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "act-fast",
+      "category": "urgency",
+      "weight": 70
+    },
+    {
+      "value": "action",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "activation-fee",
+      "category": "money_drain",
+      "weight": 80
+    },
+    {
+      "value": "admin-fee",
+      "category": "money_drain",
+      "weight": 75
+    },
+    {
+      "value": "airdrop",
+      "category": "crypto_airdrop",
+      "weight": 80
+    },
+    {
+      "value": "apk",
+      "category": "sideloading",
+      "weight": 85
+    },
+    {
+      "value": "app-update",
+      "category": "sideloading",
+      "weight": 75
+    },
+    {
+      "value": "bank",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "banking-update",
+      "category": "banking_abuse",
+      "weight": 80
+    },
+    {
+      "value": "blocked",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "claim",
+      "category": "domain_keyword",
+      "weight": 18
+    },
+    {
+      "value": "clearance-fee",
+      "category": "money_drain",
+      "weight": 85
+    },
+    {
+      "value": "crypto-reward",
+      "category": "crypto_airdrop",
+      "weight": 80
+    },
+    {
+      "value": "deadline",
+      "category": "urgency",
+      "weight": 65
+    },
+    {
+      "value": "delivery",
+      "category": "domain_keyword",
+      "weight": 18
+    },
+    {
+      "value": "demerit",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "dhl",
+      "category": "domain_keyword",
+      "weight": 14
+    },
+    {
+      "value": "efiling",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "enforcement",
+      "category": "domain_keyword",
+      "weight": 25
+    },
+    {
+      "value": "exclusive",
+      "category": "social_engineering",
+      "weight": 60
+    },
+    {
+      "value": "fee",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "fines",
+      "category": "domain_keyword",
+      "weight": 18
+    },
+    {
+      "value": "html-attachment",
+      "category": "redirect_laundering",
+      "weight": 85
+    },
+    {
+      "value": "immediately",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "instant-eft",
+      "category": "payment_redirect",
+      "weight": 80
+    },
+    {
+      "value": "invoice",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "limited-time",
+      "category": "urgency",
+      "weight": 70
+    },
+    {
+      "value": "locked",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "login",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "meta-refresh",
+      "category": "redirect_laundering",
+      "weight": 85
+    },
+    {
+      "value": "natis",
+      "category": "domain_keyword",
+      "weight": 25
+    },
+    {
+      "value": "no-verification",
+      "category": "social_engineering",
+      "weight": 70
+    },
+    {
+      "value": "parcel",
+      "category": "domain_keyword",
+      "weight": 18
+    },
+    {
+      "value": "pay-id",
+      "category": "payment_redirect",
+      "weight": 80
+    },
+    {
+      "value": "payment",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "proof-of-payment",
+      "category": "payment_redirect",
+      "weight": 80
+    },
+    {
+      "value": "refund",
+      "category": "domain_keyword",
+      "weight": 18
+    },
+    {
+      "value": "release-fee",
+      "category": "money_drain",
+      "weight": 85
+    },
+    {
+      "value": "rtia",
+      "category": "domain_keyword",
+      "weight": 25
+    },
+    {
+      "value": "sars",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "secure-login",
+      "category": "domain_keyword",
+      "weight": 80
+    },
+    {
+      "value": "selected",
+      "category": "social_engineering",
+      "weight": 60
+    },
+    {
+      "value": "settle",
+      "category": "domain_keyword",
+      "weight": 20
+    },
+    {
+      "value": "statement-download",
+      "category": "payment_redirect",
+      "weight": 80
+    },
+    {
+      "value": "bol-statement",
+      "category": "banking_abuse",
+      "weight": 80
+    },
+    {
+      "value": "businessonline-statement",
+      "category": "banking_abuse",
+      "weight": 75
+    },
+    {
+      "value": "secure-statement",
+      "category": "banking_abuse",
+      "weight": 75
+    },
+    {
+      "value": "account-statement",
+      "category": "banking_abuse",
+      "weight": 65
+    },
+    {
+      "value": "view-statement",
+      "category": "banking_abuse",
+      "weight": 60
+    },
+    {
+      "value": "traffic-fine",
+      "category": "authority_impersonation",
+      "weight": 70
+    },
+    {
+      "value": "speeding-ticket",
+      "category": "authority_impersonation",
+      "weight": 70
+    },
+    {
       "value": "scan the qr code to release funds",
       "category": "social_engineering",
       "weight": 65
@@ -1160,6 +2045,76 @@
     {
       "value": "enter the code to secure your account",
       "category": "credential_request",
+      "weight": 90
+    },
+    {
+      "value": "(?:business\\s+and\\s+agric\\s+loans?)",
+      "category": "financial_lure",
+      "weight": 85
+    },
+    {
+      "value": "(?:loan\\s+bonanza|loan\\s+bonus)",
+      "category": "financial_lure",
+      "weight": 90
+    },
+    {
+      "value": "(?:unlock\\s+big\\s+savings)",
+      "category": "financial_lure",
+      "weight": 80
+    },
+    {
+      "value": "(?:financial\\s+freedom)",
+      "category": "social_engineering",
+      "weight": 65
+    },
+    {
+      "value": "(?:no\\s+payments?\\s+for\\s+the\\s+next\\s+\\d+\\s+months?)",
+      "category": "financial_lure",
+      "weight": 90
+    },
+    {
+      "value": "(?:repayment\\s+holiday)",
+      "category": "financial_lure",
+      "weight": 85
+    },
+    {
+      "value": "(?:borrow\\s+smarter)",
+      "category": "social_engineering",
+      "weight": 65
+    },
+    {
+      "value": "(?:limited[-\\s]*time\\s+offer).{0,30}(?:valid\\s+before|available\\s+until)",
+      "category": "urgency",
+      "weight": 80
+    },
+    {
+      "value": "(?:starting\\s+from\\s+\\d+(?:\\.\\d+)?%\\s*apr)",
+      "category": "financial_lure",
+      "weight": 85
+    },
+    {
+      "value": "(?:cash\\s+bonus\\s+on\\s+payout)",
+      "category": "free_money",
+      "weight": 95
+    },
+    {
+      "value": "(?:loyalty\\s+reward).{0,30}(?:extra\\s+r\\s*\\d{1,6})",
+      "category": "free_money",
+      "weight": 90
+    },
+    {
+      "value": "(?:whatsapp\\s+support)",
+      "category": "private_channel_handoff",
+      "weight": 90
+    },
+    {
+      "value": "(?:loan\\s+amounts?\\s+from\\s+r\\s*\\d{1,3}(?:[ ,.]\\d{3})+)",
+      "category": "financial_lure",
+      "weight": 75
+    },
+    {
+      "value": "(?:see\\s+the\\s+attached).{0,20}(?:loan|bonus|pdf)",
+      "category": "attachment_lure",
       "weight": 90
     }
   ]
