@@ -19,7 +19,7 @@ router.get('/health', (req, res) => {
 // =========================
 // CORE
 // =========================
-router.get('/intel', httpIntelHandler);
+router.post('/check', ...httpCheckHandler);
 router.post('/check', httpCheckHandler);
 
 // =========================
