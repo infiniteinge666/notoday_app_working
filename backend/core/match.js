@@ -125,19 +125,29 @@ function scoreTextPatterns(raw, intel = {}) {
 
   for (const e of list) {
 
-    const rawPattern = String(e?.pattern || e?.value || '').trim();
-    if (!rawPattern) continue;
+    const rawPattern = String(e?.pattern || e?.value || '');
+if (!rawPattern) continue;
 
-    let matched = false;
+// 🔥 normalize BOTH sides
+const normalizedText = normalizeInput(text);
+const normalizedPattern = normalizeInput(rawPattern);
 
-    try {
-      const regex = new RegExp(rawPattern, e?.flags || 'i');
-      matched = regex.test(text);
-    } catch {
-      matched = text.includes(rawPattern.toLowerCase());
-    }
+// 🔥 make OCR-safe flexible match
+const patternRegex = normalizedPattern
+  .split(' ')
+  .filter(Boolean)
+  .join('\\s+'); // allow broken spacing
 
-    if (!matched) continue;
+let matched = false;
+
+try {
+  const regex = new RegExp(patternRegex, 'i');
+  matched = regex.test(normalizedText);
+} catch {
+  matched = normalizedText.includes(normalizedPattern);
+}
+
+if (!matched) continue;
 
     const w = num(e?.weight, 0);
 
