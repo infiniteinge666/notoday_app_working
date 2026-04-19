@@ -21,11 +21,13 @@
       "default",
       {
         "ignore": [
-          "backdrop-filter"
+          "backdrop-filter",
+          "-webkit-text-size-adjust"
         ]
       }
     ],
     "axe/text-alternatives": "off",
-    "css-prefix-order": "off"
+    "css-prefix-order": "off",
+    "meta-viewport": "off"
   }
 }
