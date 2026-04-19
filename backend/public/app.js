@@ -12,7 +12,7 @@ window.addEventListener('load', () => {
   const loader = $('loaderOverlay');
 
   function setState(state) {
-  const box = document.getElementById('resultBox');
+  const box = document.getElementById('resultHeading');
 
   box.setAttribute('data-state', state);
 }
