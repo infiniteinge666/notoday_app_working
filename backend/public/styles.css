@@ -10,6 +10,9 @@
 html, body {
   height: 100%;
   -webkit-text-size-adjust: 100%;
+  body {
+  font-size: 20px; /* 👈 base scaling */
+}
 }
 
 /* =========================
@@ -51,7 +54,7 @@ body {
    🌌 STAR LAYER
 ========================= */
 .container {
-  position: fixed;
+  position: relative;
   inset: 0;
   z-index: 0;
   pointer-events: none;
