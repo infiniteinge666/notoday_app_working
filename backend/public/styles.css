@@ -10,9 +10,16 @@
 html, body {
   height: 100%;
   -webkit-text-size-adjust: 100%;
-  body {
-  font-size: 20px; /* 👈 base scaling */
 }
+
+/* =========================
+   BASE TYPOGRAPHY
+========================= */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+  color: var(--ink-900);
+  font-size: 16px;
+  line-height: 1.4;
 }
 
 /* =========================
@@ -31,11 +38,9 @@ html, body {
 }
 
 /* =========================
-   BACKGROUND (PALETTE)
+   BACKGROUND
 ========================= */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
-  color: var(--ink-900);
   overflow: hidden;
 
   display: flex;
@@ -51,61 +56,13 @@ body {
 }
 
 /* =========================
-   🌌 STAR LAYER
+   STAR LAYER
 ========================= */
 .container {
   position: relative;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-}
-
-#stars,
-#stars2,
-#stars3 {
-  transform: translateY(0); /* 👈 force consistent start */
-}
-
-/* FAR */
-#stars {
-  width: 1px;
-  height: 1px;
-
-  box-shadow:
-    500px 800px rgba(234, 252, 253, 0.979),
-    1400px 1200px rgb(1, 171, 180),
-    900px 1600px rgb(1, 171, 180);
-
-  animation: starScroll 10s linear infinite;
-}
-
-/* MID */
-#stars2 {
-  width: 2px;
-  height: 2px;
-
-  box-shadow:
-    800px 900px rgb(1, 171, 180),
-    1200px 400px rgb(1, 171, 180);
-
-  animation: starScroll 8s linear infinite;
-}
-
-/* NEAR */
-#stars3 {
-  width: 3px;
-  height: 3px;
-
-  box-shadow:
-    600px 600px rgb(1, 171, 180),
-    1400px 1000px rgb(1, 171, 180);
-
-  animation: starScroll 7s linear infinite;
-}
-
-@keyframes starScroll {
-  from { transform: translateY(0); }
-  to { transform: translateY(-2000px); }
 }
 
 /* =========================
@@ -117,11 +74,13 @@ body {
 
   width: 100%;
   max-width: 420px;
-  padding: 30px;
+
+  padding: 32px 24px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 20px; /* 👈 added breathing */
 }
 
 /* =========================
@@ -129,7 +88,7 @@ body {
 ========================= */
 .logo {
   width: 100px;
-  margin-bottom: 10px;
+  margin-bottom: 4px;
 }
 
 /* =========================
@@ -139,12 +98,12 @@ body {
   width: 100%;
   height: 574px;
 
-  padding: 20px;
+  padding: 24px;
   border-radius: var(--radius-xl);
 
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 18px; /* 👈 increased */
 
   background: rgba(128, 127, 127, 0.164);
   backdrop-filter: blur(18px);
@@ -156,32 +115,6 @@ body {
 
   position: relative;
   overflow: hidden;
-}
-
-/* =========================
-   LIGHT SWEEP
-========================= */
-.glass::before,
-.glass::after {
-  content: "";
-  position: absolute;
-  inset: -50%;
-  pointer-events: none;
-  z-index: 0;
-
-  background: linear-gradient(
-    120deg,
-    transparent 40%,
-    rgba(255, 255, 255, 0.397),
-    transparent 60%
-  );
-
-  animation: sweep 6s linear infinite;
-}
-
-@keyframes sweep {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(100%); }
 }
 
 /* =========================
@@ -201,9 +134,14 @@ button,
 textarea {
   width: 100%;
   min-height: 200px;
+
+  padding: 16px; /* 👈 more breathing */
+
   border-radius: var(--radius-md);
   border: none;
-  padding: 14px;
+
+  font-size: 17px;
+  line-height: 1.5;
 
   background: rgba(255, 255, 255, 0.363);
 
@@ -214,19 +152,29 @@ textarea {
   outline: none;
 }
 
+textarea::placeholder {
+  font-size: 16px;
+}
+
 /* =========================
-   BUTTONS
+   BUTTON GROUP
 ========================= */
 .actions {
   display: flex;
-  gap: 10px;
+  gap: 12px; /* 👈 slightly wider */
 }
 
+/* =========================
+   BUTTONS
+========================= */
 button {
   flex: 1;
-  padding: 12px 14px;
+  padding: 14px 16px; /* 👈 increased */
+
   border-radius: 16px;
   border: none;
+
+  font-size: 16px;
 
   background: linear-gradient(
     180deg,
@@ -252,8 +200,13 @@ button:active {
 .cta {
   margin-top: auto;
 
-  color: white;
+  padding: 16px; /* 👈 more prominent */
+
+  font-size: 18px;
   font-weight: 700;
+  letter-spacing: 0.02em;
+
+  color: white;
 
   background: linear-gradient(
     180deg,
@@ -268,13 +221,29 @@ button:active {
 ========================= */
 #resultBox {
   border-radius: 16px;
-  padding: 12px;
+
+  padding: 16px; /* 👈 increased */
   min-height: 180px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
   background: rgba(255, 255, 255, 0.671);
 }
 
+#resultHeading {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+#resultReason {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
 /* =========================
-   STATE (TEXT ONLY)
+   STATE
 ========================= */
 #resultHeading {
   transition: color 0.25s ease;
@@ -285,7 +254,7 @@ body.state-warning #resultHeading { color: #ffbb33; }
 body.state-danger #resultHeading { color: #ff4444; }
 
 /* =========================
-   WARP LOADER
+   LOADER
 ========================= */
 .loader-overlay {
   position: fixed;
@@ -302,70 +271,4 @@ body.state-danger #resultHeading { color: #ff4444; }
 
 .loader-overlay.hidden {
   display: none;
-}
-
-.warp-loader {
-  position: relative;
-  width: 160px;
-  height: 160px;
-}
-
-.ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-
-  transform: translate(-50%, -50%);
-
-  background: radial-gradient(
-    circle,
-    rgba(0, 255, 255, 0.15) 30%,
-    transparent 70%
-  );
-
-  animation: pulse 2.2s ease-out infinite;
-  opacity: 0;
-
-  box-shadow:
-    0 0 12px #00d1ff66,
-    0 0 24px #00d1ff33;
-
-  border: 2px solid rgba(0, 255, 255, 0.2);
-}
-
-.ring:nth-child(2){animation-delay:.4s;}
-.ring:nth-child(3){animation-delay:.8s;}
-.ring:nth-child(4){animation-delay:1.2s;}
-
-@keyframes pulse {
-  0% { transform: translate(-50%, -50%) scale(.3); opacity:1; }
-  70% { transform: translate(-50%, -50%) scale(1.1); opacity:.15; }
-  100% { transform: translate(-50%, -50%) scale(1.4); opacity:0; }
-}
-
-.core-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 24px;
-  height: 24px;
-
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-
-  background: radial-gradient(circle,#00e5ff,#0099cc);
-
-  box-shadow:
-    0 0 25px #00e5ff,
-    0 0 60px #00e5ff88,
-    0 0 100px #00e5ff33;
-
-  animation: corePulse 1.6s infinite;
-}
-
-@keyframes corePulse {
-  50% { transform: translate(-50%, -50%) scale(1.2); }
 }
