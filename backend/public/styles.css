@@ -80,7 +80,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px; /* 👈 added breathing */
+  gap: 20px;
 }
 
 /* =========================
@@ -89,6 +89,16 @@ body {
 .logo {
   width: 100px;
   margin-bottom: 4px;
+
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+/* ✅ LOGO HOVER */
+.logo:hover {
+  transform: translateY(-2px) scale(1.04);
+  filter:
+    drop-shadow(0 6px 14px rgba(0,0,0,0.25))
+    drop-shadow(0 0 10px rgba(255,255,255,0.25));
 }
 
 /* =========================
@@ -103,7 +113,7 @@ body {
 
   display: flex;
   flex-direction: column;
-  gap: 18px; /* 👈 increased */
+  gap: 18px;
 
   background: rgba(128, 127, 127, 0.164);
   backdrop-filter: blur(18px);
@@ -115,6 +125,31 @@ body {
 
   position: relative;
   overflow: hidden;
+}
+
+/* =========================
+   ✨ LIGHT SWEEP (RESTORED)
+========================= */
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  pointer-events: none;
+  z-index: 1;
+
+  background: linear-gradient(
+    120deg,
+    transparent 40%,
+    rgba(255,255,255,0.35),
+    transparent 60%
+  );
+
+  animation: sweep 6s linear infinite;
+}
+
+@keyframes sweep {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(100%); }
 }
 
 /* =========================
@@ -135,7 +170,7 @@ textarea {
   width: 100%;
   min-height: 200px;
 
-  padding: 16px; /* 👈 more breathing */
+  padding: 16px;
 
   border-radius: var(--radius-md);
   border: none;
@@ -161,7 +196,7 @@ textarea::placeholder {
 ========================= */
 .actions {
   display: flex;
-  gap: 12px; /* 👈 slightly wider */
+  gap: 12px;
 }
 
 /* =========================
@@ -169,13 +204,13 @@ textarea::placeholder {
 ========================= */
 button {
   flex: 1;
-  padding: 14px 16px; /* 👈 increased */
+  padding: 14px 16px;
 
   border-radius: 16px;
   border: none;
 
   font-size: 16px;
-  color: var(--ink-900); /* 👈 FIXED (charcoal) */
+  color: var(--ink-900);
 
   background: linear-gradient(
     180deg,
@@ -201,7 +236,7 @@ button:active {
 .cta {
   margin-top: auto;
 
-  padding: 16px; /* 👈 more prominent */
+  padding: 16px;
 
   font-size: 18px;
   font-weight: 500;
@@ -223,7 +258,7 @@ button:active {
 #resultBox {
   border-radius: 16px;
 
-  padding: 16px; /* 👈 increased */
+  padding: 16px;
   min-height: 180px;
 
   display: flex;
@@ -236,6 +271,7 @@ button:active {
 #resultHeading {
   font-size: 20px;
   font-weight: 700;
+  transition: color 0.25s ease;
 }
 
 #resultReason {
@@ -244,12 +280,8 @@ button:active {
 }
 
 /* =========================
-   STATE
+   STATE (TEXT ONLY)
 ========================= */
-#resultHeading {
-  transition: color 0.25s ease;
-}
-
 body.state-safe #resultHeading { color: #00c851; }
 body.state-warning #resultHeading { color: #ffbb33; }
 body.state-danger #resultHeading { color: #ff4444; }
