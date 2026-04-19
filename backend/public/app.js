@@ -9,18 +9,25 @@ window.addEventListener('load', () => {
   const uploadBtn = $('uploadBtn');
   const clearBtn = $('clearBtn');
   const fileInput = $('fileInput');
+  const loader = $('loaderOverlay');
 
   function setState(state) {
     document.body.className = `state-${state}`;
   }
 
+  function showLoader(show) {
+    loader.classList.toggle('hidden', !show);
+  }
+
   function renderResult(data) {
     if (!data) return;
 
-    const band = String(data.band || 'SAFE').toLowerCase();
+    const band = (data.band || 'safe').toLowerCase();
     setState(band);
+
     resultHeading.textContent = data.band || 'RESULT';
-    resultReason.textContent = (data.why && data.why.length ? data.why : data.reasons || []).join(', ');
+    resultReason.textContent =
+      (data.why && data.why.length ? data.why : data.reasons || []).join(', ');
   }
 
   async function handleTextScan() {
@@ -28,36 +35,48 @@ window.addEventListener('load', () => {
     if (!text) return;
 
     setState('processing');
+    showLoader(true);
 
     try {
       const res = await fetch('/check', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ raw: text })
       });
 
       const payload = await res.json();
       renderResult(payload?.data);
-    } catch (error) {
-      console.error('TEXT ERROR:', error);
-      setState('idle');
+    } catch (err) {
       alert('Scan failed.');
+      setState('idle');
+    } finally {
+      showLoader(false);
     }
   }
 
-  fileInput.addEventListener('change', async (event) => {
-    const file = event.target.files[0];
+  scanBtn.addEventListener('click', handleTextScan);
+
+  pasteBtn.addEventListener('click', async () => {
+    try {
+      input.value = await navigator.clipboard.readText();
+    } catch {}
+  });
+
+  uploadBtn.addEventListener('click', () => fileInput.click());
+
+  clearBtn.addEventListener('click', () => {
+    input.value = '';
+    resultHeading.textContent = '';
+    resultReason.textContent = '';
+    setState('idle');
+  });
+
+  fileInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
     if (!file) return;
 
-    if (file.size > 8 * 1024 * 1024) {
-      alert('Image too large.');
-      fileInput.value = '';
-      return;
-    }
-
     setState('processing');
+    showLoader(true);
 
     try {
       const formData = new FormData();
@@ -70,36 +89,12 @@ window.addEventListener('load', () => {
 
       const payload = await res.json();
       renderResult(payload?.data);
-    } catch (error) {
-      console.error('UPLOAD ERROR:', error);
-      setState('idle');
+    } catch {
       alert('Upload failed.');
+    } finally {
+      showLoader(false);
+      fileInput.value = '';
     }
-
-    fileInput.value = '';
-  });
-
-  scanBtn.addEventListener('click', handleTextScan);
-
-  pasteBtn.addEventListener('click', async () => {
-    try {
-      const text = await navigator.clipboard.readText();
-      input.value = text;
-    } catch (error) {
-      console.error('Paste failed:', error);
-    }
-  });
-
-  uploadBtn.addEventListener('click', () => {
-    fileInput.click();
-  });
-
-  clearBtn.addEventListener('click', () => {
-    input.value = '';
-    fileInput.value = '';
-    resultHeading.textContent = '';
-    resultReason.textContent = '';
-    setState('idle');
   });
 
   setState('idle');

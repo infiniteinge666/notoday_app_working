@@ -1,4 +1,6 @@
-/* RESET */
+/* =========================
+   RESET
+========================= */
 * {
   margin: 0;
   padding: 0;
@@ -7,283 +9,294 @@
 
 html, body {
   height: 100%;
-  -webkit-text-size-adjust: 100%;       
-}
-
-body {
-  font-family: system-ui, -apple-system, sans-serif;
-  background: #7a7a7a;
-  color: rgb(243, 243, 243);
-  overflow: hidden;
-
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
-
-  --glow: rgba(218, 218, 218, 0.288);
+  -webkit-text-size-adjust: 100%;
 }
 
 /* =========================
-   STATE COLORS
+   TOKENS
 ========================= */
-body.state-idle { --glow: rgba(252, 252, 252, 0.623); }
-body.state-safe { --glow: rgba(0, 255, 42, 0.747); }
-body.state-suspicious { --glow: rgba(255, 136, 0, 0.87); }
-body.state-critical { --glow: rgba(255, 60, 60, 0.836); }
+:root {
+  --ink-900: #212730;
+  --ink-700: #4B5057;
+  --ink-500: #787D85;
+
+  --accent: #01abb4a1;
+  --accent-deep: #01929a7a;
+
+  --bg-top: #c2c2c2b9;
+  --bg-bottom: #dde3e7b4;
+
+  --radius-xl: 30px;
+  --radius-md: 18px;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
 
 /* =========================
    BACKGROUND
 ========================= */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+  color: var(--ink-900);
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(900px 500px at 50% 20%, rgba(173, 173, 173, 0.849), transparent 60%),
+    linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+}
+
+/* =========================
+   FX LAYER
+========================= */
 .fx-layer {
   position: fixed;
   inset: 0;
-  z-index: 1;
   pointer-events: none;
-  overflow: hidden;
-}
-
-.fx-layer::before,
-.fx-layer::after {
-  content: "";
-  position: absolute;
-  width: 140%;
-  height: 200%;
-  left: -20%;
-  filter: blur(40px);
-  opacity: 0.08;
-
-  background: linear-gradient(
-    120deg,
-    transparent,
-    var(--glow),
-    transparent
-  );
-
-  animation: rayMove1 10s linear infinite;
-}
-
-.fx-layer::after {
-  animation: rayMove2 26s linear infinite;
 }
 
 .dust {
   position: absolute;
   inset: 0;
-
   background:
-    radial-gradient(var(--glow) 1.5px, transparent 1px);
+    radial-gradient(circle at 20% 30%, rgba(206, 250, 250, 0.815), transparent 90%),
+    radial-gradient(circle at 80% 70%, rgb(236, 236, 236), transparent 90%);
+  animation: dustMove 12s ease-in-out infinite alternate;
+}
 
-  background-size: 120px 90px;
-  opacity: 0.2;
-
-  animation: dustFloat 10s ease-in-out infinite;
+@keyframes dustMove {
+  from { transform: translateY(0); }
+  to { transform: translateY(-20px); }
 }
 
 /* =========================
    UI
 ========================= */
 .ui-layer {
-  position: relative;
-  z-index: 10;
+  width: 100%;
+  max-width: 420px;
+  padding: 30px;
 
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  padding-top: 60px;
 }
 
 /* =========================
-   LOGO (FINAL LOCKED)
+   LOGO
 ========================= */
-
 .logo {
-  width: 120px;
-  margin-bottom: 50px;
+  width: 100px;
+  margin-bottom: 10px;
 
-  position: relative;
-  display: block;
-  z-index: 1;
+  filter:
+    drop-shadow(0 10px 20px rgba(255, 255, 255, 0.507))
+    drop-shadow(0 0 16px rgba(242, 243, 243, 0.603));
+
+  animation: float 5s ease-in-out infinite;
 }
 
-/* Glow layer (independent from image) */
-.logo::after {
-  content: "";
-  position: absolute;
-  inset: -18px;
-
-  border-radius: 50%;
-
-  background: radial-gradient(
-    circle,
-    var(--glow) 0%,
-    transparent 70%
-  );
-
-  filter: blur(22px);
-  opacity: 0.55;
-
-  z-index: -1;
-  pointer-events: none;
+@keyframes float {
+  50% { transform: translateY(-4px); }
 }
 
-/* GLASS */
+/* =========================
+   PANEL
+========================= */
 .glass {
-  width: 90%;
-  max-width: 360px;
-
-  border-radius: 24px;
+  width: 100%;
   padding: 20px;
+  border-radius: var(--radius-xl);
 
   display: flex;
   flex-direction: column;
   gap: 14px;
 
-  backdrop-filter: blur(30px);
-  background: rgba(253, 253, 253, 0.39);
+  /* ✅ ONLY CHANGE */
+  height: 574px;
+
+  background: rgba(128, 127, 127, 0.164);
+  backdrop-filter: blur(18px);
 
   box-shadow:
-    0 0 35px var(--glow),
-    inset 0 1px 0.5px rgba(255, 255, 255, 0.699),
-    inset 0 -1px 2px rgba(253, 253, 253, 0.603);
+    0 20px 40px rgba(59, 59, 59, 0.329),
+    inset 0 1px 0 rgba(255, 255, 255, 0.897),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.897);
+
+  position: relative;
+  overflow: hidden;
 }
 
-/* INPUT */
+/* LIGHT SWEEP */
+.glass::before,
+.glass::after {
+  pointer-events: none;
+
+  background: linear-gradient(
+    120deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.397),
+    transparent 60%
+  );
+  animation: sweep 6s linear infinite;
+}
+
+@keyframes sweep {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+/* =========================
+   INPUT
+========================= */
 textarea {
   width: 100%;
-  height: 100px;
-
+  min-height: 200px;
+  border-radius: var(--radius-md);
   border: none;
-  border-radius: 14px;
-  padding: 12px;
+  padding: 14px;
 
-  background: rgba(252, 252, 252, 0.479);
-  color: rgb(63, 63, 63);
+  font-size: 15px;
+  font-family: inherit;
 
-  font-size: 16px;
+  background: rgba(255, 255, 255, 0.363);
+  box-shadow: inset 0 2px 4px rgba(136, 136, 136, 0.548);
+  box-shadow: inset 0 -2px 2px rgba(255, 254, 254, 0.945);
+
   outline: none;
 }
 
-/* BUTTONS */
+textarea::placeholder {
+  color: var(--ink-500);
+}
+
+/* =========================
+   BUTTON GROUP
+========================= */
 .actions {
   display: flex;
   gap: 10px;
 }
 
+/* =========================
+   BASE BUTTON
+========================= */
 button {
   flex: 1;
-  border-radius: 999px;
+  padding: 12px 14px;
+  border-radius: 16px;
   border: none;
 
   position: relative;
   overflow: hidden;
 
-  padding: 12px;
-  color: rgb(88, 88, 88);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink-700);
   cursor: pointer;
 
-  backdrop-filter: blur(20px);
-  background: rgba(212, 212, 212, 0.027);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.11),
+    rgba(235,239,242,0.75)
+  );
 
   box-shadow:
-    0 4px 12px rgba(139, 139, 139, 0.35),
-    inset 0 0 10px var(--glow),
-    inset 0 1px 1px rgba(252, 252, 252, 0.699),
-    inset 0 -2px 4px rgba(253, 253, 253, 0.87);
+    0 6px 14px rgba(0,0,0,0.12),
+    inset 0 2px 4px rgba(255,255,255,0.8),
+    inset 0 -4px 8px rgba(252, 251, 251, 0.432);
 
-  transition: all 0.15s ease;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    filter 0.2s ease;
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+
+  background: linear-gradient(
+    135deg,
+    rgba(234, 248, 248, 0.295),
+    transparent 50%
+  );
+
+  opacity: 0.6;
+}
+
+button:hover {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 10px 20px rgba(0,0,0,0.15),
+    inset 0 2px 4px rgba(255,255,255,0.9),
+    inset 0 -4px 8px rgba(0,0,0,0.08);
 }
 
 button:active {
   transform: translateY(2px) scale(0.97);
-}
-
-.cta {
-  font-weight: bold;
-  padding: 16px;
 
   box-shadow:
-    0 0 25px var(--glow),
-    inset 0 0 12px var(--glow),
-    inset 0 1px 1px rgba(253, 255, 255, 0.932),
-    inset 0 -2px 4px rgba(255, 255, 255, 0.918);
+    inset 0 4px 10px rgba(0,0,0,0.2),
+    inset 0 -2px 4px rgba(255,255,255,0.4),
+    0 3px 6px rgba(0,0,0,0.2);
 }
 
 /* =========================
-   LOG UI
+   CTA
 ========================= */
+.cta {
+  margin-top: 4px;
 
-.log-container {
-  position: fixed;
-  bottom: 10px;
-  left: 10px;
-  right: 10px;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.02em;
 
-  z-index: 50;
+  background: linear-gradient(
+    180deg,
+    #13bdc6,
+    var(--accent),
+    var(--accent-deep)
+  );
 
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-
-  font-size: 11px;
+  box-shadow:
+    0 1px 1px rgba(1, 229, 241, 0.534),
+    inset 0 2px 2px rgba(255, 255, 255, 0.678),
+    inset 0 -2px 2px rgba(223, 223, 223, 0.829);
 }
 
-.log-block {
-  background: rgba(255,255,255,0.05);
-  border-radius: 10px;
-  padding: 8px;
-  backdrop-filter: blur(10px);
-}
-
-.log-title {
-  font-weight: 600;
-  margin-bottom: 4px;
-  opacity: 0.8;
-}
-
-.log-list {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  max-height: 80px;
-  overflow-y: auto;
-}
-
-.log-item {
-  display: grid;
-  grid-template-columns: 60px 1fr 1fr;
-  gap: 4px;
-  opacity: 0.85;
-}
-
-.log-list.error .log-item {
-  grid-template-columns: 60px 1fr;
-  color: #ff6b6b;
+/* =========================
+   RESULT BOX
+========================= */
+#resultBox {
+  border-radius: 16px;
+  padding: 12px;
+  min-height: 180px;
+  background: rgba(255, 255, 255, 0.671);
 }
 
 /* =========================
    LOADER
 ========================= */
-
 .loader-overlay {
   position: fixed;
   inset: 0;
-  z-index: 9999;
-
   display: flex;
-  justify-content: center;
   align-items: center;
-
-  background: rgb(2, 191, 197);
-  backdrop-filter: blur(20px);
+  justify-content: center;
+  background: rgba(255,255,255,0.4);
+  backdrop-filter: blur(10px);
 }
 
 .loader-overlay.hidden {
   display: none;
-}
-
-.loader {
-  display: flex;
 }
 
 .loader-bar {
@@ -291,47 +304,9 @@ button:active {
   width: 6px;
   margin: 0 3px;
   border-radius: 20px;
-  animation: loader 1.2s ease-in-out infinite;
-}
-
-.bar-1 {
-  background: #7bffff;
-}
-
-.bar-2 {
-  background: #00ffea9c;
-}
-
-.bar-3 {
-  background: #a2f4f788;
-}
-
-.bar-4 {
-  background: #00e1ff;
+  animation: loader 1.2s infinite;
 }
 
 @keyframes loader {
-  0% { transform: scaleY(1); }
   50% { transform: scaleY(2); }
-  100% { transform: scaleY(1); }
-}
-
-/* =========================
-   ANIMATIONS
-========================= */
-
-@keyframes rayMove1 {
-  0% { transform: translateX(-60%) rotate(15deg); }
-  100% { transform: translateX(160%) rotate(15deg); }
-}
-
-@keyframes rayMove2 {
-  0% { transform: translateX(60%) rotate(-12deg); }
-  100% { transform: translateX(-160%) rotate(-12deg); }
-}
-
-@keyframes dustFloat {
-  0% { transform: translate(0,0); }
-  50% { transform: translate(-5%, -10%); }
-  100% { transform: translate(0,0); }
 }
