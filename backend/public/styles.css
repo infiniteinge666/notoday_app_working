@@ -26,7 +26,7 @@ body {
    TOKENS
 ========================= */
 :root {
-  --ink-900: #212730;
+  --ink-900: #0e0f0f;
   --ink-700: #4B5057;
   --ink-500: #787D85;
 
@@ -264,7 +264,7 @@ body.state-danger #resultHeading { color: #ff4444; }
   align-items: center;
   justify-content: center;
 
-  background: rgba(125, 126, 126, 0.76);
+  background: rgba(78, 78, 78, 0.801);
   backdrop-filter: blur(12px);
 
   z-index: 999;
