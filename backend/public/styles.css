@@ -45,7 +45,7 @@ body {
   justify-content: center;
 
   background:
-    radial-gradient(900px 500px at 50% 20%, rgba(173, 173, 173, 0.849), transparent 60%),
+    radial-gradient(900px 500px at 50% 20%, rgba(138, 138, 138, 0.925), transparent 60%),
     linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
 }
 
@@ -262,7 +262,7 @@ button:active {
   border-radius: 16px;
   padding: 12px;
   min-height: 180px;
-  background: rgba(255, 255, 255, 0.671);
+  background: rgba(255, 255, 255, 0.342);
 }
 
 /* =========================
@@ -294,7 +294,7 @@ body.state-processing .glass {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(125, 126, 126, 0.76);
+  background: rgba(8, 245, 245, 0.76);
   backdrop-filter: blur(10px);
 }
 
