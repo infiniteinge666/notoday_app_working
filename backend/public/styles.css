@@ -269,15 +269,15 @@ button:active {
    STATE SYSTEM (NEW 🔥)
 ========================= */
 body.state-safe #resultBox {
-  background: rgba(0, 200, 120, 0.08);
+  background: rgba(0, 200, 27, 0.979);
 }
 
 body.state-warning #resultBox {
-  background: rgba(255, 180, 0, 0.08);
+  background: rgba(255, 94, 0, 0.884);
 }
 
 body.state-danger #resultBox {
-  background: rgba(255, 60, 60, 0.08);
+  background: rgba(255, 60, 60, 0.884);
 }
 
 body.state-processing .glass {
