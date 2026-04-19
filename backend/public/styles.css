@@ -12,23 +12,23 @@ html, body {
 
 body {
   font-family: system-ui, -apple-system, sans-serif;
-  background: #018d8d;
-  color: rgb(29, 26, 26);
+  background: #c3c4c4;
+  color: rgb(131, 130, 130);
   overflow: hidden;
 
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
 
-  --glow: rgba(231, 228, 228, 0.863);
+  --glow: rgba(252, 251, 251, 0.856);
 }
 
 /* =========================
    STATE COLORS
 ========================= */
-body.state-idle { --glow: rgba(2, 112, 116, 0.76); }
+body.state-idle { --glow: rgba(182, 213, 214, 0.555); }
 body.state-safe { --glow: rgba(0, 255, 42, 0.747); }
 body.state-suspicious { --glow: rgba(255, 166, 0, 0.87); }
-body.state-critical { --glow: rgba(255, 60, 60, 0.747); }
+body.state-critical { --glow: rgba(255, 60, 60, 0.836); }
 
 /* =========================
    BACKGROUND
@@ -73,7 +73,7 @@ body.state-critical { --glow: rgba(255, 60, 60, 0.747); }
     radial-gradient(var(--glow) 1.5px, transparent 1px);
 
   background-size: 120px 90px;
-  opacity: 0.2;
+  opacity: 0.3;
 
   animation: dustFloat 5s ease-in-out infinite;
 }
@@ -140,12 +140,12 @@ body.state-critical { --glow: rgba(255, 60, 60, 0.747); }
   gap: 14px;
 
   backdrop-filter: blur(30px);
-  background: rgba(224, 216, 216, 0.26);
+  background: rgba(253, 253, 253, 0.39);
 
   box-shadow:
     0 0 35px var(--glow),
-    inset 0 1px 0.5px rgba(231, 250, 250, 0.863),
-    inset 0 -1px 2px rgba(2, 244, 252, 0.603);
+    inset 0 1px 0.5px rgba(255, 255, 255, 0.699),
+    inset 0 -1px 2px rgba(253, 253, 253, 0.603);
 }
 
 /* INPUT */
@@ -157,8 +157,8 @@ textarea {
   border-radius: 14px;
   padding: 12px;
 
-  background: rgba(2, 247, 255, 0.205);
-  color: rgb(255, 255, 255);
+  background: rgba(252, 252, 252, 0.479);
+  color: rgb(63, 63, 63);
 
   font-size: 16px;
   outline: none;
@@ -179,17 +179,17 @@ button {
   overflow: hidden;
 
   padding: 12px;
-  color: rgb(253, 253, 253);
+  color: rgb(88, 88, 88);
   cursor: pointer;
 
   backdrop-filter: blur(20px);
-  background: rgba(1, 172, 172, 0.26);
+  background: rgba(212, 212, 212, 0.027);
 
   box-shadow:
-    0 4px 12px rgba(1, 141, 134, 0.35),
+    0 4px 12px rgba(139, 139, 139, 0.35),
     inset 0 0 10px var(--glow),
-    inset 0 1px 1px rgba(8, 250, 238, 0.6),
-    inset 0 -2px 4px rgba(248, 251, 252, 0.514);
+    inset 0 1px 1px rgba(252, 252, 252, 0.699),
+    inset 0 -2px 4px rgba(253, 253, 253, 0.87);
 
   transition: all 0.15s ease;
 }
@@ -205,7 +205,8 @@ button:active {
   box-shadow:
     0 0 25px var(--glow),
     inset 0 0 12px var(--glow),
-    inset 0 1px 1px rgba(4, 228, 236, 0.7);
+    inset 0 1px 1px rgba(253, 255, 255, 0.932),
+    inset 0 -2px 4px rgba(255, 255, 255, 0.918);
 }
 
 /* =========================
@@ -273,7 +274,7 @@ button:active {
   justify-content: center;
   align-items: center;
 
-  background: rgba(1, 175, 187, 0.493);
+  background: rgb(2, 191, 197);
   backdrop-filter: blur(20px);
 }
 
