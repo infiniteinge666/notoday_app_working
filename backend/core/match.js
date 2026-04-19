@@ -124,19 +124,29 @@ function scoreTextPatterns(raw, intel = {}) {
   let absoluteHit = null;
 
   for (const e of list) {
-    const pattern = String(e?.pattern || e?.value || '').toLowerCase().trim();
-    if (!pattern) continue;
 
-    if (!text.includes(pattern)) continue;
+    const rawPattern = String(e?.pattern || e?.value || '').trim();
+    if (!rawPattern) continue;
+
+    let matched = false;
+
+    try {
+      const regex = new RegExp(rawPattern, e?.flags || 'i');
+      matched = regex.test(text);
+    } catch {
+      matched = text.includes(rawPattern.toLowerCase());
+    }
+
+    if (!matched) continue;
 
     const w = num(e?.weight, 0);
 
     const h = hit({
       type: 'pattern',
       category: e?.category || 'unknown',
-      value: pattern,
+      value: rawPattern,
       weight: w,
-      reason: e?.reason || `Matched: ${pattern}`,
+      reason: e?.reason || `Matched: ${rawPattern}`,
       absolute: Boolean(e?.absolute),
       context: text.slice(0, 200)
     });
@@ -146,7 +156,12 @@ function scoreTextPatterns(raw, intel = {}) {
     score += w;
 
     if (h.absolute && !absoluteHit) {
-      absoluteHit = { hit: true, reason: h.reason, value: pattern, match: h };
+      absoluteHit = {
+        hit: true,
+        reason: h.reason,
+        value: rawPattern,
+        match: h
+      };
     }
   }
 
