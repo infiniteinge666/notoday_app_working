@@ -12,17 +12,10 @@ window.addEventListener('load', () => {
   const loader = $('loaderOverlay');
 
   function setState(state) {
-  document.body.classList.remove(
-    'state-idle',
-    'state-processing',
-    'state-safe',
-    'state-warning',
-    'state-danger'
-  );
+  const box = document.getElementById('resultBox');
 
-  document.body.classList.add(`state-${state}`);
+  box.setAttribute('data-state', state);
 }
-
   function showLoader(show) {
     loader.classList.toggle('hidden', !show);
   }

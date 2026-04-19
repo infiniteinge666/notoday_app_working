@@ -58,11 +58,56 @@ body {
 /* =========================
    STAR LAYER
 ========================= */
-.container {
-  position: relative;
+
+#stars,
+#stars2,
+#stars3 {
+  position: absolute;
   inset: 0;
-  z-index: 0;
   pointer-events: none;
+}
+
+/* FAR */
+#stars {
+  width: 1px;
+  height: 1px;
+
+  box-shadow:
+    500px 800px rgba(1,172,180,0.12),
+    1400px 1200px rgba(1,172,180,0.08),
+    900px 1600px rgba(1,172,180,0.1);
+
+  animation: starScroll 140s linear infinite;
+}
+
+/* MID */
+#stars2 {
+  width: 2px;
+  height: 2px;
+
+  box-shadow:
+    800px 900px rgba(1,172,180,0.15),
+    1200px 400px rgba(1,172,180,0.12);
+
+  animation: starScroll 100s linear infinite;
+}
+
+/* NEAR */
+#stars3 {
+  width: 3px;
+  height: 3px;
+
+  box-shadow:
+    600px 600px rgba(1,172,180,0.18),
+    1400px 1000px rgba(1,172,180,0.14);
+
+  animation: starScroll 70s linear infinite;
+}
+
+/* MOTION */
+@keyframes starScroll {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-2000px); }
 }
 
 /* =========================
@@ -281,11 +326,20 @@ button:active {
 }
 
 /* =========================
-   STATE (TEXT ONLY)
+   STATE (RESULT LAYER ONLY)
 ========================= */
-body.state-safe #resultHeading { color: #00c851; }
-body.state-warning #resultHeading { color: #ffbb33; }
-body.state-danger #resultHeading { color: #ff4444; }
+
+#resultBox[data-state="safe"] #resultHeading {
+  color: #00c851;
+}
+
+#resultBox[data-state="warning"] #resultHeading {
+  color: #ffbb33;
+}
+
+#resultBox[data-state="danger"] #resultHeading {
+  color: #ff4444;
+}
 
 /* =========================
    WARP LOADER
