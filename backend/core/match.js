@@ -27,6 +27,77 @@ function hit(base = {}) {
 }
 
 /**
+ * TEXT PATTERNS (FIXED)
+ */
+function scoreTextPatterns(raw, intel = {}) {
+  const list = Array.isArray(intel.scamPatterns) ? intel.scamPatterns : [];
+
+  let score = 0;
+  const reasons = [];
+  const hits = [];
+  let absoluteHit = null;
+
+  const normalizedText = normalizeInput(raw);
+
+  for (const e of list) {
+    const rawPattern = String(e?.pattern || e?.value || '').trim();
+    if (!rawPattern) continue;
+
+    let matched = false;
+
+    // --- FIX 1: Use regex as-is (do NOT normalize or escape) ---
+    try {
+      const regex = new RegExp(rawPattern, 'i');
+      matched = regex.test(raw);
+    } catch {
+      matched = false;
+    }
+
+    // --- FIX 2: OCR-tolerant fallback ---
+    if (!matched) {
+      const normalizedPattern = normalizeInput(rawPattern);
+      if (normalizedPattern) {
+        matched = normalizedText.includes(normalizedPattern);
+      }
+    }
+
+    if (!matched) continue;
+
+    const w = num(e?.weight, 0);
+
+    const h = hit({
+      type: 'pattern',
+      category: e?.category || 'unknown',
+      value: rawPattern,
+      weight: w,
+      reason: e?.reason || `Matched: ${rawPattern}`,
+      absolute: Boolean(e?.absolute),
+      context: raw.slice(0, 200)
+    });
+
+    hits.push(h);
+    reasons.push(h.reason);
+    score += w;
+
+    if (h.absolute && !absoluteHit) {
+      absoluteHit = {
+        hit: true,
+        reason: h.reason,
+        value: rawPattern,
+        match: h
+      };
+    }
+  }
+
+  return {
+    score: Math.min(score, 90),
+    reasons: dedupeStrings(reasons),
+    hits,
+    absoluteHit
+  };
+}
+
+/**
  * DOMAIN: Known bad domains
  */
 function findKnownBadDomainHit(raw, intel = {}) {
@@ -112,79 +183,7 @@ function scoreDomainKeywords(raw, intel = {}) {
 }
 
 /**
- * TEXT PATTERNS (simple + OCR-safe)
- */
-function scoreTextPatterns(raw, intel = {}) {
-  const text = normalizeInput(raw);
-  const list = Array.isArray(intel.scamPatterns) ? intel.scamPatterns : [];
-
-  let score = 0;
-  const reasons = [];
-  const hits = [];
-  let absoluteHit = null;
-
-  for (const e of list) {
-
-    const rawPattern = String(e?.pattern || e?.value || '');
-if (!rawPattern) continue;
-
-// 🔥 normalize BOTH sides
-const normalizedText = normalizeInput(text);
-const normalizedPattern = normalizeInput(rawPattern);
-
-// 🔥 make OCR-safe flexible match
-const patternRegex = normalizedPattern
-  .split(' ')
-  .filter(Boolean)
-  .join('\\s+'); // allow broken spacing
-
-let matched = false;
-
-try {
-  const regex = new RegExp(patternRegex, 'i');
-  matched = regex.test(normalizedText);
-} catch {
-  matched = normalizedText.includes(normalizedPattern);
-}
-
-if (!matched) continue;
-
-    const w = num(e?.weight, 0);
-
-    const h = hit({
-      type: 'pattern',
-      category: e?.category || 'unknown',
-      value: rawPattern,
-      weight: w,
-      reason: e?.reason || `Matched: ${rawPattern}`,
-      absolute: Boolean(e?.absolute),
-      context: text.slice(0, 200)
-    });
-
-    hits.push(h);
-    reasons.push(h.reason);
-    score += w;
-
-    if (h.absolute && !absoluteHit) {
-      absoluteHit = {
-        hit: true,
-        reason: h.reason,
-        value: rawPattern,
-        match: h
-      };
-    }
-  }
-
-  return {
-    score: Math.min(score, 90),
-    reasons: dedupeStrings(reasons),
-    hits,
-    absoluteHit
-  };
-}
-
-/**
- * FINAL
+ * FINAL COLLECTOR
  */
 function collectEvidence(raw, intel = {}) {
   const known = findKnownBadDomainHit(raw, intel);
