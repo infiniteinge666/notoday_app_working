@@ -12,22 +12,22 @@ html, body {
 
 body {
   font-family: system-ui, -apple-system, sans-serif;
-  background: #c3c4c4;
-  color: rgb(131, 130, 130);
+  background: #7a7a7a;
+  color: rgb(243, 243, 243);
   overflow: hidden;
 
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
 
-  --glow: rgba(252, 251, 251, 0.856);
+  --glow: rgba(218, 218, 218, 0.288);
 }
 
 /* =========================
    STATE COLORS
 ========================= */
-body.state-idle { --glow: rgba(182, 213, 214, 0.555); }
+body.state-idle { --glow: rgba(252, 252, 252, 0.623); }
 body.state-safe { --glow: rgba(0, 255, 42, 0.747); }
-body.state-suspicious { --glow: rgba(255, 166, 0, 0.87); }
+body.state-suspicious { --glow: rgba(255, 136, 0, 0.87); }
 body.state-critical { --glow: rgba(255, 60, 60, 0.836); }
 
 /* =========================
@@ -73,9 +73,9 @@ body.state-critical { --glow: rgba(255, 60, 60, 0.836); }
     radial-gradient(var(--glow) 1.5px, transparent 1px);
 
   background-size: 120px 90px;
-  opacity: 0.3;
+  opacity: 0.2;
 
-  animation: dustFloat 5s ease-in-out infinite;
+  animation: dustFloat 10s ease-in-out infinite;
 }
 
 /* =========================
