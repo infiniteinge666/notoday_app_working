@@ -30,8 +30,8 @@ body {
   --ink-700: #4B5057;
   --ink-500: #787D85;
 
-  --accent: #01abb47a;
-  --accent-deep: #01929a3a;
+  --accent: #01abb4d8;
+  --accent-deep: #01929ab7;
 
   --radius-xl: 30px;
   --radius-md: 18px;
@@ -2204,7 +2204,7 @@ body {
   flex-direction: column;
   gap: 18px;
 
-  background: rgba(128, 127, 127, 0.164);
+  background: rgba(128, 127, 127, 0.150);
   backdrop-filter: blur(18px);
 
   box-shadow:
@@ -2267,7 +2267,7 @@ textarea {
   font-size: 17px;
   line-height: 1.5;
 
-  background: rgba(255, 255, 255, 0.363);
+  background: rgba(255, 255, 255, 0.100);
 
   box-shadow:
     inset 0 2px 4px rgba(136, 136, 136, 0.548),
@@ -2339,6 +2339,11 @@ button:active {
     var(--accent),
     var(--accent-deep)
   );
+  box-shadow:
+    0 6px 10px rgba(8, 8, 8, 0.12),
+    inset 0 1px 2px rgba(253,253,253,0.75),
+    inset 0 -2px 4px rgba(253, 253, 253, 0.75);
+
 }
 
 /* =========================
@@ -2354,7 +2359,7 @@ button:active {
   flex-direction: column;
   gap: 8px;
 
-  background: rgba(255, 255, 255, 0.671);
+  background: rgba(255, 255, 255, 0.100);
 }
 
 #resultHeading {
