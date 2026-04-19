@@ -20,20 +20,15 @@ html, body {
   --ink-700: #4B5057;
   --ink-500: #787D85;
 
-  --accent: #01abb4a1;
-  --accent-deep: #01929a7a;
-
-  --bg-top: #696969f6;
-  --bg-bottom: #d8d8d8e3;
+  --accent: #01abb47a;
+  --accent-deep: #01929a3a;
 
   --radius-xl: 30px;
   --radius-md: 18px;
-
-  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* =========================
-   BACKGROUND
+   BACKGROUND (PALETTE)
 ========================= */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
@@ -44,37 +39,78 @@ body {
   align-items: center;
   justify-content: center;
 
-  background:
-    radial-gradient(900px 500px at 50% 20%, rgba(245, 244, 244, 0.884), transparent 60%),
-    linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+  background: linear-gradient(
+    28deg,
+    #787D85 0%,
+    #B2BABF 42%,
+    #E6E6E6 100%
+  );
 }
 
 /* =========================
-   FX
+   🌌 STAR LAYER
 ========================= */
-.fx-layer {
+.container {
   position: fixed;
   inset: 0;
+  z-index: 0;
   pointer-events: none;
 }
 
-.dust {
+#stars, #stars2, #stars3 {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(circle at 20% 30%, rgb(206, 250, 250), transparent 90%),
-    radial-gradient(circle at 80% 70%, #ececec, transparent 90%);
-  animation: dustMove 12s ease-in-out infinite alternate;
 }
 
-@keyframes dustMove {
-  to { transform: translateY(-20px); }
+/* FAR */
+#stars {
+  width: 1px;
+  height: 1px;
+
+  box-shadow:
+    500px 800px rgba(234, 252, 253, 0.12),
+    1400px 1200px rgba(1,172,180,0.08),
+    900px 1600px rgba(1,172,180,0.1);
+
+  animation: starScroll 140s linear infinite;
+}
+
+/* MID */
+#stars2 {
+  width: 2px;
+  height: 2px;
+
+  box-shadow:
+    800px 900px rgba(1,172,180,0.15),
+    1200px 400px rgba(1,172,180,0.12);
+
+  animation: starScroll 100s linear infinite;
+}
+
+/* NEAR */
+#stars3 {
+  width: 3px;
+  height: 3px;
+
+  box-shadow:
+    600px 600px rgb(1, 171, 180),
+    1400px 1000px rgba(1,172,180,0.14);
+
+  animation: starScroll 70s linear infinite;
+}
+
+@keyframes starScroll {
+  from { transform: translateY(0); }
+  to { transform: translateY(-2000px); }
 }
 
 /* =========================
    UI
 ========================= */
 .ui-layer {
+  position: relative;
+  z-index: 2;
+
   width: 100%;
   max-width: 420px;
   padding: 30px;
@@ -84,6 +120,9 @@ body {
   align-items: center;
 }
 
+/* =========================
+   LOGO
+========================= */
 .logo {
   width: 100px;
   margin-bottom: 10px;
@@ -96,27 +135,57 @@ body {
   width: 100%;
   height: 574px;
 
-  padding: 30px;
+  padding: 20px;
   border-radius: var(--radius-xl);
 
   display: flex;
   flex-direction: column;
   gap: 14px;
 
-  background: rgba(163, 163, 163, 0.192);
+  background: rgba(128, 127, 127, 0.164);
   backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 20px 40px rgba(59, 59, 59, 0.329),
+    inset 0 1px 0 rgba(255, 255, 255, 0.897),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.897);
 
   position: relative;
   overflow: hidden;
 }
 
 /* =========================
-   LAYER FIX
+   LIGHT SWEEP
+========================= */
+.glass::before,
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  pointer-events: none;
+  z-index: 0;
+
+  background: linear-gradient(
+    120deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.397),
+    transparent 60%
+  );
+
+  animation: sweep 6s linear infinite;
+}
+
+@keyframes sweep {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+/* =========================
+   INTERACTIVE LAYER
 ========================= */
 textarea,
 .actions,
 button,
-logo,
 #resultBox {
   position: relative;
   z-index: 2;
@@ -126,15 +195,17 @@ logo,
    INPUT
 ========================= */
 textarea {
+  width: 100%;
   min-height: 200px;
   border-radius: var(--radius-md);
   border: none;
   padding: 14px;
 
-  background: rgba(255,255,255,0.36);
+  background: rgba(255, 255, 255, 0.363);
+
   box-shadow:
-    inset 0 2px 4px rgba(136,136,136,0.55),
-    inset 0 -2px 2px rgba(247, 247, 247, 0.9);
+    inset 0 2px 4px rgba(136, 136, 136, 0.548),
+    inset 0 -2px 2px rgba(255, 254, 254, 0.945);
 
   outline: none;
 }
@@ -149,20 +220,20 @@ textarea {
 
 button {
   flex: 1;
-  padding: 12px;
+  padding: 12px 14px;
   border-radius: 16px;
   border: none;
 
   background: linear-gradient(
     180deg,
-    rgba(255,255,255,0.1),
-    rgba(235,239,242,0.75)
+    rgba(255, 255, 255, 0.041),
+    rgba(246, 247, 248, 0.123)
   );
 
   box-shadow:
-    0 6px 14px rgba(0,0,0,0.12),
-    inset 0 2px 4px rgba(255,255,255,0.8),
-    inset 0 -4px 8px rgba(252,251,251,0.4);
+    0 6px 14px rgba(8, 8, 8, 0.12),
+    inset 0 1px 1px rgba(253,253,253,0.75),
+    inset 0 -2px 2px rgba(253, 253, 253, 0.75);
 
   transition: transform 0.12s ease;
 }
@@ -171,15 +242,18 @@ button:active {
   transform: translateY(2px) scale(0.97);
 }
 
-/* CTA */
+/* =========================
+   CTA
+========================= */
 .cta {
   margin-top: auto;
+
   color: white;
   font-weight: 700;
 
   background: linear-gradient(
     180deg,
-    #13bdc6,
+    #f4fbfc4f,
     var(--accent),
     var(--accent-deep)
   );
@@ -192,7 +266,7 @@ button:active {
   border-radius: 16px;
   padding: 12px;
   min-height: 180px;
-  background: rgba(255,255,255,0.34);
+  background: rgba(255, 255, 255, 0.671);
 }
 
 /* =========================
@@ -207,31 +281,29 @@ body.state-warning #resultHeading { color: #ffbb33; }
 body.state-danger #resultHeading { color: #ff4444; }
 
 /* =========================
-   LOADER
+   WARP LOADER
 ========================= */
 .loader-overlay {
   position: fixed;
   inset: 0;
+  z-index: 9999;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background: rgba(125, 126, 126, 0.767);
+  background: rgba(125,126,126,0.55);
   backdrop-filter: blur(12px);
-
-  z-index: 9999;
 }
 
 .loader-overlay.hidden {
   display: none;
 }
 
-/* WARP LOADER */
 .warp-loader {
+  position: relative;
   width: 160px;
   height: 160px;
-  position: relative;
 }
 
 .ring {
@@ -246,7 +318,7 @@ body.state-danger #resultHeading { color: #ff4444; }
 
   background: radial-gradient(
     circle,
-    rgba(0,255,255,0.15) 30%,
+    rgba(0, 255, 255, 0.15) 30%,
     transparent 70%
   );
 
@@ -257,7 +329,7 @@ body.state-danger #resultHeading { color: #ff4444; }
     0 0 12px #00d1ff66,
     0 0 24px #00d1ff33;
 
-  border: 2px solid rgba(0,255,255,0.2);
+  border: 2px solid rgba(0, 255, 255, 0.2);
 }
 
 .ring:nth-child(2){animation-delay:.4s;}
