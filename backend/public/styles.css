@@ -49,9 +49,9 @@ body {
 
   background: linear-gradient(
     28deg,
-    #787d8593 0%,
-    #b2babf8e 42%,
-    #e6e6e673 100%
+    #787d858f 0%,
+    #b2babfc4 42%,
+    #c0c0c0b2 100%
   );
 }
 
@@ -109,9 +109,9 @@ body {
   backdrop-filter: blur(18px);
 
   box-shadow:
-    0 20px 40px rgba(59, 59, 59, 0.329),
-    inset 0 1px 0 rgba(255, 255, 255, 0.897),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.897);
+    0 20px 40px rgba(59, 59, 59, 0.486),
+    inset 0 1px 0 rgba(253, 253, 253, 0.897),
+    inset 0 -1px 0 rgba(253, 253, 253, 0.897);
 
   position: relative;
   overflow: hidden;
@@ -175,6 +175,7 @@ button {
   border: none;
 
   font-size: 16px;
+  color: var(--ink-900); /* 👈 FIXED (charcoal) */
 
   background: linear-gradient(
     180deg,
@@ -203,14 +204,14 @@ button:active {
   padding: 16px; /* 👈 more prominent */
 
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0.02em;
 
   color: white;
 
   background: linear-gradient(
     180deg,
-    #f4fbfc4f,
+    #03bedb70,
     var(--accent),
     var(--accent-deep)
   );
