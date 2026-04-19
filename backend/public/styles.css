@@ -41,9 +41,9 @@ body {
 
   background: linear-gradient(
     28deg,
-    #787D85 0%,
-    #B2BABF 42%,
-    #E6E6E6 100%
+    #787d8593 0%,
+    #b2babf8e 42%,
+    #e6e6e673 100%
   );
 }
 
@@ -57,9 +57,10 @@ body {
   pointer-events: none;
 }
 
-#stars, #stars2, #stars3 {
-  position: absolute;
-  inset: 0;
+#stars,
+#stars2,
+#stars3 {
+  transform: translateY(0); /* 👈 force consistent start */
 }
 
 /* FAR */
@@ -68,11 +69,11 @@ body {
   height: 1px;
 
   box-shadow:
-    500px 800px rgba(234, 252, 253, 0.12),
-    1400px 1200px rgba(1,172,180,0.08),
-    900px 1600px rgba(1,172,180,0.1);
+    500px 800px rgba(234, 252, 253, 0.979),
+    1400px 1200px rgb(1, 171, 180),
+    900px 1600px rgb(1, 171, 180);
 
-  animation: starScroll 140s linear infinite;
+  animation: starScroll 10s linear infinite;
 }
 
 /* MID */
@@ -81,10 +82,10 @@ body {
   height: 2px;
 
   box-shadow:
-    800px 900px rgba(1,172,180,0.15),
-    1200px 400px rgba(1,172,180,0.12);
+    800px 900px rgb(1, 171, 180),
+    1200px 400px rgb(1, 171, 180);
 
-  animation: starScroll 100s linear infinite;
+  animation: starScroll 8s linear infinite;
 }
 
 /* NEAR */
@@ -94,9 +95,9 @@ body {
 
   box-shadow:
     600px 600px rgb(1, 171, 180),
-    1400px 1000px rgba(1,172,180,0.14);
+    1400px 1000px rgb(1, 171, 180);
 
-  animation: starScroll 70s linear infinite;
+  animation: starScroll 7s linear infinite;
 }
 
 @keyframes starScroll {
