@@ -115,7 +115,6 @@ body {
   flex-direction: column;
   gap: 14px;
 
-  /* ✅ ONLY CHANGE */
   height: 574px;
 
   background: rgba(128, 127, 127, 0.164);
@@ -130,10 +129,16 @@ body {
   overflow: hidden;
 }
 
-/* LIGHT SWEEP */
+/* =========================
+   LIGHT SWEEP (FIXED)
+========================= */
 .glass::before,
 .glass::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
   pointer-events: none;
+  z-index: 0;
 
   background: linear-gradient(
     120deg,
@@ -141,12 +146,24 @@ body {
     rgba(255, 255, 255, 0.397),
     transparent 60%
   );
+
   animation: sweep 6s linear infinite;
 }
 
 @keyframes sweep {
   from { transform: translateX(-100%); }
   to { transform: translateX(100%); }
+}
+
+/* =========================
+   INTERACTION LAYER
+========================= */
+textarea,
+.actions,
+button,
+#resultBox {
+  position: relative;
+  z-index: 2;
 }
 
 /* =========================
@@ -163,8 +180,10 @@ textarea {
   font-family: inherit;
 
   background: rgba(255, 255, 255, 0.363);
-  box-shadow: inset 0 2px 4px rgba(136, 136, 136, 0.548);
-  box-shadow: inset 0 -2px 2px rgba(255, 254, 254, 0.945);
+
+  box-shadow:
+    inset 0 2px 4px rgba(136, 136, 136, 0.548),
+    inset 0 -2px 2px rgba(255, 254, 254, 0.945);
 
   outline: none;
 }
@@ -174,16 +193,13 @@ textarea::placeholder {
 }
 
 /* =========================
-   BUTTON GROUP
+   BUTTONS
 ========================= */
 .actions {
   display: flex;
   gap: 10px;
 }
 
-/* =========================
-   BASE BUTTON
-========================= */
 button {
   flex: 1;
   padding: 12px 14px;
@@ -209,51 +225,18 @@ button {
     inset 0 2px 4px rgba(255,255,255,0.8),
     inset 0 -4px 8px rgba(252, 251, 251, 0.432);
 
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    filter 0.2s ease;
-}
-
-button::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-
-  background: linear-gradient(
-    135deg,
-    rgba(234, 248, 248, 0.295),
-    transparent 50%
-  );
-
-  opacity: 0.6;
-}
-
-button:hover {
-  transform: translateY(-1px);
-
-  box-shadow:
-    0 10px 20px rgba(0,0,0,0.15),
-    inset 0 2px 4px rgba(255,255,255,0.9),
-    inset 0 -4px 8px rgba(0,0,0,0.08);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
 button:active {
   transform: translateY(2px) scale(0.97);
-
-  box-shadow:
-    inset 0 4px 10px rgba(0,0,0,0.2),
-    inset 0 -2px 4px rgba(255,255,255,0.4),
-    0 3px 6px rgba(0,0,0,0.2);
 }
 
 /* =========================
    CTA
 ========================= */
 .cta {
-  margin-top: 4px;
+  margin-top: auto;
 
   color: white;
   font-weight: 700;
@@ -283,6 +266,26 @@ button:active {
 }
 
 /* =========================
+   STATE SYSTEM (NEW 🔥)
+========================= */
+body.state-safe #resultBox {
+  background: rgba(0, 200, 120, 0.08);
+}
+
+body.state-warning #resultBox {
+  background: rgba(255, 180, 0, 0.08);
+}
+
+body.state-danger #resultBox {
+  background: rgba(255, 60, 60, 0.08);
+}
+
+body.state-processing .glass {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+/* =========================
    LOADER
 ========================= */
 .loader-overlay {
@@ -291,7 +294,7 @@ button:active {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255,255,255,0.4);
+  background: rgba(125, 126, 126, 0.76);
   backdrop-filter: blur(10px);
 }
 
