@@ -20,33 +20,33 @@ window.addEventListener('load', () => {
   }
 
   function renderResult(data) {
-    if (!data) return;
-
-    const band = (data.band || 'safe').toLowerCase();
+    const band = (data?.band || 'safe').toLowerCase();
     setState(band);
 
-    resultHeading.textContent = data.band || 'RESULT';
+    resultHeading.textContent = data?.band || 'RESULT';
+
+    const reasons =
+      (data?.why?.length ? data.why : data?.reasons) || [];
+
     resultReason.textContent =
-      (data.why && data.why.length ? data.why : data.reasons || []).join(', ');
+      reasons.length ? reasons.join(', ') : 'No details available.';
   }
 
-  async function handleTextScan() {
-    const text = input.value.trim();
-    if (!text) return;
-
+  async function handleScan(body, isForm = false) {
     setState('processing');
     showLoader(true);
 
     try {
       const res = await fetch('/check', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ raw: text })
+        headers: isForm ? undefined : { 'Content-Type': 'application/json' },
+        body
       });
 
       const payload = await res.json();
       renderResult(payload?.data);
-    } catch (err) {
+
+    } catch {
       alert('Scan failed.');
       setState('idle');
     } finally {
@@ -54,48 +54,35 @@ window.addEventListener('load', () => {
     }
   }
 
-  scanBtn.addEventListener('click', handleTextScan);
+  scanBtn.onclick = () => {
+    const text = input.value.trim();
+    if (!text) return;
+    handleScan(JSON.stringify({ raw: text }));
+  };
 
-  pasteBtn.addEventListener('click', async () => {
-    try {
-      input.value = await navigator.clipboard.readText();
-    } catch {}
-  });
+  pasteBtn.onclick = async () => {
+    try { input.value = await navigator.clipboard.readText(); } catch {}
+  };
 
-  uploadBtn.addEventListener('click', () => fileInput.click());
+  uploadBtn.onclick = () => fileInput.click();
 
-  clearBtn.addEventListener('click', () => {
+  clearBtn.onclick = () => {
     input.value = '';
     resultHeading.textContent = '';
     resultReason.textContent = '';
     setState('idle');
-  });
+  };
 
-  fileInput.addEventListener('change', async (e) => {
-    const file = e.target.files[0];
+  fileInput.onchange = () => {
+    const file = fileInput.files[0];
     if (!file) return;
 
-    setState('processing');
-    showLoader(true);
+    const formData = new FormData();
+    formData.append('image', file);
 
-    try {
-      const formData = new FormData();
-      formData.append('image', file);
-
-      const res = await fetch('/check', {
-        method: 'POST',
-        body: formData
-      });
-
-      const payload = await res.json();
-      renderResult(payload?.data);
-    } catch {
-      alert('Upload failed.');
-    } finally {
-      showLoader(false);
-      fileInput.value = '';
-    }
-  });
+    handleScan(formData, true);
+    fileInput.value = '';
+  };
 
   setState('idle');
 });
