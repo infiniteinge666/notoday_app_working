@@ -66,18 +66,30 @@ body {
   inset: 0;
   pointer-events: none;
 }
+.container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
 
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255,255,255,0.25) 0%,
+    rgba(255,255,255,0.55) 100%
+  );
+
+  pointer-events: none;
+}
 /* FAR */
 #stars {
   width: 1px;
   height: 1px;
 
   box-shadow:
-    500px 800px rgba(1,172,180,0.12),
-    1400px 1200px rgba(1,172,180,0.08),
-    900px 1600px rgba(1,172,180,0.1);
+    500px 800px rgb(1, 171, 180),
+    1400px 1200px rgba(1, 171, 180, 0.671),
+    900px 1600px rgba(1, 171, 180, 0.726);
 
-  animation: starScroll 140s linear infinite;
+  animation: starScroll 14s linear infinite;
 }
 
 /* MID */
@@ -86,10 +98,10 @@ body {
   height: 2px;
 
   box-shadow:
-    800px 900px rgba(1,172,180,0.15),
-    1200px 400px rgba(1,172,180,0.12);
+    800px 900px rgba(1, 171, 180, 0.911),
+    1200px 400px rgba(1, 171, 180, 0.938);
 
-  animation: starScroll 100s linear infinite;
+  animation: starScroll 10s linear infinite;
 }
 
 /* NEAR */
@@ -98,10 +110,10 @@ body {
   height: 3px;
 
   box-shadow:
-    600px 600px rgba(1,172,180,0.18),
-    1400px 1000px rgba(1,172,180,0.14);
+    600px 600px rgba(1, 171, 180, 0.842),
+    1400px 1000px rgba(1, 171, 180, 0.767);
 
-  animation: starScroll 70s linear infinite;
+  animation: starScroll 7s linear infinite;
 }
 
 /* MOTION */
@@ -329,18 +341,25 @@ button:active {
    STATE (RESULT LAYER ONLY)
 ========================= */
 
+/* =========================
+   STATE (FORCE OVERRIDE)
+========================= */
+
+/* =========================
+   STATE (ALIGNED WITH API)
+========================= */
+
 #resultBox[data-state="safe"] #resultHeading {
-  color: #00c851;
+  color: #00c851 !important;
 }
 
-#resultBox[data-state="warning"] #resultHeading {
-  color: #ffbb33;
+#resultBox[data-state="suspicious"] #resultHeading {
+  color: #ffbb33 !important;
 }
 
-#resultBox[data-state="danger"] #resultHeading {
-  color: #ff4444;
+#resultBox[data-state="critical"] #resultHeading {
+  color: #ff4444 !important;
 }
-
 /* =========================
    WARP LOADER
 ========================= */

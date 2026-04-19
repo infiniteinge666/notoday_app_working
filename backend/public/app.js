@@ -10,20 +10,46 @@ window.addEventListener('load', () => {
   const clearBtn = $('clearBtn');
   const fileInput = $('fileInput');
   const loader = $('loaderOverlay');
+  const resultBox = $('resultBox');
 
+  /* =========================
+     STATE NORMALIZATION
+  ========================= */
+  function normalizeState(state) {
+    if (!state) return "safe";
+
+    const s = state.toLowerCase();
+
+    if (s.includes("safe")) return "safe";
+    if (s.includes("suspicious")) return "suspicious";
+    if (s.includes("critical")) return "critical";
+
+    return "safe";
+  }
+
+  /* =========================
+     STATE SETTER (RESULT LAYER)
+  ========================= */
   function setState(state) {
-  const box = document.getElementById('resultHeading');
+    resultBox.setAttribute("data-state", state);
+  }
 
-  box.setAttribute('data-state', state);
-}
+  /* =========================
+     LOADER
+  ========================= */
   function showLoader(show) {
     loader.classList.toggle('hidden', !show);
   }
 
+  /* =========================
+     RENDER RESULT
+  ========================= */
   function renderResult(data) {
-    const band = (data?.band || 'safe').toLowerCase();
-    setState(band);
+    const normalized = normalizeState(data?.band);
 
+    setState(normalized);
+
+    // Display original label (SAFE / SUSPICIOUS / CRITICAL)
     resultHeading.textContent = data?.band || 'RESULT';
 
     const reasons =
@@ -33,6 +59,9 @@ window.addEventListener('load', () => {
       reasons.length ? reasons.join(', ') : 'No details available.';
   }
 
+  /* =========================
+     SCAN HANDLER
+  ========================= */
   async function handleScan(body, isForm = false) {
     setState('processing');
     showLoader(true);
@@ -55,14 +84,21 @@ window.addEventListener('load', () => {
     }
   }
 
+  /* =========================
+     EVENTS
+  ========================= */
+
   scanBtn.onclick = () => {
     const text = input.value.trim();
     if (!text) return;
+
     handleScan(JSON.stringify({ raw: text }));
   };
 
   pasteBtn.onclick = async () => {
-    try { input.value = await navigator.clipboard.readText(); } catch {}
+    try {
+      input.value = await navigator.clipboard.readText();
+    } catch {}
   };
 
   uploadBtn.onclick = () => fileInput.click();
@@ -71,6 +107,7 @@ window.addEventListener('load', () => {
     input.value = '';
     resultHeading.textContent = '';
     resultReason.textContent = '';
+
     setState('idle');
   };
 
@@ -85,5 +122,8 @@ window.addEventListener('load', () => {
     fileInput.value = '';
   };
 
+  /* =========================
+     INIT
+  ========================= */
   setState('idle');
 });
