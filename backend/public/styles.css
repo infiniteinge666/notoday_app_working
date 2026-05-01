@@ -1,17 +1,26 @@
 /* =========================
-   RESET
+   RESET========================= */
+   * {
+      margin: 0;
+      padding: 0;  
+      box-sizing: border-box;
+     }
+     
+     html, body {  
+        height: 100%;  
+        min-height: 100vh;  
+        -webkit-text-size-adjust: 100%;
+    }
+
+    /* =========================
+   FORCE BACKGROUND LAYER
 ========================= */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.container {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
 }
-
-html, body {
-  height: 100dvh;
-  -webkit-text-size-adjust: 100%;
-}
-
 /* =========================
    BASE TYPOGRAPHY
 ========================= */
@@ -47,12 +56,12 @@ body {
   justify-content: center;
   align-items: flex-start;
 
-  padding-top: 60px;
+  padding-top: 0px;
 
   background: linear-gradient(
     28deg,
-    #96989bb0 0%,
-    #b2babfc2 42%,
+    #d5d5d6e7 0%,
+    #c2c4c5be 42%,
     #c0c0c0cc 100%
   );
 }
