@@ -1142,6 +1142,12 @@
       "reason": "Claims that your account has been locked, blocked, or suspended"
     },
     {
+      "value": "(?:you(?:'re|\\s+are|\\s+have\\s+been)?\\s+)?approved.{0,25}(?:for\\s+)?(?:a|this|your)?\\s*loan",
+      "category": "unsolicited_loan",
+      "weight": 55,
+      "reason": "Offers an unsolicited pre-approved loan"
+    },
+    {
       "value": "(?:photos?|videos?|files?|data).{0,40}(?:removed|deleted|erased|lost)",
       "category": "data_loss_threat",
       "weight": 40,
