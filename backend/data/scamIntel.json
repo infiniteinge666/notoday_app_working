@@ -1144,7 +1144,7 @@
     {
       "value": "(?:photos?|videos?|files?|data).{0,40}(?:removed|deleted|erased|lost)",
       "category": "data_loss_threat",
-      "weight": 20,
+      "weight": 40,
       "reason": "Threatens to remove or delete your personal data"
     },
     {
