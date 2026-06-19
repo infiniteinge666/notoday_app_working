@@ -1141,6 +1141,11 @@
       "weight": 25
     },
     {
+      "value": "(?:photos?|videos?|files?|data).{0,40}(?:removed|deleted|erased|lost)",
+      "category": "data_loss_threat",
+      "weight": 20
+    },
+    {
       "value": "@greenmail.net",
       "category": "free_email_authority",
       "weight": 100
