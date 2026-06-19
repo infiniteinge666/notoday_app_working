@@ -1136,14 +1136,16 @@
       "weight": 25
     },
     {
-      "value": "(?:your\\s+)?(?:account|profile).{0,30}(?:locked|blocked|suspended)",
+      "value": "(?:your\\s+)?(?:(?:cloud|email|bank|online)\\s+)?(?:account|profile).{0,30}(?:locked|blocked|suspended)",
       "category": "bank_impersonation",
-      "weight": 25
+      "weight": 25,
+      "reason": "Claims that your account has been locked, blocked, or suspended"
     },
     {
       "value": "(?:photos?|videos?|files?|data).{0,40}(?:removed|deleted|erased|lost)",
       "category": "data_loss_threat",
-      "weight": 20
+      "weight": 20,
+      "reason": "Threatens to remove or delete your personal data"
     },
     {
       "value": "@greenmail.net",
