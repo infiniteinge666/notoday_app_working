@@ -105,6 +105,9 @@ function validateIntelSchema(raw = {}) {
   return {
     version: stringValue(raw.version, 'unknown'),
     updatedAt: stringValue(raw.updatedAt, null),
+    intelDeltas: Array.isArray(raw.intelDeltas)
+      ? raw.intelDeltas.filter((item) => item && typeof item === 'object').map((item) => ({ ...item }))
+      : [],
     knownBadDomains: normalizeWeightedEntries(raw.knownBadDomains, {
       category: 'known_bad_domain',
       weight: 100

@@ -1,5 +1,64 @@
 {
-  "version": "v24",
+  "version": "v25",
+  "updatedAt": "2026-06-21",
+  "intelDeltas": [
+    {
+      "id": "google_compensation_payout_impersonation_2026_06",
+      "name": "Fake Google Compensation / Settlement Payout Email",
+      "category": "brand_impersonation_compensation_advance_fee",
+      "riskBand": "CRITICAL",
+      "channels": ["email"],
+      "impersonatedEntities": ["Google", "Google Compensation Team"],
+      "summary": "Email claims the recipient may qualify for a Google-related compensation payout due to regulatory or administrative settlement activity. Message uses official-looking reference codes and asks the recipient to provide personal information, with unrelated sender and reply domains.",
+      "primaryLure": "Free compensation payout or settlement award",
+      "likelyFollowUp": [
+        "mailing address request",
+        "bank detail request",
+        "identity document request",
+        "processing fee",
+        "tax clearance fee",
+        "release fee",
+        "fake partner bank form"
+      ],
+      "absoluteIndicators": [
+        "claimed Google sender with non-Google Return-Path or Envelope-From",
+        "claimed Google payout with unrelated reply-to or contact mailbox",
+        "compensation payout offered to generic user",
+        "request for personal or payment-related information to process payout"
+      ],
+      "strongPhrases": [
+        "GOOGLE COMPENSATION TEAM",
+        "financial payout",
+        "administrative settlement",
+        "regulatory decisions",
+        "compensation pool",
+        "significant financial recognition",
+        "authorized partner bank",
+        "required to provide the following information",
+        "your mailing address",
+        "Compensation Code",
+        "G-CMP-2024",
+        "G-INS-2024"
+      ],
+      "weakPhrases": [
+        "Dear User",
+        "This message is available in English and Afrikaans",
+        "For other languages, please use Google Translate",
+        "outbound mailbox is unattended",
+        "all replies to"
+      ],
+      "headerSignals": [
+        "Return-Path domain does not match claimed brand",
+        "Envelope-From domain does not match claimed brand",
+        "sending server domain does not match claimed brand",
+        "reply/contact mailbox uses unrelated domain"
+      ],
+      "userExplanation": "This message claims to be from Google and offers a compensation payout, but the sender path and reply address are unrelated to Google. It asks for information to process money you did not apply for. Treat this as a scam. Do not reply, do not provide details, and do not click or submit anything.",
+      "recommendedAction": "Do not reply. Mark as spam/phishing. Delete the message. If details were already sent, contact the bank immediately and monitor accounts.",
+      "sourceConfidence": "high",
+      "intelType": "INTEL_DELTA"
+    }
+  ],
   "knownBadDomains": [
     {
       "value": "aarotrtria.cc",
@@ -7337,6 +7396,82 @@
         "sourceUpdateId": "intel-delta-sa-scam-mechanics-2026-06-19",
         "sourceType": "pattern",
         "sourceValue": "romance + investment + exposure"
+      }
+    },
+    {
+      "id": "google_compensation_payout_impersonation_2026_06_phrase_01",
+      "value": "google\\s+compensation\\s+team",
+      "label": "Fake Google Compensation / Settlement Payout Email",
+      "category": "brand_impersonation_compensation_advance_fee",
+      "band": "CRITICAL",
+      "reason": "Matched fake Google compensation payout intelligence.",
+      "whatNotToDo": [
+        "Do not reply or provide personal or banking details.",
+        "Mark the message as phishing and delete it."
+      ],
+      "weight": 40,
+      "absolute": false,
+      "metadata": {
+        "sourceUpdateId": "google_compensation_payout_impersonation_2026_06",
+        "sourceType": "strongPhrase",
+        "sourceValue": "GOOGLE COMPENSATION TEAM"
+      }
+    },
+    {
+      "id": "google_compensation_payout_impersonation_2026_06_pattern_01",
+      "value": "(?=[\\s\\S]*google)(?=[\\s\\S]*(?:compensation|settlement|financial\\s+payout))(?=[\\s\\S]*(?:provide\\s+the\\s+following\\s+information|mailing\\s+address|bank\\s+details?|identity\\s+document))[\\s\\S]*",
+      "label": "Fake Google Compensation / Settlement Payout Email",
+      "category": "brand_impersonation_compensation_advance_fee",
+      "band": "CRITICAL",
+      "reason": "Google compensation claim requests personal or payment-related information.",
+      "whatNotToDo": [
+        "Do not reply or provide personal or banking details.",
+        "Mark the message as phishing and delete it."
+      ],
+      "weight": 100,
+      "absolute": true,
+      "metadata": {
+        "sourceUpdateId": "google_compensation_payout_impersonation_2026_06",
+        "sourceType": "absoluteIndicator",
+        "sourceValue": "Google compensation payout + information request"
+      }
+    },
+    {
+      "id": "google_compensation_payout_impersonation_2026_06_pattern_02",
+      "value": "(?=[\\s\\S]*(?:compensation\\s+code|g-cmp-2024|g-ins-2024))(?=[\\s\\S]*(?:authorized\\s+partner\\s+bank|compensation\\s+pool|administrative\\s+settlement))[\\s\\S]*",
+      "label": "Fake Google Compensation / Settlement Payout Email",
+      "category": "brand_impersonation_compensation_advance_fee",
+      "band": "CRITICAL",
+      "reason": "Matched fake compensation reference code and payout language.",
+      "whatNotToDo": [
+        "Do not reply or provide personal or banking details.",
+        "Mark the message as phishing and delete it."
+      ],
+      "weight": 90,
+      "absolute": false,
+      "metadata": {
+        "sourceUpdateId": "google_compensation_payout_impersonation_2026_06",
+        "sourceType": "strongPhraseCombination",
+        "sourceValue": "compensation code + payout language"
+      }
+    },
+    {
+      "id": "google_compensation_payout_impersonation_2026_06_pattern_03",
+      "value": "(?=[\\s\\S]*google)(?=[\\s\\S]*(?:return-path|envelope-from|reply-to))(?=[\\s\\S]*(?:compensation|payout|settlement))(?=[\\s\\S]*@[a-z0-9.-]+\\.[a-z]{2,})[\\s\\S]*",
+      "label": "Fake Google Compensation / Settlement Payout Email",
+      "category": "brand_impersonation_compensation_advance_fee",
+      "band": "CRITICAL",
+      "reason": "Google payout claim includes an email sender or reply-path indicator requiring domain verification.",
+      "whatNotToDo": [
+        "Do not reply or provide personal or banking details.",
+        "Verify sender domains independently and mark the message as phishing."
+      ],
+      "weight": 75,
+      "absolute": false,
+      "metadata": {
+        "sourceUpdateId": "google_compensation_payout_impersonation_2026_06",
+        "sourceType": "headerSignal",
+        "sourceValue": "Google payout + sender or reply path"
       }
     }
   ]
