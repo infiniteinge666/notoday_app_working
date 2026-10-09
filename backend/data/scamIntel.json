@@ -1,6 +1,6 @@
 {
-  "version": "v25",
-  "updatedAt": "2026-06-21",
+  "version": "v27",
+  "updatedAt": "2026-10-09",
   "intelDeltas": [
     {
       "id": "google_compensation_payout_impersonation_2026_06",
@@ -55,6 +55,301 @@
       ],
       "userExplanation": "This message claims to be from Google and offers a compensation payout, but the sender path and reply address are unrelated to Google. It asks for information to process money you did not apply for. Treat this as a scam. Do not reply, do not provide details, and do not click or submit anything.",
       "recommendedAction": "Do not reply. Mark as spam/phishing. Delete the message. If details were already sent, contact the bank immediately and monitor accounts.",
+      "sourceConfidence": "high",
+      "intelType": "INTEL_DELTA"
+    }
+  ,
+    {
+      "id": "aarto_clone_payment_portal_2026_09",
+      "name": "AARTO Clone Payment Portal / Fine Threat Scam",
+      "category": "traffic_fine_phishing",
+      "riskBand": "CRITICAL",
+      "channels": [
+        "sms",
+        "whatsapp",
+        "email",
+        "web"
+      ],
+      "impersonatedEntities": [
+        "AARTO",
+        "RTIA",
+        "eNATIS"
+      ],
+      "summary": "Messages impersonate AARTO or RTIA, threaten licence-card or vehicle-disc restrictions, and push the recipient to a cloned payment portal. Current variants use urgent payment language, fake 50% discounts or penalty waivers, and may ask for R250 or other immediate payments.",
+      "primaryLure": "Avoid licence or vehicle-disc restrictions by paying an urgent traffic fine",
+      "likelyFollowUp": [
+        "cloned payment portal",
+        "card detail capture",
+        "banking detail capture",
+        "identity number request",
+        "licence detail request",
+        "additional penalty demand"
+      ],
+      "absoluteIndicators": [
+        "AARTO payment demand sends the user to a non-official website instead of online.aarto.gov.za",
+        "message is presented as NATS Online Vehicle License Disc Renewal",
+        "claimed AARTO payment portal is a cloned or unrelated domain"
+      ],
+      "strongPhrases": [
+        "Final Notice: Action Required to Avoid Additional Penalties",
+        "Final Demand: Enforcement Notice",
+        "50% discount",
+        "penalty fee waiver",
+        "pay within 24 hours",
+        "licence card will be blocked",
+        "vehicle licence disc will be blocked",
+        "NATS Online Vehicle License Disc Renewal"
+      ],
+      "weakPhrases": [
+        "AARTO fine",
+        "infringement notice",
+        "enforcement notice",
+        "traffic fine"
+      ],
+      "headerSignals": [
+        "AARTO or RTIA claim with a payment link outside online.aarto.gov.za",
+        "AARTO-branded link using .com, .co.za or .online instead of the official AARTO portal"
+      ],
+      "userExplanation": "This message uses AARTO or RTIA branding to create payment pressure. Current scam variants threaten licence or vehicle-disc restrictions and send people to cloned payment pages. Do not use the link in the message. Check the infringement directly through the official AARTO or RTIA channels.",
+      "recommendedAction": "Do not click or pay through the message. Verify the infringement independently at the official AARTO portal or through RTIA. If card or banking details were entered, contact the bank immediately.",
+      "sourceConfidence": "high",
+      "intelType": "INTEL_DELTA"
+    },
+    {
+      "id": "sars_tax_return_assessment_phishing_2026_07_09",
+      "name": "SARS Tax Return / Assessment / Summons Phishing Wave",
+      "category": "sa_tax_authority_sars_2026",
+      "riskBand": "CRITICAL",
+      "channels": [
+        "sms",
+        "email",
+        "whatsapp",
+        "web"
+      ],
+      "impersonatedEntities": [
+        "SARS",
+        "SARS eFiling"
+      ],
+      "summary": "2026 filing-season scams use Tax Return Notification, Notice of Assessment or ITA34 wording, refund claims, settlement demands and High Court summons language. The scam pushes recipients toward links, payment requests, banking-detail capture or HTML attachments that imitate SARS correspondence.",
+      "primaryLure": "Tax refund, assessment action or urgent SARS compliance",
+      "likelyFollowUp": [
+        "fake eFiling login",
+        "banking detail request",
+        "card detail request",
+        "OTP request",
+        "payment demand",
+        "HTML attachment",
+        "fake refund claim page"
+      ],
+      "absoluteIndicators": [
+        "SARS-branded message requests banking credentials, PIN, OTP or eFiling password",
+        "SARS-branded message uses an .htm or .html attachment to collect details",
+        "SARS refund or assessment message redirects to a non-SARS website for claim or verification"
+      ],
+      "strongPhrases": [
+        "Tax Return Notification",
+        "Notice of Assessment",
+        "ITA34",
+        "High Court Summons",
+        "ATTACHED SARS SUMMON AGAINST YOU",
+        "Sars Tax Return Approve",
+        "Get Your Tax Return",
+        "Action required"
+      ],
+      "weakPhrases": [
+        "refund",
+        "assessment",
+        "tax return",
+        "filing season"
+      ],
+      "headerSignals": [
+        "sender domain is not sars.gov.za",
+        "reply-to domain differs from the claimed SARS sender",
+        "SARS-branded message contains an external non-SARS claim or payment link"
+      ],
+      "userExplanation": "This message uses current SARS filing-season wording but asks you to act through a link, attachment or payment path that should not be trusted from the message itself. Open SARS eFiling or the SARS MobiApp independently and verify the notice there.",
+      "recommendedAction": "Do not click the message link or open HTML attachments. Verify the notice directly through SARS eFiling, the SARS MobiApp or a verified SARS contact channel.",
+      "sourceConfidence": "high",
+      "intelType": "INTEL_DELTA"
+    },
+    {
+      "id": "fsca_fsp_impersonation_investment_2026_07_09",
+      "name": "FSCA / Licensed FSP Impersonation Investment Scam",
+      "category": "investment_deepfake_fake_trading",
+      "riskBand": "CRITICAL",
+      "channels": [
+        "whatsapp",
+        "telegram",
+        "social_media",
+        "web",
+        "email"
+      ],
+      "impersonatedEntities": [
+        "FSCA",
+        "licensed Financial Services Providers",
+        "JSE-linked investment brands"
+      ],
+      "summary": "Fraudsters impersonate licensed financial services providers, reuse legitimate FSP numbers and staff identities, and move victims into WhatsApp or Telegram groups for fake share, forex, crypto or trading offers. Some variants use deepfake or AI-generated media and official-looking regulatory references.",
+      "primaryLure": "Exclusive or regulator-backed investment opportunity with unusually high returns",
+      "likelyFollowUp": [
+        "deposit request",
+        "fake trading app",
+        "fake investment dashboard",
+        "withdrawal fee",
+        "tax or release fee",
+        "recovery scam after losses"
+      ],
+      "absoluteIndicators": [
+        "claimed FSCA or licensed FSP investment offer requires payment through an unsolicited WhatsApp or Telegram group",
+        "FSP number is used as proof of legitimacy while payment is directed outside the verified provider",
+        "regulator-branded recovery process requires funding a cryptocurrency wallet"
+      ],
+      "strongPhrases": [
+        "FSP number",
+        "exclusive share package",
+        "investment competition",
+        "FSCA endorsed",
+        "Chief Executive Investigator",
+        "recovered assets",
+        "fund your cryptocurrency wallet"
+      ],
+      "weakPhrases": [
+        "licensed financial services provider",
+        "investment group",
+        "share package",
+        "trading opportunity"
+      ],
+      "headerSignals": [
+        "claimed FSP sender uses an unrelated domain",
+        "investment conversation is moved to WhatsApp or Telegram",
+        "regulator identity is used to justify a payment or crypto-wallet step"
+      ],
+      "userExplanation": "The message borrows the identity of a legitimate financial provider or regulator to make an unsolicited investment look authorised. A real FSP number or familiar company name does not prove that the person contacting you is authorised.",
+      "recommendedAction": "Do not deposit or install an app from the message. Verify the provider and representative independently through the FSCA and the provider's own published contact details.",
+      "sourceConfidence": "high",
+      "intelType": "INTEL_DELTA"
+    },
+    {
+      "id": "bank_safe_vault_account_impersonation_2026_03",
+      "name": "Bank Fraud-Team Safe / Vault Account Impersonation",
+      "category": "bank_impersonation",
+      "riskBand": "CRITICAL",
+      "channels": [
+        "phone",
+        "whatsapp",
+        "sms",
+        "email"
+      ],
+      "impersonatedEntities": [
+        "South African banks",
+        "bank fraud departments"
+      ],
+      "summary": "Fraudsters impersonate bank fraud staff, often with spoofed caller ID or convincing AI-assisted communication, and claim suspicious activity requires the victim to move money to a safe or vault account, approve a transaction, scan a QR code or reveal an OTP.",
+      "primaryLure": "Protect funds from an alleged active compromise",
+      "likelyFollowUp": [
+        "safe account transfer",
+        "vault account transfer",
+        "QR code",
+        "OTP request",
+        "transaction approval",
+        "remote access app"
+      ],
+      "absoluteIndicators": [
+        "bank fraud team instructs recipient to move money to a safe or vault account",
+        "bank fraud team asks recipient to scan a QR code to secure the banking profile",
+        "bank representative asks for OTP, PIN or transaction approval for a transaction the recipient did not initiate"
+      ],
+      "strongPhrases": [
+        "safe account",
+        "vault account",
+        "fraud division",
+        "fraud department",
+        "secure your funds",
+        "move your money",
+        "scan the QR code"
+      ],
+      "weakPhrases": [
+        "suspicious activity",
+        "security alert",
+        "fraud team",
+        "account security"
+      ],
+      "headerSignals": [
+        "caller ID alone is presented as proof that the bank is calling",
+        "bank-branded message redirects security action to WhatsApp, QR code or an external link"
+      ],
+      "userExplanation": "A bank does not need you to transfer your money to another account to keep it safe. Fraudsters use urgent fraud-alert stories, spoofed caller IDs and increasingly convincing messages to make that instruction feel legitimate.",
+      "recommendedAction": "End the call or conversation. Do not transfer money, scan a QR code or share an OTP. Contact the bank using the number in the banking app, on the back of the card or on the bank's verified website.",
+      "sourceConfidence": "high",
+      "intelType": "INTEL_DELTA"
+    },
+    {
+      "id": "business_fake_pop_overpayment_voucher_2026_10",
+      "name": "Fake Proof of Payment / Overpayment / Voucher Extraction",
+      "category": "business_fake_payment_overpayment_delivery",
+      "riskBand": "CRITICAL",
+      "channels": [
+        "email",
+        "whatsapp",
+        "sms",
+        "document",
+        "phone"
+      ],
+      "impersonatedEntities": [
+        "South African banks",
+        "business customers",
+        "EFT payment confirmations"
+      ],
+      "summary": "A buyer places an urgent order, supplies a fake or altered proof of payment, pressures the business to release or deliver goods before funds clear, and may deliberately overpay so the difference can be extracted as a refund, voucher, prepaid value or payment to a third party. The scam succeeds when staff treat a payment document as proof that cleared funds exist.",
+      "primaryLure": "Urgent paid order that appears safe because a bank-branded proof of payment is supplied",
+      "likelyFollowUp": [
+        "urgent delivery or collection request",
+        "request to release goods before payment reflects",
+        "claim that payment will reflect shortly",
+        "overpayment claim",
+        "refund of the difference",
+        "FLASH voucher or prepaid voucher request",
+        "request to send voucher PIN or code",
+        "request to pay the excess to a third party"
+      ],
+      "absoluteIndicators": [
+        "proof of payment plus instruction to release or deliver goods before funds reflect",
+        "claimed overpayment plus request to return the difference as a voucher, prepaid value or third-party payment",
+        "bank-branded payment confirmation contains a false bank contact number and is used to pressure release of goods"
+      ],
+      "strongPhrases": [
+        "proof of payment attached",
+        "payment confirmation attached",
+        "payment will reflect shortly",
+        "release the order",
+        "deliver immediately",
+        "urgent delivery",
+        "I overpaid",
+        "overpayment",
+        "refund the difference",
+        "FLASH voucher",
+        "voucher for the difference",
+        "send the voucher PIN"
+      ],
+      "weakPhrases": [
+        "POP",
+        "proof of payment",
+        "EFT",
+        "payment confirmation",
+        "urgent order",
+        "delivery today",
+        "voucher"
+      ],
+      "headerSignals": [
+        "payment amount does not match the underlying invoice or order",
+        "payment date is inconsistent with the order or invoice date",
+        "beneficiary name on the payment confirmation does not match the intended business",
+        "bank contact details on the payment confirmation do not match the bank's verified contact details",
+        "currency formatting or document text contains unusual inconsistencies",
+        "funds do not reflect in the recipient's actual bank account"
+      ],
+      "userExplanation": "A proof of payment is only a document; it is not cleared money. This scam uses a convincing payment confirmation and urgency to get goods, cash or prepaid value released before the bank account actually receives the funds. If the buyer also claims to have overpaid and asks for the difference as a voucher or refund, the risk is critical.",
+      "recommendedAction": "Do not release goods, deliver, refund, buy vouchers or send prepaid codes until the payment is visible as cleared funds in the business bank account. Verify suspicious payment confirmations independently with the bank using verified contact details.",
       "sourceConfidence": "high",
       "intelType": "INTEL_DELTA"
     }
@@ -622,6 +917,27 @@
       "category": "loan_finance_phishing",
       "weight": 40
     }
+  ,
+    {
+      "value": "aarto-payment",
+      "category": "traffic_fine_phishing",
+      "weight": 80
+    },
+    {
+      "value": "aarto-fine",
+      "category": "traffic_fine_phishing",
+      "weight": 80
+    },
+    {
+      "value": "aarto-discount",
+      "category": "traffic_fine_phishing",
+      "weight": 75
+    },
+    {
+      "value": "rtia-payment",
+      "category": "traffic_fine_phishing",
+      "weight": 75
+    }
   ],
   "saOfficialDomains": [
     {
@@ -891,6 +1207,37 @@
     },
     {
       "value": "www.paycity.co.za",
+      "category": "official",
+      "weight": 0
+    }
+  ,
+    {
+      "value": "online.aarto.gov.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "rtia.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "fsca.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "jse.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "resbank.co.za",
+      "category": "official",
+      "weight": 0
+    },
+    {
+      "value": "sabric.co.za",
       "category": "official",
       "weight": 0
     }
@@ -7472,6 +7819,447 @@
         "sourceUpdateId": "google_compensation_payout_impersonation_2026_06",
         "sourceType": "headerSignal",
         "sourceValue": "Google payout + sender or reply path"
+      }
+    }
+  ,
+    {
+      "id": "aarto_clone_payment_portal_2026_09_pattern_01",
+      "value": "(?=[\\s\\S]*aarto)(?=[\\s\\S]*(?:R\\s*250|penalty\\s+fee\\s+waiver|50%\\s+discount.{0,60}(?:24\\s*hours|today|immediately)))(?=[\\s\\S]*(?:pay|payment|link))[\\s\\S]*",
+      "label": "AARTO Clone Payment Portal / Fine Threat Scam",
+      "category": "traffic_fine_phishing",
+      "band": "CRITICAL",
+      "reason": "AARTO-branded message combines a fake-style discount or fixed-payment lure with immediate payment pressure.",
+      "whatNotToDo": [
+        "Do not pay through a link in the message.",
+        "Verify the infringement directly through the official AARTO or RTIA channel."
+      ],
+      "weight": 90,
+      "absolute": false,
+      "metadata": {
+        "bucketId": "AARTO_CLONE_PAYMENT_PORTAL_2026_09",
+        "sourceUpdateId": "aarto_clone_payment_portal_2026_09",
+        "sourceType": "pattern",
+        "sourceValue": "AARTO + R250/waiver or urgent 50% discount + payment"
+      }
+    },
+    {
+      "id": "aarto_clone_payment_portal_2026_09_pattern_02",
+      "value": "(?=[\\s\\S]*aarto)(?=[\\s\\S]*(?:licen[cs]e\\s+card|vehicle\\s+licen[cs]e\\s+disc))(?=[\\s\\S]*(?:block|blocked|restriction))(?=[\\s\\S]*(?:click|link|pay|payment))[\\s\\S]*",
+      "label": "AARTO Clone Payment Portal / Fine Threat Scam",
+      "category": "traffic_fine_phishing",
+      "band": "CRITICAL",
+      "reason": "AARTO-branded message threatens licence or vehicle-disc restrictions while pushing a payment or link action.",
+      "whatNotToDo": [
+        "Do not click or pay from the message.",
+        "Check the infringement independently on the official AARTO portal."
+      ],
+      "weight": 90,
+      "absolute": false,
+      "metadata": {
+        "bucketId": "AARTO_CLONE_PAYMENT_PORTAL_2026_09",
+        "sourceUpdateId": "aarto_clone_payment_portal_2026_09",
+        "sourceType": "pattern",
+        "sourceValue": "AARTO + licence/disc block threat + payment/link"
+      }
+    },
+    {
+      "id": "aarto_clone_payment_portal_2026_09_pattern_03",
+      "value": "nats\\s+online\\s+vehicle\\s+licen[cs]e\\s+disc\\s+renewal",
+      "label": "AARTO Clone Payment Portal / Fine Threat Scam",
+      "category": "traffic_fine_phishing",
+      "band": "CRITICAL",
+      "reason": "Matched a name specifically cited in the RTIA warning as a fake AARTO/eNATIS presentation.",
+      "whatNotToDo": [
+        "Do not use the payment link.",
+        "Verify the notice through RTIA or online.aarto.gov.za."
+      ],
+      "weight": 100,
+      "absolute": true,
+      "metadata": {
+        "bucketId": "AARTO_CLONE_PAYMENT_PORTAL_2026_09",
+        "sourceUpdateId": "aarto_clone_payment_portal_2026_09",
+        "sourceType": "absolute",
+        "sourceValue": "NATS Online Vehicle License Disc Renewal"
+      }
+    },
+    {
+      "id": "aarto_clone_payment_portal_2026_09_pattern_04",
+      "value": "(?=[\\s\\S]*aarto)(?=[\\s\\S]*(?:final\\s+notice|final\\s+demand))(?=[\\s\\S]*(?:additional\\s+penalties|enforcement\\s+notice))(?=[\\s\\S]*(?:pay|payment|link))[\\s\\S]*",
+      "label": "AARTO Clone Payment Portal / Fine Threat Scam",
+      "category": "traffic_fine_phishing",
+      "band": "CRITICAL",
+      "reason": "Matched the current AARTO clone-portal urgency pattern.",
+      "whatNotToDo": [
+        "Do not pay from the message.",
+        "Open the official AARTO portal independently."
+      ],
+      "weight": 85,
+      "absolute": false,
+      "metadata": {
+        "bucketId": "AARTO_CLONE_PAYMENT_PORTAL_2026_09",
+        "sourceUpdateId": "aarto_clone_payment_portal_2026_09",
+        "sourceType": "pattern",
+        "sourceValue": "AARTO + final notice/demand + payment"
+      }
+    },
+    {
+      "id": "sars_tax_return_assessment_phishing_2026_07_09_keyword_01",
+      "value": "tax\\s+return\\s+notification",
+      "label": "SARS Tax Return / Assessment / Summons Phishing Wave",
+      "category": "sa_tax_authority_sars_2026",
+      "band": "SUSPICIOUS",
+      "reason": "Matched wording used in current SARS phishing examples.",
+      "whatNotToDo": [
+        "Do not act on a tax-return link in the message.",
+        "Verify directly in SARS eFiling or the SARS MobiApp."
+      ],
+      "weight": 20,
+      "absolute": false,
+      "metadata": {
+        "bucketId": "SARS_TAX_RETURN_ASSESSMENT_PHISHING_2026_07_09",
+        "sourceUpdateId": "sars_tax_return_assessment_phishing_2026_07_09",
+        "sourceType": "keyword",
+        "sourceValue": "Tax Return Notification"
+      }
+    },
+    {
+      "id": "sars_tax_return_assessment_phishing_2026_07_09_keyword_02",
+      "value": "notice\\s+of\\s+assessment",
+      "label": "SARS Tax Return / Assessment / Summons Phishing Wave",
+      "category": "sa_tax_authority_sars_2026",
+      "band": "SUSPICIOUS",
+      "reason": "Matched assessment wording used in current SARS phishing examples.",
+      "whatNotToDo": [
+        "Do not use links in the message to sign in.",
+        "Verify the assessment directly in SARS eFiling."
+      ],
+      "weight": 15,
+      "absolute": false,
+      "metadata": {
+        "bucketId": "SARS_TAX_RETURN_ASSESSMENT_PHISHING_2026_07_09",
+        "sourceUpdateId": "sars_tax_return_assessment_phishing_2026_07_09",
+        "sourceType": "keyword",
+        "sourceValue": "Notice of Assessment"
+      }
+    },
+    {
+      "id": "sars_tax_return_assessment_phishing_2026_07_09_keyword_03",
+      "value": "\\bita34\\b",
+      "label": "SARS Tax Return / Assessment / Summons Phishing Wave",
+      "category": "sa_tax_authority_sars_2026",
+      "band": "SUSPICIOUS",
+      "reason": "Matched ITA34 wording currently being copied into phishing messages.",
+      "whatNotToDo": [
+        "Do not trust the message because it uses a real SARS form name.",
+        "Verify the ITA34 directly through SARS."
+      ],
+      "weight": 15,
+      "absolute": false,
+      "metadata": {
+        "bucketId": "SARS_TAX_RETURN_ASSESSMENT_PHISHING_2026_07_09",
+        "sourceUpdateId": "sars_tax_return_assessment_phishing_2026_07_09",
+        "sourceType": "keyword",
+        "sourceValue": "ITA34"
+      }
+    },
+    {
+      "id": "sars_tax_return_assessment_phishing_2026_07_09_pattern_01",
+      "value": "(?=[\\s\\S]*sars)(?=[\\s\\S]*(?:tax\\s+return\\s+notification|notice\\s+of\\s+assessment|\\bita34\\b))(?=[\\s\\S]*(?:click|link|claim|verify|banking\\s+details))[\\s\\S]*",
+      "label": "SARS Tax Return / Assessment / Summons Phishing Wave",
+      "category": "sa_tax_authority_sars_2026",
+      "band": "CRITICAL",
+      "reason": "SARS assessment or return wording is combined with a link, claim or verification action.",
+      "whatNotToDo": [
+        "Do not use the link in the message.",
+        "Open SARS eFiling or the SARS MobiApp independently."
+      ],
+      "weight": 90,
+      "absolute": false,
+      "metadata": {
+        "bucketId": "SARS_TAX_RETURN_ASSESSMENT_PHISHING_2026_07_09",
+        "sourceUpdateId": "sars_tax_return_assessment_phishing_2026_07_09",
+        "sourceType": "pattern",
+        "sourceValue": "SARS + current return/assessment wording + link/claim/verify"
+      }
+    },
+    {
+      "id": "sars_tax_return_assessment_phishing_2026_07_09_pattern_02",
+      "value": "(?=[\\s\\S]*sars)(?=[\\s\\S]*(?:high\\s+court\\s+summons|attached\\s+sars\\s+summon(?:s)?\\s+against\\s+you))(?=[\\s\\S]*(?:click|link|payment|pay))[\\s\\S]*",
+      "label": "SARS Tax Return / Assessment / Summons Phishing Wave",
+      "category": "sa_tax_authority_sars_2026",
+      "band": "CRITICAL",
+      "reason": "Matched the current SARS summons phishing pattern with an action or payment request.",
+      "whatNotToDo": [
+        "Do not click the attachment link or make payment from the message.",
+        "Verify the matter directly with SARS."
+      ],
+      "weight": 90,
+      "absolute": false,
+      "metadata": {
+        "bucketId": "SARS_TAX_RETURN_ASSESSMENT_PHISHING_2026_07_09",
+        "sourceUpdateId": "sars_tax_return_assessment_phishing_2026_07_09",
+        "sourceType": "pattern",
+        "sourceValue": "SARS High Court summons + link/payment"
+      }
+    },
+    {
+      "id": "sars_tax_return_assessment_phishing_2026_07_09_pattern_03",
+      "value": "(?=[\\s\\S]*sars)(?=[\\s\\S]*(?:\\.html\\b|\\.htm\\b|html\\s+attachment|htm\\s+attachment))[\\s\\S]*",
+      "label": "SARS Tax Return / Assessment / Summons Phishing Wave",
+      "category": "sa_tax_authority_sars_2026",
+      "band": "CRITICAL",
+      "reason": "SARS states that it does not send .htm or .html attachments; this combination is a strong phishing signal.",
+      "whatNotToDo": [
+        "Do not open the HTML attachment.",
+        "Verify the communication directly through SARS."
+      ],
+      "weight": 90,
+      "absolute": false,
+      "metadata": {
+        "bucketId": "SARS_TAX_RETURN_ASSESSMENT_PHISHING_2026_07_09",
+        "sourceUpdateId": "sars_tax_return_assessment_phishing_2026_07_09",
+        "sourceType": "pattern",
+        "sourceValue": "SARS + HTML/HTM attachment"
+      }
+    },
+    {
+      "id": "fsca_fsp_impersonation_investment_2026_07_09_pattern_01",
+      "value": "(?=[\\s\\S]*(?:fsca|fsp\\s+number))(?=[\\s\\S]*(?:whatsapp|telegram))(?=[\\s\\S]*(?:investment|shares?|forex|crypto|returns?))[\\s\\S]*",
+      "label": "FSCA / Licensed FSP Impersonation Investment Scam",
+      "category": "investment_deepfake_fake_trading",
+      "band": "CRITICAL",
+      "reason": "Regulatory or FSP credentials are being used inside a WhatsApp or Telegram investment solicitation.",
+      "whatNotToDo": [
+        "Do not treat an FSP number as proof that the sender is authorised.",
+        "Verify the provider and representative independently with the FSCA."
+      ],
+      "weight": 85,
+      "absolute": false,
+      "metadata": {
+        "bucketId": "FSCA_FSP_IMPERSONATION_INVESTMENT_2026_07_09",
+        "sourceUpdateId": "fsca_fsp_impersonation_investment_2026_07_09",
+        "sourceType": "pattern",
+        "sourceValue": "FSCA/FSP number + WhatsApp/Telegram + investment"
+      }
+    },
+    {
+      "id": "fsca_fsp_impersonation_investment_2026_07_09_pattern_02",
+      "value": "(?=[\\s\\S]*(?:whatsapp|telegram))(?=[\\s\\S]*(?:exclusive\\s+share\\s+packages?|investment\\s+competition))(?=[\\s\\S]*(?:deposit|invest|payment))[\\s\\S]*",
+      "label": "FSCA / Licensed FSP Impersonation Investment Scam",
+      "category": "investment_deepfake_fake_trading",
+      "band": "CRITICAL",
+      "reason": "Matched a social-messaging investment lure used in current FSP impersonation schemes.",
+      "whatNotToDo": [
+        "Do not deposit money from a social-media or messaging-group offer.",
+        "Verify the investment provider independently."
+      ],
+      "weight": 90,
+      "absolute": false,
+      "metadata": {
+        "bucketId": "FSCA_FSP_IMPERSONATION_INVESTMENT_2026_07_09",
+        "sourceUpdateId": "fsca_fsp_impersonation_investment_2026_07_09",
+        "sourceType": "pattern",
+        "sourceValue": "WhatsApp/Telegram + exclusive share package/investment competition + deposit"
+      }
+    },
+    {
+      "id": "fsca_fsp_impersonation_investment_2026_07_09_pattern_03",
+      "value": "(?=[\\s\\S]*fsca)(?=[\\s\\S]*(?:chief\\s+executive\\s+investigator|recovered\\s+assets|breakthrough\\s+in\\s+an\\s+investigation))(?=[\\s\\S]*(?:crypto(?:currency)?\\s+wallet|crypto\\s+exchange|fund\\s+wallet))[\\s\\S]*",
+      "label": "FSCA / Licensed FSP Impersonation Investment Scam",
+      "category": "recovery_frozen_funds_advance_fee",
+      "band": "CRITICAL",
+      "reason": "Matched FSCA impersonation combined with a cryptocurrency-wallet recovery step.",
+      "whatNotToDo": [
+        "Do not fund a crypto wallet to recover previous losses.",
+        "Verify any regulator contact directly with the FSCA."
+      ],
+      "weight": 90,
+      "absolute": false,
+      "metadata": {
+        "bucketId": "FSCA_FSP_IMPERSONATION_INVESTMENT_2026_07_09",
+        "sourceUpdateId": "fsca_fsp_impersonation_investment_2026_07_09",
+        "sourceType": "pattern",
+        "sourceValue": "FSCA recovery impersonation + crypto wallet"
+      }
+    },
+    {
+      "id": "bank_safe_vault_account_impersonation_2026_03_pattern_01",
+      "value": "(?=[\\s\\S]*(?:fraud\\s+team|fraud\\s+division|fraud\\s+department|bank\\s+official))(?=[\\s\\S]*(?:safe|vault)\\s+account)(?=[\\s\\S]*(?:move|transfer|send)\\s+(?:your\\s+)?(?:money|funds))[\\s\\S]*",
+      "label": "Bank Fraud-Team Safe / Vault Account Impersonation",
+      "category": "bank_impersonation",
+      "band": "CRITICAL",
+      "reason": "A supposed bank fraud team is instructing the recipient to move money to a safe or vault account.",
+      "whatNotToDo": [
+        "Do not transfer the money.",
+        "End the conversation and contact the bank through a verified channel."
+      ],
+      "weight": 100,
+      "absolute": true,
+      "metadata": {
+        "bucketId": "BANK_SAFE_VAULT_ACCOUNT_IMPERSONATION_2026_03",
+        "sourceUpdateId": "bank_safe_vault_account_impersonation_2026_03",
+        "sourceType": "absolute",
+        "sourceValue": "bank fraud team + safe/vault account + move funds"
+      }
+    },
+    {
+      "id": "bank_safe_vault_account_impersonation_2026_03_pattern_02",
+      "value": "(?=[\\s\\S]*(?:bank|fraud\\s+team|fraud\\s+department))(?=[\\s\\S]*(?:scan|qr\\s+code))(?=[\\s\\S]*(?:secure|protect|unlock)\\s+(?:your\\s+)?(?:account|profile|funds))[\\s\\S]*",
+      "label": "Bank Fraud-Team Safe / Vault Account Impersonation",
+      "category": "bank_impersonation",
+      "band": "CRITICAL",
+      "reason": "A supposed bank security process is using a QR code to secure or unlock the banking profile or funds.",
+      "whatNotToDo": [
+        "Do not scan the QR code.",
+        "Contact the bank independently using a verified number."
+      ],
+      "weight": 90,
+      "absolute": false,
+      "metadata": {
+        "bucketId": "BANK_SAFE_VAULT_ACCOUNT_IMPERSONATION_2026_03",
+        "sourceUpdateId": "bank_safe_vault_account_impersonation_2026_03",
+        "sourceType": "pattern",
+        "sourceValue": "bank/fraud team + QR code + secure account/profile/funds"
+      }
+    },
+    {
+      "id": "business_fake_pop_overpayment_voucher_2026_10_pattern_01",
+      "value": "(?=[\\s\\S]*(?:proof\\s+of\\s+payment|payment\\s+confirmation|\\bpop\\b))(?=[\\s\\S]*(?:payment\\s+(?:will|should)\\s+reflect|not\\s+(?:yet\\s+)?reflecting))(?=[\\s\\S]*(?:release|deliver|dispatch|collect))[\\s\\S]*",
+      "label": "Fake Proof of Payment / Overpayment / Voucher Extraction",
+      "category": "business_fake_payment_overpayment_delivery",
+      "band": "CRITICAL",
+      "reason": "A payment document is being used to pressure release or delivery before the funds have actually reflected.",
+      "whatNotToDo": [
+        "Do not release or deliver goods.",
+        "Confirm cleared funds directly in the business bank account."
+      ],
+      "weight": 100,
+      "absolute": true,
+      "metadata": {
+        "bucketId": "BUSINESS_FAKE_POP_OVERPAYMENT_VOUCHER_2026_10",
+        "sourceUpdateId": "business_fake_pop_overpayment_voucher_2026_10",
+        "sourceType": "absolute",
+        "sourceValue": "proof of payment + funds not reflected/will reflect + release/delivery"
+      }
+    },
+    {
+      "id": "business_fake_pop_overpayment_voucher_2026_10_pattern_02",
+      "value": "(?=[\\s\\S]*(?:overpaid|overpayment|paid\\s+too\\s+much|extra\\s+payment))(?=[\\s\\S]*(?:refund|return|send|pay))(?=[\\s\\S]*(?:flash\\s+voucher|voucher|gift\\s+card|prepaid|airtime))[\\s\\S]*",
+      "label": "Fake Proof of Payment / Overpayment / Voucher Extraction",
+      "category": "business_fake_payment_overpayment_delivery",
+      "band": "CRITICAL",
+      "reason": "An alleged overpayment is being converted into a voucher, prepaid value or other irreversible refund.",
+      "whatNotToDo": [
+        "Do not refund or buy a voucher.",
+        "Verify that the original payment is cleared and genuine before any reversal."
+      ],
+      "weight": 100,
+      "absolute": true,
+      "metadata": {
+        "bucketId": "BUSINESS_FAKE_POP_OVERPAYMENT_VOUCHER_2026_10",
+        "sourceUpdateId": "business_fake_pop_overpayment_voucher_2026_10",
+        "sourceType": "absolute",
+        "sourceValue": "overpayment + refund/return + voucher/prepaid value"
+      }
+    },
+    {
+      "id": "business_fake_pop_overpayment_voucher_2026_10_pattern_03",
+      "value": "(?=[\\s\\S]*(?:proof\\s+of\\s+payment|payment\\s+confirmation|\\bpop\\b))(?=[\\s\\S]*(?:flash\\s+voucher|voucher\\s+for\\s+the\\s+difference|send\\s+(?:the\\s+)?voucher\\s+(?:pin|code)))[\\s\\S]*",
+      "label": "Fake Proof of Payment / Overpayment / Voucher Extraction",
+      "category": "business_fake_payment_overpayment_delivery",
+      "band": "CRITICAL",
+      "reason": "A proof of payment is paired with a request for prepaid voucher value, a common irreversible extraction step.",
+      "whatNotToDo": [
+        "Do not purchase or send voucher codes.",
+        "Confirm the underlying payment in the bank account first."
+      ],
+      "weight": 100,
+      "absolute": true,
+      "metadata": {
+        "bucketId": "BUSINESS_FAKE_POP_OVERPAYMENT_VOUCHER_2026_10",
+        "sourceUpdateId": "business_fake_pop_overpayment_voucher_2026_10",
+        "sourceType": "absolute",
+        "sourceValue": "proof of payment + FLASH/voucher extraction"
+      }
+    },
+    {
+      "id": "business_fake_pop_overpayment_voucher_2026_10_pattern_04",
+      "value": "(?=[\\s\\S]*(?:urgent\\s+order|order\\s+is\\s+urgent|need\\s+(?:it|them)\\s+(?:today|immediately)))(?=[\\s\\S]*(?:proof\\s+of\\s+payment|payment\\s+confirmation|\\bpop\\b))(?=[\\s\\S]*(?:deliver|dispatch|release|collect))[\\s\\S]*",
+      "label": "Fake Proof of Payment / Overpayment / Voucher Extraction",
+      "category": "business_fake_payment_overpayment_delivery",
+      "band": "SUSPICIOUS",
+      "reason": "Urgent fulfilment is being combined with proof-of-payment pressure.",
+      "whatNotToDo": [
+        "Do not let urgency override payment verification.",
+        "Release goods only after cleared funds are confirmed."
+      ],
+      "weight": 75,
+      "absolute": false,
+      "metadata": {
+        "bucketId": "BUSINESS_FAKE_POP_OVERPAYMENT_VOUCHER_2026_10",
+        "sourceUpdateId": "business_fake_pop_overpayment_voucher_2026_10",
+        "sourceType": "pattern",
+        "sourceValue": "urgent order + proof of payment + delivery/release"
+      }
+    },
+    {
+      "id": "business_fake_pop_overpayment_voucher_2026_10_pattern_05",
+      "value": "(?=[\\s\\S]*(?:overpaid|overpayment|paid\\s+too\\s+much))(?=[\\s\\S]*(?:refund\\s+(?:the\\s+)?difference|return\\s+(?:the\\s+)?difference|send\\s+(?:the\\s+)?difference))[\\s\\S]*",
+      "label": "Fake Proof of Payment / Overpayment / Voucher Extraction",
+      "category": "business_fake_payment_overpayment_delivery",
+      "band": "SUSPICIOUS",
+      "reason": "An overpayment is followed by a request to return the difference, a classic refund-scam mechanic.",
+      "whatNotToDo": [
+        "Do not refund an alleged excess payment until the original funds are confirmed as cleared.",
+        "Verify the payer independently."
+      ],
+      "weight": 80,
+      "absolute": false,
+      "metadata": {
+        "bucketId": "BUSINESS_FAKE_POP_OVERPAYMENT_VOUCHER_2026_10",
+        "sourceUpdateId": "business_fake_pop_overpayment_voucher_2026_10",
+        "sourceType": "pattern",
+        "sourceValue": "overpayment + refund/return difference"
+      }
+    },
+    {
+      "id": "business_fake_pop_overpayment_voucher_2026_10_pattern_06",
+      "value": "(?=[\\s\\S]*(?:absa|notice\\s+of\\s+payment))(?=[\\s\\S]*0850\\s*008\\s*600)[\\s\\S]*",
+      "label": "Fake Proof of Payment / Overpayment / Voucher Extraction",
+      "category": "business_fake_payment_overpayment_delivery",
+      "band": "SUSPICIOUS",
+      "reason": "The document presents 0850 008 600 as an Absa contact number; Absa's verified general-enquiries number is 0860 008 600.",
+      "whatNotToDo": [
+        "Do not use contact details printed on a suspicious payment confirmation.",
+        "Verify bank contact details independently."
+      ],
+      "weight": 85,
+      "absolute": false,
+      "metadata": {
+        "bucketId": "BUSINESS_FAKE_POP_OVERPAYMENT_VOUCHER_2026_10",
+        "sourceUpdateId": "business_fake_pop_overpayment_voucher_2026_10",
+        "sourceType": "pattern",
+        "sourceValue": "Absa/Notice of Payment + false 0850 008 600 contact number"
+      }
+    },
+    {
+      "id": "business_fake_pop_overpayment_voucher_2026_10_pattern_07",
+      "value": "(?=[\\s\\S]*(?:proof\\s+of\\s+payment|notice\\s+of\\s+payment|payment\\s+confirmation))(?=[\\s\\S]*(?:for\\s+the\\s+amount\\s+of\\s*:\\s*)?R?\\s*\\d{1,3}(?:,\\d{3})*:\\d{2}\\b)[\\s\\S]*",
+      "label": "Fake Proof of Payment / Overpayment / Voucher Extraction",
+      "category": "business_fake_payment_overpayment_delivery",
+      "band": "SUSPICIOUS",
+      "reason": "The payment document uses an unusual colon between rand and cents, which is a document-consistency anomaly when combined with payment-confirmation wording.",
+      "whatNotToDo": [
+        "Do not treat formatting or bank branding as proof of payment.",
+        "Verify the funds in the actual bank account."
+      ],
+      "weight": 35,
+      "absolute": false,
+      "metadata": {
+        "bucketId": "BUSINESS_FAKE_POP_OVERPAYMENT_VOUCHER_2026_10",
+        "sourceUpdateId": "business_fake_pop_overpayment_voucher_2026_10",
+        "sourceType": "pattern",
+        "sourceValue": "payment confirmation + rand amount formatted with colon before cents"
       }
     }
   ]
