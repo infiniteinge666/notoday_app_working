@@ -16,7 +16,6 @@ function logScan(meta = {}) {
   try {
     const record = {
       t: Date.now(),
-      ip: meta.ip || null,
       ingress: meta.ingress || 'TEXT',
       len: Number(meta.len) || 0
     };
