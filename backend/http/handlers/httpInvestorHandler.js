@@ -6,9 +6,9 @@ const path = require('path');
 const LOG_PATH = path.join(__dirname, '../../data/scan.log');
 
 // =========================
-// SAFE READ (bounded)
+// SAFE READ
 // =========================
-function readLog(limit = 5000) {
+function readLog() {
   try {
     if (!fs.existsSync(LOG_PATH)) return [];
 
@@ -16,10 +16,9 @@ function readLog(limit = 5000) {
     if (!raw) return [];
 
     const lines = raw.trim().split('\n').filter(Boolean);
-    const sliced = lines.slice(-limit);
 
     const parsed = [];
-    for (const line of sliced) {
+    for (const line of lines) {
       try {
         parsed.push(JSON.parse(line));
       } catch {
@@ -107,7 +106,7 @@ function buildIngress(logs) {
 // =========================
 function httpInvestorHandler(req, res) {
   try {
-    const logs = readLog(5000);
+    const logs = readLog();
 
     const totalScans = logs.length;
 
